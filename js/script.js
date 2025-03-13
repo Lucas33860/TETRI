@@ -50,7 +50,8 @@ function moveDown() {
   //fonction de déplacement vers le bas
   positionY += speed;
   items.style.top = positionY + "px";
-  if (positionY >= 1000) {
+  var itemBottom = items.getBoundingClientRect().bottom;
+  if (itemBottom >= window.innerHeight) {
     positionX = 0;
     positionY = 0;
     items.style.left = positionX + "px";

@@ -33,11 +33,3 @@
   height: 200px;
   background-color: green;
 }
-
-.trash-bin.left {
-  float: left;
-}
-
-.trash-bin.right {
-  float: right;
-}
