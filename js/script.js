@@ -3,7 +3,7 @@
 var items = document.getElementById("item"); //récupération de l'élément item
 var positionY = 0;
 var positionX = 0;
-var speed = 5;
+var speed = 20;
 var speedmovement = 50;
 var interval = setInterval(moveDown, 75); //déclaration de l'intervalle de temps pour la fonction moveDown
 var game = document.querySelector(".game");
@@ -16,7 +16,7 @@ var bin1 = document.getElementById("bin1");
 var bin2 = document.getElementById("bin2");
 
 //Déclaration des objets
-var objects = [
+var detritus = [
   { name: "Bouteille plastique", type: "plastique", weight: 10 },
   { name: "Bouteille de vin", type: "verre", weight: 20 },
   { name: "Paille", type: "plastique", weight: 15 },
@@ -24,13 +24,24 @@ var objects = [
   { name: "Sac plastique ", type: "plastique", weight: 30 },
 ];
 
-var randomObject = objects[Math.floor(Math.random() * objects.length)]; //déclaration de l'objet aléatoire
+//Déclaration des poubelles
+var poubelles = [
+  "plastique",
+  "verre",
+  "papier",
+  "organique",
+  "métal",
+  "inerte",
+];
+
+var randomObject = detritus[Math.floor(Math.random() * detritus.length)]; //déclaration de l'objet aléatoire
 items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}`; //affichage de l'objet aléatoire
 
 document.addEventListener("keydown", movement); //déclaration de l'événement keydown
 
+//fonction de déplacement du détritus gauche droite
 function movement(event) {
-  //fonction de déplacement et empêcher le déplacement en dehors de la zone de jeu
+  // empêcher le déplacement en dehors de la zone de jeu
   if (event.key === "ArrowLeft") {
     positionX -= speedmovement;
     if (positionX < maxLeft) {
@@ -51,53 +62,42 @@ function moveDown() {
   positionY += speed;
   items.style.top = positionY + "px";
   var itemBottom = items.getBoundingClientRect().bottom;
+  //Le détritut ne peux pas aller sous le sol
   if (itemBottom >= window.innerHeight) {
     positionX = 0;
     positionY = 0;
     items.style.left = positionX + "px";
     items.style.top = positionY + "px";
-    randomObject = objects[Math.floor(Math.random() * objects.length)];
+    randomObject = detritus[Math.floor(Math.random() * detritus.length)];
     items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}kg`;
     clearInterval(interval);
     interval = setInterval(moveDown, 75);
   }
 
   // Vérification de la collision avec la poubelle 1
+  // Récupération des dimensions de l'élément item et des poubelles
   var itemsize = items.getBoundingClientRect(); //récupération des dimensions de l'élément item
-  var bin1size = bin1.getBoundingClientRect(); //récupération des dimensions de la poubelle 1
-  var bin2size = bin2.getBoundingClientRect(); //récupération des dimensions de la poubelle 2
 
-  if (
-    itemsize.bottom >= bin1size.top &&
-    itemsize.top <= bin1size.bottom &&
-    itemsize.right >= bin1size.left &&
-    itemsize.left <= bin1size.right &&
-    randomObject.type === "plastique"
-  ) {
-    positionX = 0;
-    positionY = 0;
-    items.style.left = positionX + "px";
-    items.style.top = positionY + "px";
-    randomObject = objects[Math.floor(Math.random() * objects.length)];
-    items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}kg`;
-    clearInterval(interval);
-    interval = setInterval(moveDown, 75);
-  }
+  let tbin = [];
+  tbin.push(bin1.getBoundingClientRect());
+  tbin.push(bin2.getBoundingClientRect());
 
-  if (
-    itemsize.bottom >= bin2size.top &&
-    itemsize.top <= bin2size.bottom &&
-    itemsize.right >= bin2size.left &&
-    itemsize.left <= bin2size.right &&
-    randomObject.type === "verre"
-  ) {
-    positionX = 0;
-    positionY = 0;
-    items.style.left = positionX + "px";
-    items.style.top = positionY + "px";
-    randomObject = objects[Math.floor(Math.random() * objects.length)];
-    items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}kg`;
-    clearInterval(interval);
-    interval = setInterval(moveDown, 75);
+  for (let p = 0; p < 2; p = p + 1) {
+    // Vérification de la collision avec la poubelle
+    if (
+      itemsize.bottom >= tbin[p].top &&
+      itemsize.top <= tbin[p].bottom &&
+      itemsize.right >= tbin[p].left &&
+      itemsize.left <= tbin[p].right &&
+      randomObject.type == poubelles[p]
+    ) {
+      // On repositionne l'objet en haut de l'écran, on change l'objet et le texte
+      positionX = 0;
+      positionY = 0;
+      items.style.left = positionX + "px";
+      items.style.top = positionY + "px";
+      randomObject = detritus[Math.floor(Math.random() * detritus.length)];
+      items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}kg`;
+    }
   }
 }

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Balle qui rebondit</title>
+    <style>
+      #container {
+        width: 800px;
+        height: 600px;
+        border: 1px solid black;
+        position: relative;
+        overflow: hidden;
+      }
+      .ball {
+        width: 20px;
+        height: 20px;
+        background-color: #0095dd;
+        border-radius: 50%;
+        position: absolute; /* position absolue par rapport au conteneur */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      class Ball {
+        constructor(container, xp, yp) {
+          this.container = container;
+          this.ball = document.createElement("div");
+          this.ball.className = "ball";
+          this.container.appendChild(this.ball);
+
+          this.x = container.clientWidth * xp;
+          this.y = container.clientHeight * yp;
+          this.dx = 2;
+          this.dy = 2;
+          this.ballRadius = this.ball.offsetWidth / 2;
+
+          this.ball.addEventListener("click", () => {
+            alert("Balle cliquée !");
+          });
+
+          this.moveBall = this.moveBall.bind(this); // bind permet de conserver le contexte de la classe
+          // le contexte est un objet qui contient les propriétés et méthodes de la classe
+          // le contexte de la classe est perdu lorsqu'on passe une fonction en paramètre
+          // car la fonction est appelée dans un autre contexte
+          // en utilisant bind, on force la fonction à être appelée dans le contexte de la classe
+          // on peut aussi utiliser une fonction fléchée pour conserver le contexte
+          // this.moveBall = () => {...};
+          setInterval(this.moveBall, 10);
+        }
+
+        moveBall() {
+          if (
+            this.x + this.dx > this.container.clientWidth - this.ballRadius ||
+            this.x + this.dx < this.ballRadius
+          ) {
+            this.dx = -this.dx;
+          }
+          if (
+            this.y + this.dy > this.container.clientHeight - this.ballRadius ||
+            this.y + this.dy < this.ballRadius
+          ) {
+            this.dy = -this.dy;
+          }
+
+          this.x += this.dx;
+          this.y += this.dy;
+
+          this.ball.style.left = this.x - this.ballRadius + "px";
+          this.ball.style.top = this.y - this.ballRadius + "px";
+        }
+      }
+
+      const container = document.getElementById("container");
+      const ball1 = new Ball(container, 0.5, 0.5);
+      const ball2 = new Ball(container, 0.75, 0.5);
+    </script>
+  </body>
+</html>

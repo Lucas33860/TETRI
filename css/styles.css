@@ -28,8 +28,9 @@
   justify-content: space-evenly;
   align-items: flex-end;
 }
+
 .trash-bin {
-  width: 100px;
-  height: 200px;
+  width: 10%;
+  height: 20%;
   background-color: green;
 }
