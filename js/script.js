@@ -12,8 +12,7 @@ var gameWidth = game.offsetWidth; //récupération de la largeur du jeu
 var itemWidth = item.offsetWidth; //récupération de la largeur de l'objet
 var maxLeft = -gameWidth + itemWidth; //déclaration de la position maximale à gauche
 var maxRight = gameWidth - itemWidth; //déclaration de la position maximale à droite
-var bin1 = document.getElementById("bin1");
-var bin2 = document.getElementById("bin2");
+// var bin1 and bin2 are now declared later in the code
 
 //Déclaration des objets
 var detritus = [
@@ -33,6 +32,23 @@ var poubelles = [
   "métal",
   "inerte",
 ];
+
+class Poubelle {
+  constructor(type) {
+    this.type = type;
+    this.bin = document.createElement("div");
+    this.bin.className = "trash-bin";
+    this.bin.innerText = type;
+    document.querySelector(".bin").appendChild(this.bin);
+  }
+
+  getBoundingClientRect() {
+    return this.bin.getBoundingClientRect();
+  }
+}
+
+const bin1 = new Poubelle("plastique");
+const bin2 = new Poubelle("verre");
 
 var randomObject = detritus[Math.floor(Math.random() * detritus.length)]; //déclaration de l'objet aléatoire
 items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}`; //affichage de l'objet aléatoire
