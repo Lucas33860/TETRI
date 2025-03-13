@@ -4,7 +4,7 @@
   color: #f5f5f5;
 }
 
-.red {
+.object {
   width: 100px;
   height: 100px;
   background-color: red;
@@ -12,4 +12,32 @@
   left: 0;
   right: 0;
   margin: 0 auto;
+}
+
+.game {
+  margin: 0 auto;
+  width: 75%;
+  height: 100vh;
+  background-color: cyan;
+}
+
+.bin {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+}
+.trash-bin {
+  width: 100px;
+  height: 200px;
+  background-color: green;
+}
+
+.trash-bin.left {
+  float: left;
+}
+
+.trash-bin.right {
+  float: right;
 }
