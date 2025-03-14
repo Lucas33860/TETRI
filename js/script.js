@@ -12,7 +12,15 @@ var gameWidth = game.offsetWidth; //récupération de la largeur du jeu
 var itemWidth = item.offsetWidth; //récupération de la largeur de l'objet
 var maxLeft = -gameWidth + itemWidth; //déclaration de la position maximale à gauche
 var maxRight = gameWidth - itemWidth; //déclaration de la position maximale à droite
-// var bin1 and bin2 are now declared later in the code
+
+// Utilisation de ResizeObserver pour redéfinir maxLeft et maxRight
+const resizeObserver = new ResizeObserver(() => {
+  gameWidth = game.offsetWidth;
+  maxLeft = -gameWidth + itemWidth;
+  maxRight = gameWidth - itemWidth;
+});
+
+resizeObserver.observe(game);
 
 //Déclaration des objets
 var detritus = [
@@ -33,6 +41,7 @@ var poubelles = [
   "inerte",
 ];
 
+// Déclaration de la classe Poubelle pour créer les poubelles
 class Poubelle {
   constructor(type) {
     this.type = type;
