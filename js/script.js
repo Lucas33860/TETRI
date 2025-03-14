@@ -22,13 +22,22 @@ const resizeObserver = new ResizeObserver(() => {
 
 resizeObserver.observe(game);
 
-//Déclaration des objets
+// Déclaration de la classe Detritus pour créer les objets
+class Detritus {
+  constructor(name, type, weight) {
+    this.name = name;
+    this.type = type;
+    this.weight = weight;
+  }
+}
+
+// Déclaration des detritus de manière dynamique
 var detritus = [
-  { name: "Bouteille plastique", type: "plastique", weight: 10 },
-  { name: "Bouteille de vin", type: "verre", weight: 20 },
-  { name: "Paille", type: "plastique", weight: 15 },
-  { name: "Bouteille de champagne", type: "verre", weight: 25 },
-  { name: "Sac plastique ", type: "plastique", weight: 30 },
+  new Detritus("Bouteille plastique", "plastique", 10),
+  new Detritus("Bouteille de vin", "verre", 20),
+  new Detritus("Paille", "plastique", 15),
+  new Detritus("Bouteille de champagne", "verre", 25),
+  new Detritus("Sac plastique", "plastique", 30),
 ];
 
 //Déclaration des poubelles
@@ -48,7 +57,7 @@ var score = 0;
 var scoreDisplay = document.createElement("div");
 scoreDisplay.className = "score-display";
 scoreDisplay.innerText = `Score: ${score}`;
-document.body.appendChild(scoreDisplay);
+document.querySelector(".score").appendChild(scoreDisplay);
 
 // Déclaration de la classe Poubelle pour créer les poubelles
 class Poubelle {
@@ -67,6 +76,7 @@ class Poubelle {
 
 const bin1 = new Poubelle("plastique");
 const bin2 = new Poubelle("verre");
+const bin3 = new Poubelle("papier");
 
 var randomObject = detritus[Math.floor(Math.random() * detritus.length)]; //déclaration de l'objet aléatoire
 items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}`; //affichage de l'objet aléatoire
