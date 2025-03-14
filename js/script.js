@@ -110,6 +110,8 @@ function movement(event) {
   }
 }
 
+let tbin = [];
+
 function moveDown() {
   //fonction de déplacement vers le bas
   positionY += speed;
@@ -131,11 +133,11 @@ function moveDown() {
   // Récupération des dimensions de l'élément item et des poubelles
   var itemsize = items.getBoundingClientRect(); //récupération des dimensions de l'élément item
 
-  let tbin = [];
+  tbin = [];
   tbin.push(bin1.getBoundingClientRect());
   tbin.push(bin2.getBoundingClientRect());
 
-  for (let p = 0; p < 2; p++) {
+  for (let p = 0; p < tbin.length; p++) {
     // Vérification de la collision avec les poubelles
     if (
       itemsize.bottom >= tbin[p].top &&
@@ -144,7 +146,9 @@ function moveDown() {
       itemsize.left <= tbin[p].right &&
       randomObject.type === poubelles[p] // Vérifie que l'objet est du même type que la poubelle
     ) {
-      // Mise à jour du score
+      detritusCount++;
+      console.log(detritusCount);
+
       score += 10;
       scoreDisplay.innerText = `Score: ${score}`;
 
@@ -155,6 +159,35 @@ function moveDown() {
       items.style.top = positionY + "px";
       randomObject = detritus[Math.floor(Math.random() * detritus.length)];
       items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}kg`;
+
+      // Ajouter de nouvelles poubelles en fonction du nombre de détritus triés
+      if (detritusCount === 10) {
+        addNewBin("papier", "bin3");
+        speed = 10;
+        console.log(speed);
+      }
+      if (detritusCount === 20) {
+        addNewBin("organique", "bin4");
+        speed = 15;
+        console.log(speed);
+      }
+      if (detritusCount === 30) {
+        addNewBin("métal", "bin5");
+        speed = 20;
+        console.log(speed);
+      }
+      if (detritusCount === 40) {
+        addNewBin("inerte", "bin6");
+        speed = 30;
+      }
     }
   }
+}
+
+let detritusCount = 0;
+
+function addNewBin(type, id) {
+  const newBin = new Poubelle(type, id);
+  tbin.push(newBin.getBoundingClientRect());
+  poubelles.push(type);
 }
