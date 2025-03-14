@@ -55,6 +55,10 @@
 }
 
 .score {
+  position: relative;
+  top: 10px;
+  left: 10px;
+  font-family: "Bebas Neue", sans-serif;
   height: 5vh;
   font-size: 2em;
   min-width: 100%;

@@ -3,7 +3,7 @@
 var items = document.getElementById("item"); //récupération de l'élément item
 var positionY = 0;
 var positionX = 0;
-var speed = 20;
+var speed = 5;
 var speedmovement = 50;
 var interval = setInterval(moveDown, 75); //déclaration de l'intervalle de temps pour la fonction moveDown
 var game = document.querySelector(".game");
@@ -59,6 +59,12 @@ scoreDisplay.className = "score-display";
 scoreDisplay.innerText = `Score: ${score}`;
 document.querySelector(".score").appendChild(scoreDisplay);
 
+// Augmenter le score de 1 toutes les secondes
+setInterval(() => {
+  score += 1;
+  scoreDisplay.innerText = `Score: ${score}`;
+}, 1000);
+
 // Déclaration de la classe Poubelle pour créer les poubelles
 class Poubelle {
   constructor(type, id) {
@@ -77,7 +83,6 @@ class Poubelle {
 
 const bin1 = new Poubelle("plastique", "bin1");
 const bin2 = new Poubelle("verre", "bin2");
-const bin3 = new Poubelle("papier", "bin3");
 
 var randomObject = detritus[Math.floor(Math.random() * detritus.length)]; //déclaration de l'objet aléatoire
 items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}`; //affichage de l'objet aléatoire
@@ -99,6 +104,9 @@ function movement(event) {
       positionX = maxRight;
     }
     items.style.left = positionX + "px";
+  } else if (event.key === "ArrowDown") {
+    positionY += 50;
+    items.style.top = positionY + "px";
   }
 }
 
