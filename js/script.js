@@ -61,11 +61,12 @@ document.querySelector(".score").appendChild(scoreDisplay);
 
 // Déclaration de la classe Poubelle pour créer les poubelles
 class Poubelle {
-  constructor(type) {
+  constructor(type, id) {
     this.type = type;
     this.bin = document.createElement("div");
     this.bin.className = "trash-bin";
     this.bin.innerText = type;
+    this.bin.id = id;
     document.querySelector(".bin").appendChild(this.bin);
   }
 
@@ -74,9 +75,9 @@ class Poubelle {
   }
 }
 
-const bin1 = new Poubelle("plastique");
-const bin2 = new Poubelle("verre");
-const bin3 = new Poubelle("papier");
+const bin1 = new Poubelle("plastique", "bin1");
+const bin2 = new Poubelle("verre", "bin2");
+const bin3 = new Poubelle("papier", "bin3");
 
 var randomObject = detritus[Math.floor(Math.random() * detritus.length)]; //déclaration de l'objet aléatoire
 items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}`; //affichage de l'objet aléatoire

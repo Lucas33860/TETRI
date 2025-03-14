@@ -73,7 +73,18 @@
 .trash-bin {
   width: 10%;
   height: 25%;
-  background-color: green;
   min-width: 50px;
   min-height: 100px;
+}
+
+#bin1 {
+  background-color: red;
+}
+
+#bin2 {
+  background-color: green;
+}
+
+#bin3 {
+  background-color: blue;
 }
