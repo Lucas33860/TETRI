@@ -41,6 +41,15 @@ var poubelles = [
   "inerte",
 ];
 
+// Déclaration du compteur de points
+var score = 0;
+
+// Déclaration de l'élément d'affichage du score
+var scoreDisplay = document.createElement("div");
+scoreDisplay.className = "score-display";
+scoreDisplay.innerText = `Score: ${score}`;
+document.body.appendChild(scoreDisplay);
+
 // Déclaration de la classe Poubelle pour créer les poubelles
 class Poubelle {
   constructor(type) {
@@ -107,15 +116,19 @@ function moveDown() {
   tbin.push(bin1.getBoundingClientRect());
   tbin.push(bin2.getBoundingClientRect());
 
-  for (let p = 0; p < 2; p = p + 1) {
-    // Vérification de la collision avec la poubelle
+  for (let p = 0; p < 2; p++) {
+    // Vérification de la collision avec les poubelles
     if (
       itemsize.bottom >= tbin[p].top &&
       itemsize.top <= tbin[p].bottom &&
       itemsize.right >= tbin[p].left &&
       itemsize.left <= tbin[p].right &&
-      randomObject.type == poubelles[p]
+      randomObject.type === poubelles[p] // Vérifie que l'objet est du même type que la poubelle
     ) {
+      // Mise à jour du score
+      score += 10;
+      scoreDisplay.innerText = `Score: ${score}`;
+
       // On repositionne l'objet en haut de l'écran, on change l'objet et le texte
       positionX = 0;
       positionY = 0;
