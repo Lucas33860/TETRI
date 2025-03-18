@@ -58,17 +58,17 @@ let assoDetritus = {
     { nom: "Brique cassée", interaction: 0, weight: 30 },
     { nom: "Morceau de béton", interaction: 0, weight: 35 },
     { nom: "Céramique cassée", interaction: 0, weight: 12 },
-  ]
+  ],
 };
 
 // Types de poubelles
 var poubelles = [
   "plastique",
+  "inerte",
   "verre",
   "papier",
   "organique",
   "métal",
-  "inerte",
 ];
 
 // Score du joueur
@@ -154,54 +154,51 @@ function moveDown() {
     items.innerText = `${randomObject.nom} - ${randomObject.type} - ${randomObject.weight}kg`;
   }
 
-  [bin1, bin2].forEach((bin, index) => {
-    var rect = bin.getBoundingClientRect();
-    var itemRect = items.getBoundingClientRect();
+  tbin = [];
+  tbin.push(bin1.getBoundingClientRect());
+  tbin.push(bin2.getBoundingClientRect());
 
-    tbin = [];
-    tbin.push(bin1.getBoundingClientRect());
-    tbin.push(bin2.getBoundingClientRect());
+  const itemRect = items.getBoundingClientRect();
 
-    for (let p = 0; p < tbin.length; p++) {
-      // Vérification de la collision avec les poubelles
-      if (
-          itemRect.bottom >= rect.top &&
-          itemRect.top <= rect.bottom &&
-          itemRect.right >= rect.left &&
-          itemRect.left <= rect.right &&
-          randomObject.type === poubelles[index]
-      ) {
-        detritusCount++;
-        console.log(detritusCount);
+  for (let p = 0; p < tbin.length; p++) {
+    const rect = tbin[p];
+    // Vérification de la collision avec les poubelles
+    if (
+      itemRect.bottom >= rect.top &&
+      itemRect.top <= rect.bottom &&
+      itemRect.right >= rect.left &&
+      itemRect.left <= rect.right &&
+      randomObject.type === poubelles[p]
+    ) {
+      detritusCount++;
+      console.log(detritusCount);
 
-        // Ajout du poids dans le calcul du score : bonus fixe + poids du détritus
-        score += 10 + randomObject.weight;
-        scoreDisplay.innerText = `Score: ${score}`;
-        positionX = 0;
-        positionY = 0;
-        randomObject = genererDetritusSelonProbabilite();
-        items.innerText = `${randomObject.nom} - ${randomObject.type} - ${randomObject.weight}kg`;
+      score += 10;
+      scoreDisplay.innerText = `Score: ${score}`;
+      positionX = 0;
+      positionY = 0;
+      randomObject = genererDetritusSelonProbabilite();
+      items.innerText = `${randomObject.nom} - ${randomObject.type} - ${randomObject.weight}kg`;
 
-        // Ajouter de nouvelles poubelles en fonction du nombre de détritus triés
-        if (detritusCount === 10) {
-          addNewBin("papier", "bin3");
-          speed = 10;
-        }
-        if (detritusCount === 20) {
-          addNewBin("organique", "bin4");
-          speed = 15;
-        }
-        if (detritusCount === 30) {
-          addNewBin("métal", "bin5");
-          speed = 20;
-        }
-        if (detritusCount === 40) {
-          addNewBin("verre", "bin6");
-          speed = 25;
-        }
+      // Ajouter de nouvelles poubelles en fonction du nombre de détritus triés
+      if (detritusCount === 10) {
+        addNewBin("papier", "bin3");
+        speed = 10;
+      }
+      if (detritusCount === 20) {
+        addNewBin("organique", "bin4");
+        speed = 15;
+      }
+      if (detritusCount === 30) {
+        addNewBin("métal", "bin5");
+        speed = 20;
+      }
+      if (detritusCount === 40) {
+        addNewBin("verre", "bin6");
+        speed = 25;
       }
     }
-  });
+  }
 }
 
 let detritusCount = 0;
