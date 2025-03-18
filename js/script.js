@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 //déclaration des variables
 
 var items = document.getElementById("item"); //récupération de l'élément item
@@ -12,10 +13,12 @@ var gameWidth = game.offsetWidth; //récupération de la largeur du jeu
 var itemWidth = item.offsetWidth; //récupération de la largeur de l'objet
 var maxLeft = -gameWidth + itemWidth; //déclaration de la position maximale à gauche
 var maxRight = gameWidth - itemWidth; //déclaration de la position maximale à droite
+=======
 // Sélection des éléments HTML nécessaires
 var items = document.getElementById("item");
 var game = document.querySelector(".game");
 var item = document.querySelector(".object");
+>>>>>>> Stashed changes
 
 // Position initiale de l'objet
 var positionY = 0;
@@ -83,9 +86,16 @@ var detritus = [
   new Detritus("Capsule métallique", "métal", 3),
   new Detritus("Ferraille rouillée", "métal", 25),
 
+  new Detritus("Caillou", "inerte", 20),
+  new Detritus("Brique cassée", "inerte", 30),
+  new Detritus("Morceau de béton", "inerte", 35),
+  new Detritus("Céramique cassée", "inerte", 12),
 ];
 
-// Déclaration du compteur de points
+// Types de poubelles
+var poubelles = ["plastique", "verre", "papier", "organique", "métal", "inerte"];
+
+// Score du joueur
 var score = 0;
 
 // Affichage du score
@@ -183,6 +193,11 @@ function moveDown() {
   for (let p = 0; p < tbin.length; p++) {
     // Vérification de la collision avec les poubelles
     if (
+        itemRect.bottom >= rect.top &&
+        itemRect.top <= rect.bottom &&
+        itemRect.right >= rect.left &&
+        itemRect.left <= rect.right &&
+        randomObject.type === poubelles[index]
     ) {
       detritusCount++;
       console.log(detritusCount);
