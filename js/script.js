@@ -152,6 +152,8 @@ function moveDown() {
     positionY = 0;
     randomObject = genererDetritusSelonProbabilite();
     items.innerText = `${randomObject.nom} - ${randomObject.type} - ${randomObject.weight}kg`;
+    items.style.left = positionX + "px"; // Ajouté pour réinitialiser la position X
+    items.style.top = positionY + "px"; // Ajouté pour réinitialiser la position Y
   }
 
   tbin = [];
@@ -172,13 +174,14 @@ function moveDown() {
     ) {
       detritusCount++;
       console.log(detritusCount);
-
       score += 10;
       scoreDisplay.innerText = `Score: ${score}`;
       positionX = 0;
       positionY = 0;
       randomObject = genererDetritusSelonProbabilite();
       items.innerText = `${randomObject.nom} - ${randomObject.type} - ${randomObject.weight}kg`;
+      items.style.left = positionX + "px"; // Ajouté pour réinitialiser la position X
+      items.style.top = positionY + "px"; // Ajouté pour réinitialiser la position Y
 
       // Ajouter de nouvelles poubelles en fonction du nombre de détritus triés
       if (detritusCount === 10) {
