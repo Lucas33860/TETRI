@@ -23,23 +23,23 @@ resizeObserver.observe(game);
 /* --- Tableau associatif pour les détritus --- */
 let assoDetritus = {
   plastique: [
-    { nom: "Bouteille plastique", interaction: 1, weight: 10 },
+    { nom: "Bouteille plastique", interaction: 1, weight: 10 }, // 2 : plié
     { nom: "Paille", interaction: 0, weight: 15 },
-    { nom: "Sac plastique", interaction: 2, weight: 30 },
+    { nom: "Sac plastique", interaction: 1, weight: 30 },       // 1: splité
     { nom: "Paille plastique", interaction: 0, weight: 5 },
     { nom: "Gobelet plastique", interaction: 0, weight: 8 },
   ],
   verre: [
-    { nom: "Bouteille de vin", interaction: 2, weight: 20 },
-    { nom: "Bouteille de champagne", interaction: 2, weight: 25 },
-    { nom: "Pot en verre", interaction: 0, weight: 12 },
+    { nom: "Bouteille de vin", interaction: 0, weight: 20 },
+    { nom: "Bouteille de champagne", interaction: 0, weight: 25 },
+    { nom: "Pot en verre", interaction: 1, weight: 12 },      // 1: splité
     { nom: "Verre cassé", interaction: 0, weight: 7 },
   ],
   papier: [
-    { nom: "Journal", interaction: 2, weight: 5 },
-    { nom: "Carton d'emballage", interaction: 2, weight: 15 },
-    { nom: "Feuille imprimée", interaction: 2, weight: 3 },
-    { nom: "Magazine", interaction: 2, weight: 7 },
+    { nom: "Journal", interaction: 2, weight: 5 },              // 2 : plié
+    { nom: "Carton d'emballage", interaction: 2, weight: 15 },  // 2 : plié
+    { nom: "Feuille imprimée", interaction: 2, weight: 3 },     // 2 : plié
+    { nom: "Magazine", interaction: 2, weight: 7 },             // 2 : plié
   ],
   organique: [
     { nom: "Épluchures de légumes", interaction: 0, weight: 10 },
@@ -48,10 +48,10 @@ let assoDetritus = {
     { nom: "Feuilles mortes", interaction: 0, weight: 5 },
   ],
   métal: [
-    { nom: "Canette aluminium", interaction: 2, weight: 10 },
-    { nom: "Boîte de conserve", interaction: 2, weight: 15 },
-    { nom: "Capsule métallique", interaction: 2, weight: 3 },
-    { nom: "Ferraille rouillée", interaction: 2, weight: 25 },
+    { nom: "Canette aluminium", interaction: 2, weight: 10 },// 2 : plié
+    { nom: "Boîte de conserve", interaction: 2, weight: 15 },// 2 : plié
+    { nom: "Capsule métallique", interaction: 2, weight: 3 },// 2 : plié
+    { nom: "Ferraille rouillée", interaction: 2, weight: 25 },// 2 : plié
   ],
   inerte: [
     { nom: "Caillou", interaction: 0, weight: 20 },
