@@ -1,41 +1,16 @@
-<<<<<<< Updated upstream
-//déclaration des variables
-
-var items = document.getElementById("item"); //récupération de l'élément item
+// Déclaration des variables
+var items = document.getElementById("item"); // Récupération de l'élément item
 var positionY = 0;
 var positionX = 0;
 var speed = 5;
 var speedmovement = 50;
-var interval = setInterval(moveDown, 75); //déclaration de l'intervalle de temps pour la fonction moveDown
+var interval = setInterval(moveDown, 75); // Déclaration de l'intervalle de temps pour la fonction moveDown
 var game = document.querySelector("#game");
 var item = document.querySelector(".item");
-var gameWidth = game.offsetWidth; //récupération de la largeur du jeu
-var itemWidth = item.offsetWidth; //récupération de la largeur de l'objet
-var maxLeft = -gameWidth + itemWidth; //déclaration de la position maximale à gauche
-var maxRight = gameWidth - itemWidth; //déclaration de la position maximale à droite
-=======
-// Sélection des éléments HTML nécessaires
-var items = document.getElementById("item");
-var game = document.querySelector(".game");
-var item = document.querySelector(".object");
->>>>>>> Stashed changes
-
-// Position initiale de l'objet
-var positionY = 0;
-var positionX = 0;
-
-// Vitesse de déplacement
-var speed = 5;
-var speedmovement = 50;
-
-// Intervalle pour déplacement vertical automatique
-var interval = setInterval(moveDown, 75);
-
-// Dimensions du jeu et de l'objet
-var gameWidth = game.offsetWidth;
-var itemWidth = item.offsetWidth;
-var maxLeft = -gameWidth + itemWidth;
-var maxRight = gameWidth - itemWidth;
+var gameWidth = game.offsetWidth; // Récupération de la largeur du jeu
+var itemWidth = item.offsetWidth; // Récupération de la largeur de l'objet
+var maxLeft = -gameWidth + itemWidth; // Déclaration de la position maximale à gauche
+var maxRight = gameWidth - itemWidth; // Déclaration de la position maximale à droite
 
 // Observer pour adapter les dimensions au redimensionnement de la fenêtre
 const resizeObserver = new ResizeObserver(() => {
@@ -62,30 +37,23 @@ var detritus = [
   new Detritus("Sac plastique", "plastique", 30),
   new Detritus("Bouteille de vin", "verre", 20),
   new Detritus("Bouteille de champagne", "verre", 25),
-];
   new Detritus("Paille plastique", "plastique", 5),
   new Detritus("Sac plastique", "plastique", 15),
   new Detritus("Gobelet plastique", "plastique", 8),
-
-  new Detritus("Bouteille de vin", "verre", 20),
-  new Detritus("Bouteille de champagne", "verre", 25),
   new Detritus("Pot en verre", "verre", 12),
   new Detritus("Verre cassé", "verre", 7),
   new Detritus("Journal", "papier", 5),
   new Detritus("Carton d'emballage", "papier", 15),
   new Detritus("Feuille imprimée", "papier", 3),
   new Detritus("Magazine", "papier", 7),
-
   new Detritus("Épluchures de légumes", "organique", 10),
   new Detritus("Pomme pourrie", "organique", 12),
   new Detritus("Reste de repas", "organique", 15),
   new Detritus("Feuilles mortes", "organique", 5),
-
   new Detritus("Canette aluminium", "métal", 10),
   new Detritus("Boîte de conserve", "métal", 15),
   new Detritus("Capsule métallique", "métal", 3),
   new Detritus("Ferraille rouillée", "métal", 25),
-
   new Detritus("Caillou", "inerte", 20),
   new Detritus("Brique cassée", "inerte", 30),
   new Detritus("Morceau de béton", "inerte", 35),
@@ -93,7 +61,14 @@ var detritus = [
 ];
 
 // Types de poubelles
-var poubelles = ["plastique", "verre", "papier", "organique", "métal", "inerte"];
+var poubelles = [
+  "plastique",
+  "verre",
+  "papier",
+  "organique",
+  "métal",
+  "inerte",
+];
 
 // Score du joueur
 var score = 0;
@@ -132,7 +107,7 @@ const bin2 = new Poubelle("inerte", "bin2");
 
 // Fonction pour générer un détritus aléatoirement selon des probabilités
 function genererDetritusSelonProbabilite() {
-  const tirage = Math.floor(Math.random() * 99) ;
+  const tirage = Math.floor(Math.random() * 99);
 
   let typeChoisi;
 
@@ -142,6 +117,8 @@ function genererDetritusSelonProbabilite() {
   else if (tirage <= 70) typeChoisi = "organique";
   else if (tirage <= 85) typeChoisi = "métal";
   else typeChoisi = "inerte";
+
+  console.log(tirage);
 
   const detritusFiltre = detritus.filter((d) => d.type === typeChoisi);
 
@@ -186,45 +163,46 @@ function moveDown() {
     var rect = bin.getBoundingClientRect();
     var itemRect = items.getBoundingClientRect();
 
-  tbin = [];
-  tbin.push(bin1.getBoundingClientRect());
-  tbin.push(bin2.getBoundingClientRect());
+    tbin = [];
+    tbin.push(bin1.getBoundingClientRect());
+    tbin.push(bin2.getBoundingClientRect());
 
-  for (let p = 0; p < tbin.length; p++) {
-    // Vérification de la collision avec les poubelles
-    if (
+    for (let p = 0; p < tbin.length; p++) {
+      // Vérification de la collision avec les poubelles
+      if (
         itemRect.bottom >= rect.top &&
         itemRect.top <= rect.bottom &&
         itemRect.right >= rect.left &&
         itemRect.left <= rect.right &&
         randomObject.type === poubelles[index]
-    ) {
-      detritusCount++;
-      console.log(detritusCount);
+      ) {
+        detritusCount++;
+        console.log(detritusCount);
 
-      score += 10;
-      scoreDisplay.innerText = `Score: ${score}`;
-      positionX = 0;
-      positionY = 0;
-      randomObject = genererDetritusSelonProbabilite();
-      items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}kg`;
+        score += 10;
+        scoreDisplay.innerText = `Score: ${score}`;
+        positionX = 0;
+        positionY = 0;
+        randomObject = genererDetritusSelonProbabilite();
+        items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}kg`;
 
-      // Ajouter de nouvelles poubelles en fonction du nombre de détritus triés
-      if (detritusCount === 10) {
-        addNewBin("papier", "bin3");
-        speed = 10;
-      }
-      if (detritusCount === 20) {
-        addNewBin("organique", "bin4");
-        speed = 15;
-      }
-      if (detritusCount === 30) {
-        addNewBin("métal", "bin5");
-        speed = 20;
-      }
-      if (detritusCount === 40) {
-        addNewBin("verre", "bin6");
-        speed = 25;
+        // Ajouter de nouvelles poubelles en fonction du nombre de détritus triés
+        if (detritusCount === 10) {
+          addNewBin("papier", "bin3");
+          speed = 10;
+        }
+        if (detritusCount === 20) {
+          addNewBin("organique", "bin4");
+          speed = 15;
+        }
+        if (detritusCount === 30) {
+          addNewBin("métal", "bin5");
+          speed = 20;
+        }
+        if (detritusCount === 40) {
+          addNewBin("verre", "bin6");
+          speed = 25;
+        }
       }
     }
   });
@@ -237,7 +215,6 @@ function addNewBin(type, id) {
   tbin.push(newBin.getBoundingClientRect());
   poubelles.push(type);
 }
-=======
 
 // chaque detritus a une et une seule interaction possible :
 // 0: rien
@@ -245,31 +222,36 @@ function addNewBin(type, id) {
 // 2 : plié (cannette, boite de conserve, journal, carton d'emballage)
 // x orienté TOUT PEUT ETRE ORIENTE
 
-let assoTab = {"inert":[{"nom":"orange.jpg","interaction":0},
-    {"nom":"mouchoir.jpg","interaction":0},
-    {"nom":"viande.jpg","interaction":0}],
-  "plastic" : ["sac.jpg","barquette.jpg","pot.jpg"],
-  "verre" : ["bouteille_vin.jpg","bouteille_biere.jpg","bocal.jpg"],
-}
+let assoTab = {
+  inert: [
+    { nom: "orange.jpg", interaction: 0 },
+    { nom: "mouchoir.jpg", interaction: 0 },
+    { nom: "viande.jpg", interaction: 0 },
+  ],
+  plastic: ["sac.jpg", "barquette.jpg", "pot.jpg"],
+  verre: ["bouteille_vin.jpg", "bouteille_biere.jpg", "bocal.jpg"],
+};
 
 // Tableau associatif (où les index sont des chaines de caracteres)
-console.log("assoTab",assoTab);
+console.log("assoTab", assoTab);
 // afficher tous les plastics
-console.log("assoTab[\"plastic\"]",assoTab["plastic"]);
+console.log('assoTab["plastic"]', assoTab["plastic"]);
 // afficher toutes les clés (index) : pastic et verre
-console.log("Object.keys(assoTab)",Object.keys(assoTab));
+console.log("Object.keys(assoTab)", Object.keys(assoTab));
 // afficher tous les plastics (en utilisant un indexe numérique) équivalent à assoTab["plastic"] # assoTab[0]
-console.log("assoTab[Object.keys(assoTab)[0]]",assoTab[Object.keys(assoTab)[0]]);
+console.log(
+  "assoTab[Object.keys(assoTab)[0]]",
+  assoTab[Object.keys(assoTab)[0]]
+);
 // afficher le 3ème plastic
-console.log("assoTab[\"plastic\"][2]",assoTab["plastic"][2]);
-
-
+console.log('assoTab["plastic"][2]', assoTab["plastic"][2]);
 
 /*
 let assoTab = {"inert":["orange.jpg","mouchoir.jpg","viande.jpg"],
-  "plastic" : ["sac.jpg","barquette.jpg","pot.jpg"],
-  "verre" : ["bouteille_vin.jpg","bouteille_biere.jpg","bocal.jpg"],
+"plastic" : ["sac.jpg","barquette.jpg","pot.jpg"],
+"verre" : ["bouteille_vin.jpg","bouteille_biere.jpg","bocal.jpg"],
 }
+
 
 // Tableau associatif (où les index sont des chaines de caracteres)
 console.log("assoTab",assoTab);
@@ -282,5 +264,5 @@ console.log("assoTab[Object.keys(assoTab)[0]]",assoTab[Object.keys(assoTab)[0]])
 // afficher le 3ème plastic
 console.log("assoTab[\"plastic\"][2]",assoTab["plastic"][2]);
 
+
 */
->>>>>>> Stashed changes
