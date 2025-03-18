@@ -12,8 +12,29 @@ var gameWidth = game.offsetWidth; //récupération de la largeur du jeu
 var itemWidth = item.offsetWidth; //récupération de la largeur de l'objet
 var maxLeft = -gameWidth + itemWidth; //déclaration de la position maximale à gauche
 var maxRight = gameWidth - itemWidth; //déclaration de la position maximale à droite
+// Sélection des éléments HTML nécessaires
+var items = document.getElementById("item");
+var game = document.querySelector(".game");
+var item = document.querySelector(".object");
 
-// Utilisation de ResizeObserver pour redéfinir maxLeft et maxRight
+// Position initiale de l'objet
+var positionY = 0;
+var positionX = 0;
+
+// Vitesse de déplacement
+var speed = 5;
+var speedmovement = 50;
+
+// Intervalle pour déplacement vertical automatique
+var interval = setInterval(moveDown, 75);
+
+// Dimensions du jeu et de l'objet
+var gameWidth = game.offsetWidth;
+var itemWidth = item.offsetWidth;
+var maxLeft = -gameWidth + itemWidth;
+var maxRight = gameWidth - itemWidth;
+
+// Observer pour adapter les dimensions au redimensionnement de la fenêtre
 const resizeObserver = new ResizeObserver(() => {
   gameWidth = game.offsetWidth;
   maxLeft = -gameWidth + itemWidth;
@@ -22,7 +43,7 @@ const resizeObserver = new ResizeObserver(() => {
 
 resizeObserver.observe(game);
 
-// Déclaration de la classe Detritus pour créer les objets
+// Classe représentant un détritus
 class Detritus {
   constructor(name, type, weight) {
     this.name = name;
@@ -31,7 +52,7 @@ class Detritus {
   }
 }
 
-// Déclaration des detritus de manière dynamique
+// Liste des détritus disponibles, triés par type
 var detritus = [
   new Detritus("Bouteille plastique", "plastique", 10),
   new Detritus("Paille", "plastique", 15),
@@ -39,33 +60,47 @@ var detritus = [
   new Detritus("Bouteille de vin", "verre", 20),
   new Detritus("Bouteille de champagne", "verre", 25),
 ];
+  new Detritus("Paille plastique", "plastique", 5),
+  new Detritus("Sac plastique", "plastique", 15),
+  new Detritus("Gobelet plastique", "plastique", 8),
 
-//Déclaration des poubelles
-var poubelles = [
-  "plastique",
-  "verre",
-  "papier",
-  "organique",
-  "métal",
-  "inerte",
+  new Detritus("Bouteille de vin", "verre", 20),
+  new Detritus("Bouteille de champagne", "verre", 25),
+  new Detritus("Pot en verre", "verre", 12),
+  new Detritus("Verre cassé", "verre", 7),
+  new Detritus("Journal", "papier", 5),
+  new Detritus("Carton d'emballage", "papier", 15),
+  new Detritus("Feuille imprimée", "papier", 3),
+  new Detritus("Magazine", "papier", 7),
+
+  new Detritus("Épluchures de légumes", "organique", 10),
+  new Detritus("Pomme pourrie", "organique", 12),
+  new Detritus("Reste de repas", "organique", 15),
+  new Detritus("Feuilles mortes", "organique", 5),
+
+  new Detritus("Canette aluminium", "métal", 10),
+  new Detritus("Boîte de conserve", "métal", 15),
+  new Detritus("Capsule métallique", "métal", 3),
+  new Detritus("Ferraille rouillée", "métal", 25),
+
 ];
 
 // Déclaration du compteur de points
 var score = 0;
 
-// Déclaration de l'élément d'affichage du score
+// Affichage du score
 var scoreDisplay = document.createElement("div");
 scoreDisplay.className = "score-display";
 scoreDisplay.innerText = `Score: ${score}`;
 document.querySelector(".score").appendChild(scoreDisplay);
 
-// Augmenter le score de 1 toutes les secondes
+// Augmente le score chaque seconde
 setInterval(() => {
   score += 1;
   scoreDisplay.innerText = `Score: ${score}`;
 }, 1000);
 
-// Déclaration de la classe Poubelle pour créer les poubelles
+// Classe représentant une poubelle
 class Poubelle {
   constructor(type, id) {
     this.type = type;
@@ -81,57 +116,65 @@ class Poubelle {
   }
 }
 
+// Création des poubelles
 const bin1 = new Poubelle("plastique", "bin1");
 const bin2 = new Poubelle("inerte", "bin2");
 
-var randomObject = detritus[Math.floor(Math.random() * detritus.length)]; //déclaration de l'objet aléatoire
-items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}`; //affichage de l'objet aléatoire
+// Fonction pour générer un détritus aléatoirement selon des probabilités
+function genererDetritusSelonProbabilite() {
+  const tirage = Math.floor(Math.random() * 99) ;
 
-document.addEventListener("keydown", movement); //déclaration de l'événement keydown
+  let typeChoisi;
 
-//fonction de déplacement du détritus gauche droite
+  if (tirage <= 20) typeChoisi = "plastique";
+  else if (tirage <= 40) typeChoisi = "verre";
+  else if (tirage <= 55) typeChoisi = "papier";
+  else if (tirage <= 70) typeChoisi = "organique";
+  else if (tirage <= 85) typeChoisi = "métal";
+  else typeChoisi = "inerte";
+
+  const detritusFiltre = detritus.filter((d) => d.type === typeChoisi);
+
+  return detritusFiltre[Math.floor(Math.random() * detritusFiltre.length)];
+}
+
+// Initialiser l'objet avec un détritus aléatoire
+var randomObject = genererDetritusSelonProbabilite();
+items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}kg`;
+
+// Gestion du mouvement de l'objet avec les touches du clavier
 function movement(event) {
-  // empêcher le déplacement en dehors de la zone de jeu
   if (event.key === "ArrowLeft") {
-    positionX -= speedmovement;
-    if (positionX < maxLeft) {
-      positionX = maxLeft;
-    }
-    items.style.left = positionX + "px";
+    positionX = Math.max(maxLeft, positionX - speedmovement);
   } else if (event.key === "ArrowRight") {
-    positionX += speedmovement;
-    if (positionX > maxRight) {
-      positionX = maxRight;
-    }
-    items.style.left = positionX + "px";
+    positionX = Math.min(maxRight, positionX + speedmovement);
   } else if (event.key === "ArrowDown") {
     positionY += 50;
-    items.style.top = positionY + "px";
   }
+
+  items.style.left = positionX + "px";
+  items.style.top = positionY + "px";
 }
 
 let tbin = [];
 
+document.addEventListener("keydown", movement);
+
+// Mouvement automatique vers le bas et vérification de collision avec poubelle ou bas de fenêtre
 function moveDown() {
-  //fonction de déplacement vers le bas
   positionY += speed;
   items.style.top = positionY + "px";
-  var itemBottom = items.getBoundingClientRect().bottom;
-  //Le détritut ne peux pas aller sous le sol
-  if (itemBottom >= window.innerHeight) {
+
+  if (items.getBoundingClientRect().bottom >= window.innerHeight) {
     positionX = 0;
     positionY = 0;
-    items.style.left = positionX + "px";
-    items.style.top = positionY + "px";
-    randomObject = detritus[Math.floor(Math.random() * detritus.length)];
+    randomObject = genererDetritusSelonProbabilite();
     items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}kg`;
-    clearInterval(interval);
-    interval = setInterval(moveDown, 75);
   }
 
-  // Vérification de la collision avec la poubelle 1
-  // Récupération des dimensions de l'élément item et des poubelles
-  var itemsize = items.getBoundingClientRect(); //récupération des dimensions de l'élément item
+  [bin1, bin2].forEach((bin, index) => {
+    var rect = bin.getBoundingClientRect();
+    var itemRect = items.getBoundingClientRect();
 
   tbin = [];
   tbin.push(bin1.getBoundingClientRect());
@@ -140,24 +183,15 @@ function moveDown() {
   for (let p = 0; p < tbin.length; p++) {
     // Vérification de la collision avec les poubelles
     if (
-      itemsize.bottom >= tbin[p].top &&
-      itemsize.top <= tbin[p].bottom &&
-      itemsize.right >= tbin[p].left &&
-      itemsize.left <= tbin[p].right &&
-      randomObject.type === poubelles[p] // Vérifie que l'objet est du même type que la poubelle
     ) {
       detritusCount++;
       console.log(detritusCount);
 
       score += 10;
       scoreDisplay.innerText = `Score: ${score}`;
-
-      // On repositionne l'objet en haut de l'écran, on change l'objet et le texte
       positionX = 0;
       positionY = 0;
-      items.style.left = positionX + "px";
-      items.style.top = positionY + "px";
-      randomObject = detritus[Math.floor(Math.random() * detritus.length)];
+      randomObject = genererDetritusSelonProbabilite();
       items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}kg`;
 
       // Ajouter de nouvelles poubelles en fonction du nombre de détritus triés
@@ -178,7 +212,7 @@ function moveDown() {
         speed = 25;
       }
     }
-  }
+  });
 }
 
 let detritusCount = 0;
@@ -188,3 +222,50 @@ function addNewBin(type, id) {
   tbin.push(newBin.getBoundingClientRect());
   poubelles.push(type);
 }
+=======
+
+// chaque detritus a une et une seule interaction possible :
+// 0: rien
+// 1: splité (bocal, boite a pizza de sa part de pizza)
+// 2 : plié (cannette, boite de conserve, journal, carton d'emballage)
+// x orienté TOUT PEUT ETRE ORIENTE
+
+let assoTab = {"inert":[{"nom":"orange.jpg","interaction":0},
+    {"nom":"mouchoir.jpg","interaction":0},
+    {"nom":"viande.jpg","interaction":0}],
+  "plastic" : ["sac.jpg","barquette.jpg","pot.jpg"],
+  "verre" : ["bouteille_vin.jpg","bouteille_biere.jpg","bocal.jpg"],
+}
+
+// Tableau associatif (où les index sont des chaines de caracteres)
+console.log("assoTab",assoTab);
+// afficher tous les plastics
+console.log("assoTab[\"plastic\"]",assoTab["plastic"]);
+// afficher toutes les clés (index) : pastic et verre
+console.log("Object.keys(assoTab)",Object.keys(assoTab));
+// afficher tous les plastics (en utilisant un indexe numérique) équivalent à assoTab["plastic"] # assoTab[0]
+console.log("assoTab[Object.keys(assoTab)[0]]",assoTab[Object.keys(assoTab)[0]]);
+// afficher le 3ème plastic
+console.log("assoTab[\"plastic\"][2]",assoTab["plastic"][2]);
+
+
+
+/*
+let assoTab = {"inert":["orange.jpg","mouchoir.jpg","viande.jpg"],
+  "plastic" : ["sac.jpg","barquette.jpg","pot.jpg"],
+  "verre" : ["bouteille_vin.jpg","bouteille_biere.jpg","bocal.jpg"],
+}
+
+// Tableau associatif (où les index sont des chaines de caracteres)
+console.log("assoTab",assoTab);
+// afficher tous les plastics
+console.log("assoTab[\"plastic\"]",assoTab["plastic"]);
+// afficher toutes les clés (index) : pastic et verre
+console.log("Object.keys(assoTab)",Object.keys(assoTab));
+// afficher tous les plastics (en utilisant un indexe numérique) équivalent à assoTab["plastic"] # assoTab[0]
+console.log("assoTab[Object.keys(assoTab)[0]]",assoTab[Object.keys(assoTab)[0]]);
+// afficher le 3ème plastic
+console.log("assoTab[\"plastic\"][2]",assoTab["plastic"][2]);
+
+*/
+>>>>>>> Stashed changes
