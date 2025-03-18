@@ -6,8 +6,8 @@ var positionX = 0;
 var speed = 5;
 var speedmovement = 50;
 var interval = setInterval(moveDown, 75); //déclaration de l'intervalle de temps pour la fonction moveDown
-var game = document.querySelector(".game");
-var item = document.querySelector(".object");
+var game = document.querySelector("#game");
+var item = document.querySelector(".item");
 var gameWidth = game.offsetWidth; //récupération de la largeur du jeu
 var itemWidth = item.offsetWidth; //récupération de la largeur de l'objet
 var maxLeft = -gameWidth + itemWidth; //déclaration de la position maximale à gauche
@@ -34,10 +34,10 @@ class Detritus {
 // Déclaration des detritus de manière dynamique
 var detritus = [
   new Detritus("Bouteille plastique", "plastique", 10),
-  new Detritus("Bouteille de vin", "verre", 20),
   new Detritus("Paille", "plastique", 15),
-  new Detritus("Bouteille de champagne", "verre", 25),
   new Detritus("Sac plastique", "plastique", 30),
+  new Detritus("Bouteille de vin", "verre", 20),
+  new Detritus("Bouteille de champagne", "verre", 25),
 ];
 
 //Déclaration des poubelles
@@ -73,7 +73,7 @@ class Poubelle {
     this.bin.className = "trash-bin";
     this.bin.innerText = type;
     this.bin.id = id;
-    document.querySelector(".bin").appendChild(this.bin);
+    document.querySelector(".bins").appendChild(this.bin);
   }
 
   getBoundingClientRect() {
@@ -82,7 +82,7 @@ class Poubelle {
 }
 
 const bin1 = new Poubelle("plastique", "bin1");
-const bin2 = new Poubelle("verre", "bin2");
+const bin2 = new Poubelle("inerte", "bin2");
 
 var randomObject = detritus[Math.floor(Math.random() * detritus.length)]; //déclaration de l'objet aléatoire
 items.innerText = `${randomObject.name} - ${randomObject.type} - ${randomObject.weight}`; //affichage de l'objet aléatoire
@@ -164,21 +164,18 @@ function moveDown() {
       if (detritusCount === 10) {
         addNewBin("papier", "bin3");
         speed = 10;
-        console.log(speed);
       }
       if (detritusCount === 20) {
         addNewBin("organique", "bin4");
         speed = 15;
-        console.log(speed);
       }
       if (detritusCount === 30) {
         addNewBin("métal", "bin5");
         speed = 20;
-        console.log(speed);
       }
       if (detritusCount === 40) {
-        addNewBin("inerte", "bin6");
-        speed = 30;
+        addNewBin("verre", "bin6");
+        speed = 25;
       }
     }
   }
