@@ -25,21 +25,21 @@ let assoDetritus = {
   plastique: [
     { nom: "Bouteille plastique", interaction: 1, weight: 10 }, // 2 : plié
     { nom: "Paille", interaction: 0, weight: 15 },
-    { nom: "Sac plastique", interaction: 1, weight: 30 },       // 1: splité
+    { nom: "Sac plastique", interaction: 1, weight: 30 }, // 1: splité
     { nom: "Paille plastique", interaction: 0, weight: 5 },
     { nom: "Gobelet plastique", interaction: 0, weight: 8 },
   ],
   verre: [
     { nom: "Bouteille de vin", interaction: 0, weight: 20 },
     { nom: "Bouteille de champagne", interaction: 0, weight: 25 },
-    { nom: "Pot en verre", interaction: 1, weight: 12 },      // 1: splité
+    { nom: "Pot en verre", interaction: 1, weight: 12 }, // 1: splité
     { nom: "Verre cassé", interaction: 0, weight: 7 },
   ],
   papier: [
-    { nom: "Journal", interaction: 2, weight: 5 },              // 2 : plié
-    { nom: "Carton d'emballage", interaction: 2, weight: 15 },  // 2 : plié
-    { nom: "Feuille imprimée", interaction: 2, weight: 3 },     // 2 : plié
-    { nom: "Magazine", interaction: 2, weight: 7 },             // 2 : plié
+    { nom: "Journal", interaction: 2, weight: 5 }, // 2 : plié
+    { nom: "Carton d'emballage", interaction: 2, weight: 15 }, // 2 : plié
+    { nom: "Feuille imprimée", interaction: 2, weight: 3 }, // 2 : plié
+    { nom: "Magazine", interaction: 2, weight: 7 }, // 2 : plié
   ],
   organique: [
     { nom: "Épluchures de légumes", interaction: 0, weight: 10 },
@@ -48,10 +48,10 @@ let assoDetritus = {
     { nom: "Feuilles mortes", interaction: 0, weight: 5 },
   ],
   métal: [
-    { nom: "Canette aluminium", interaction: 2, weight: 10 },// 2 : plié
-    { nom: "Boîte de conserve", interaction: 2, weight: 15 },// 2 : plié
-    { nom: "Capsule métallique", interaction: 2, weight: 3 },// 2 : plié
-    { nom: "Ferraille rouillée", interaction: 2, weight: 25 },// 2 : plié
+    { nom: "Canette aluminium", interaction: 2, weight: 10 }, // 2 : plié
+    { nom: "Boîte de conserve", interaction: 2, weight: 15 }, // 2 : plié
+    { nom: "Capsule métallique", interaction: 2, weight: 3 }, // 2 : plié
+    { nom: "Ferraille rouillée", interaction: 2, weight: 25 }, // 2 : plié
   ],
   inerte: [
     { nom: "Caillou", interaction: 0, weight: 20 },
@@ -65,8 +65,8 @@ let assoDetritus = {
 var poubelles = [
   "plastique",
   "inerte",
-  "verre",
   "papier",
+  "verre",
   "organique",
   "métal",
 ];
@@ -107,11 +107,11 @@ const bin2 = new Poubelle("inerte", "bin2");
 function genererDetritusSelonProbabilite() {
   const tirage = Math.floor(Math.random() * 99);
   let typeChoisi;
-  if (tirage <= 20) typeChoisi = "plastique";
-  else if (tirage <= 40) typeChoisi = "verre";
-  else if (tirage <= 55) typeChoisi = "papier";
-  else if (tirage <= 70) typeChoisi = "organique";
-  else if (tirage <= 85) typeChoisi = "métal";
+  if (tirage <= 50) typeChoisi = "plastique";
+  else if (tirage <= 51) typeChoisi = "verre";
+  else if (tirage <= 99) typeChoisi = "papier";
+  else if (tirage <= 52) typeChoisi = "organique";
+  else if (tirage <= 53) typeChoisi = "métal";
   else typeChoisi = "inerte";
 
   console.log(tirage);
@@ -143,6 +143,7 @@ let tbin = [];
 document.addEventListener("keydown", movement);
 
 // Mouvement automatique vers le bas et vérification de collision avec la poubelle ou le bas de la fenêtre
+var detritusCount = 0; // Déplacer la déclaration ici pour éviter la réinitialisation
 function moveDown() {
   positionY += speed;
   items.style.top = positionY + "px";
@@ -156,14 +157,14 @@ function moveDown() {
     items.style.top = positionY + "px"; // Ajouté pour réinitialiser la position Y
   }
 
-  tbin = [];
-  tbin.push(bin1.getBoundingClientRect());
-  tbin.push(bin2.getBoundingClientRect());
+  updateTbin(); // Mettre à jour immédiatement `tbin`
 
   const itemRect = items.getBoundingClientRect();
 
-  for (let p = 0; p < tbin.length; p++) {
+  for (let p = 0; p < poubelles.length; p++) {
+    if (!tbin[p]) continue; // Évite l'erreur si `tbin[p]` n'existe pas encore
     const rect = tbin[p];
+
     // Vérification de la collision avec les poubelles
     if (
       itemRect.bottom >= rect.top &&
@@ -173,41 +174,51 @@ function moveDown() {
       randomObject.type === poubelles[p]
     ) {
       detritusCount++;
-      console.log(detritusCount);
+      console.log(`Détritus triés: ${detritusCount}`);
       score += 10;
       scoreDisplay.innerText = `Score: ${score}`;
+
+      // Réinitialisation de la position et génération d'un nouveau détritus
       positionX = 0;
       positionY = 0;
       randomObject = genererDetritusSelonProbabilite();
       items.innerText = `${randomObject.nom} - ${randomObject.type} - ${randomObject.weight}kg`;
-      items.style.left = positionX + "px"; // Ajouté pour réinitialiser la position X
-      items.style.top = positionY + "px"; // Ajouté pour réinitialiser la position Y
+      items.style.left = positionX + "px";
+      items.style.top = positionY + "px";
 
       // Ajouter de nouvelles poubelles en fonction du nombre de détritus triés
       if (detritusCount === 10) {
         addNewBin("papier", "bin3");
+        updateTbin(); // Mettre à jour immédiatement `tbin`
         speed = 10;
       }
       if (detritusCount === 20) {
         addNewBin("organique", "bin4");
+        updateTbin();
         speed = 15;
       }
       if (detritusCount === 30) {
         addNewBin("métal", "bin5");
+        updateTbin();
         speed = 20;
       }
       if (detritusCount === 40) {
         addNewBin("verre", "bin6");
+        updateTbin();
         speed = 25;
       }
     }
   }
-}
 
-let detritusCount = 0;
-function addNewBin(type, id) {
-  const newBin = new Poubelle(type, id);
-  tbin.push(newBin.getBoundingClientRect());
-  poubelles.push(type);
-  console.log(newBin);
+  function addNewBin(type, id) {
+    const newBin = new Poubelle(type, id);
+    poubelles.push(type); // Ajout du type de poubelle dans la liste
+    updateTbin(); // Mise à jour des positions des poubelles
+  }
+  function updateTbin() {
+    tbin = []; // On vide `tbin` pour recalculer
+    document.querySelectorAll(".trash-bin").forEach((bin) => {
+      tbin.push(bin.getBoundingClientRect()); // On récupère les nouvelles positions
+    });
+  }
 }
