@@ -206,4 +206,5 @@ function addNewBin(type, id) {
   const newBin = new Poubelle(type, id);
   tbin.push(newBin.getBoundingClientRect());
   poubelles.push(type);
+  console.log(newBin);
 }
