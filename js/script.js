@@ -107,11 +107,11 @@ const bin2 = new Poubelle("inerte", "bin2");
 function genererDetritusSelonProbabilite() {
   const tirage = Math.floor(Math.random() * 99);
   let typeChoisi;
-  if (tirage <= 50) typeChoisi = "plastique";
-  else if (tirage <= 51) typeChoisi = "verre";
-  else if (tirage <= 99) typeChoisi = "papier";
-  else if (tirage <= 52) typeChoisi = "organique";
-  else if (tirage <= 53) typeChoisi = "métal";
+  if (tirage <= 20) typeChoisi = "plastique";
+  else if (tirage <= 40) typeChoisi = "verre";
+  else if (tirage <= 60) typeChoisi = "papier";
+  else if (tirage <= 80) typeChoisi = "organique";
+  else if (tirage <= 100) typeChoisi = "métal";
   else typeChoisi = "inerte";
 
   console.log(tirage);
@@ -193,17 +193,17 @@ function moveDown() {
         speed = 10;
       }
       if (detritusCount === 20) {
-        addNewBin("organique", "bin4");
+        addNewBin("verre", "bin4");
         updateTbin();
         speed = 15;
       }
       if (detritusCount === 30) {
-        addNewBin("métal", "bin5");
+        addNewBin("organique", "bin5");
         updateTbin();
         speed = 20;
       }
       if (detritusCount === 40) {
-        addNewBin("verre", "bin6");
+        addNewBin("métal", "bin6");
         updateTbin();
         speed = 25;
       }
