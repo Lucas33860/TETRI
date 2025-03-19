@@ -321,9 +321,6 @@ class Poubelle {
     this.bin = document.createElement("div");
     this.bin.className = "trash-bin";
     this.bin.id = id;
-    var binTypeLabel = document.createElement("div");
-    binTypeLabel.innerText = type;
-    this.bin.appendChild(binTypeLabel);
 
     /* Création de l'image de poubelle */
     var binImg = document.createElement("img");
