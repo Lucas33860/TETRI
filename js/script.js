@@ -357,7 +357,7 @@ function movement(event) {
       positionY + 50
     );
   } else if (event.key === "r") {
-    rotationAngle += 15;
+    rotationAngle += 90;
     items.style.transform = "rotate(" + rotationAngle + "deg)";
   }
 
@@ -406,7 +406,10 @@ function moveDown() {
     ) {
       if (randomObject.type === poubelles[p]) {
         detritusCount++;
-        score += 10;
+        score += 10; // 10 points for the correct bin
+        if (rotationAngle === 90 || rotationAngle === 270) {
+          score += 20; // 20 points for the correct bin with rotation
+        }
         console.log(`Détritus triés: ${detritusCount} (bonne poubelle)`);
         scoreDisplay.innerText = `Score: ${score}`;
       } else if (poubelles[p] === "inerte") {
