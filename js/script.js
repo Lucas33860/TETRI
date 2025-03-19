@@ -1,14 +1,14 @@
 /*
 script.js
 Code complet pour :
- - Tri des détritus
- - Déplacement (flèches), rotation (touche r)
- - Score
+ - Tri des détritus (images) + Pliage pour la canette et le carton
+ - Déplacement (flèches), rotation (touche r), pliage (touche p)
+ - Score (temps + tri + pli)
+ - Boutons Start/Restart
  - Ajout progressif de poubelles
- - Affichage via images (poubelles + détritus)
 */
 
-/* 1) Mapping des images de poubelles */
+/* 1) Images des poubelles */
 const binImages = {
   plastique: "assets/Poubelle/bin_plastique.svg",
   inerte: "assets/Poubelle/bin_inerte.svg",
@@ -18,154 +18,203 @@ const binImages = {
   métal: "assets/Poubelle/bin_metal.svg"
 };
 
-/* 2) Tableau associatif des détritus (avec images) */
+/*
+2) Tableau associatif des détritus
+   Remarque :
+   - Les objets pliables ont un champ "images" (tableau)
+   - Les autres ont un champ "img" (unique)
+   - On garde "loose" pour le message d’erreur en cas de mauvaise poubelle
+*/
+/* 1) Tableau associatif des détritus fusionné */
 let assoDetritus = {
   plastique: [
+    // -- Fusion "Bouteille plastique" --
     {
       nom: "Bouteille plastique",
       interaction: 1,
       weight: 10,
-      img: "assets/plastique/bouteille soda plastique.svg"
+      img: "assets/plastique/bouteille soda plastique.svg",
+      loose: "Jeter ces bouteilles en plastique contribue à la dégradation de la biodiversité",
     },
     {
       nom: "Sac plastique",
       interaction: 1,
       weight: 30,
-      img: "assets/plastique/sac plastique.svg"
+      img: "assets/plastique/sac plastique.svg",
+      loose: "Les sacs plastiques sont très polluants pour l'environnement",
     },
     {
       nom: "Dentifrice",
       interaction: 1,
       weight: 10,
-      img: "assets/plastique/DENTIFRICE.svg"
+      img: "assets/plastique/DENTIFRICE.svg",
     },
     {
       nom: "Sac plastique 2",
       interaction: 1,
       weight: 30,
-      img: "assets/plastique/Sac plastique 2.svg"
+      img: "assets/plastique/Sac plastique 2.svg",
     },
     {
       nom: "Gel Douche",
       interaction: 1,
       weight: 30,
-      img: "assets/plastique/gel douche.svg"
-    }
+      img: "assets/plastique/gel douche.svg",
+    },
   ],
+
   verre: [
+    // -- Ancien "Bouteille de bière" (pas de loose fourni) --
     {
       nom: "Bouteille de bière",
       interaction: 0,
       weight: 15,
-      img: "assets/Verre/Biere.svg"
+      img: "assets/Verre/Biere.svg",
     },
     {
       nom: "Bouteille de vin",
       interaction: 0,
       weight: 20,
-      img: "assets/Verre/Vin.svg"
-    }
+      img: "assets/Verre/Vin.svg",
+      loose: "Les bouteilles en verre sont recyclables",
+    },
+
   ],
+
   papier: [
+    // -- Fusion "Journal" --
     {
       nom: "Journal",
       interaction: 2,
       weight: 5,
-      img: "assets/papier/Journal.svg"
+      img: "assets/papier/Journal.svg",
+      loose: "Les journaux sont recyclables",
     },
+
     {
       nom: "Affiche",
       interaction: 2,
       weight: 5,
-      img: "assets/papier/affiche.svg"
-    }
+      img: "assets/papier/affiche.svg",
+    },
+
+    {
+      nom: "Carton d'emballage",
+      interaction: 2,
+      weight: 15,
+      images: [
+        "assets/papier/carton/Carton 1.svg",
+        "assets/papier/carton/Carton 2.svg",
+        "assets/papier/carton/Carton 3.svg",
+      ],
+      loose: "Les cartons d'emballage sont recyclables",
+    },
   ],
+
   organique: [
     {
       nom: "Noix",
       interaction: 0,
       weight: 10,
-      img: "assets/organique/Noix.svg"
+      img: "assets/organique/Noix.svg",
     },
     {
       nom: "Pain",
       interaction: 0,
       weight: 10,
-      img: "assets/organique/Pain.svg"
+      img: "assets/organique/Pain.svg",
     },
     {
       nom: "Pomme",
       interaction: 0,
       weight: 10,
-      img: "assets/organique/Pomme.svg"
+      img: "assets/organique/Pomme.svg",
     },
     {
       nom: "Sachet de thé",
       interaction: 0,
       weight: 10,
-      img: "assets/organique/sachet de thé.svg"
-    }
+      img: "assets/organique/sachet de thé.svg",
+    },
   ],
+
   métal: [
+    // -- Fusion "Canette aluminium" --
+    {
+      nom: "Canette aluminium",
+      interaction: 2,
+      weight: 10,
+      images: [
+        "assets/métal/canette/Canette 3.svg",
+        "assets/métal/canette/Canette 2.svg",
+        "assets/métal/canette/Canette 1.svg",
+      ],
+      loose: "Les canettes en aluminium sont recyclables",
+    },
+    // -- Fusion "Boite de conserve" (nouveau poids 15) --
     {
       nom: "Boite de conserve",
       interaction: 2,
-      weight: 10,
-      img: "assets/Métal/boite de conserve.svg"
-    }
+      weight: 15,
+      img: "assets/Métal/boite de conserve.svg",
+      loose: "Les boîtes de conserve sont recyclables",
+    },
+
   ],
+
   inerte: [
     {
       nom: "Chips",
       interaction: 0,
       weight: 20,
-      img: "assets/inerte/Chips.svg"
+      img: "assets/inerte/Chips.svg",
     },
     {
       nom: "Mouchoir",
       interaction: 0,
       weight: 20,
-      img: "assets/inerte/Mouchoir.svg"
+      img: "assets/inerte/Mouchoir.svg",
     },
     {
       nom: "orange",
       interaction: 0,
       weight: 20,
-      img: "assets/inerte/orange.svg"
+      img: "assets/inerte/orange.svg",
     },
     {
       nom: "OS",
       interaction: 0,
       weight: 20,
-      img: "assets/inerte/os.svg"
+      img: "assets/inerte/os.svg",
     },
     {
       nom: "Pizza",
       interaction: 0,
       weight: 20,
-      img: "assets/inerte/Pizza.svg"
+      img: "assets/inerte/Pizza.svg",
     },
     {
       nom: "Steak",
       interaction: 0,
       weight: 20,
-      img: "assets/inerte/Steak.svg"
-    }
-  ]
+      img: "assets/inerte/Steak.svg",
+    },
+  ],
 };
 
-/* 3) Les types de poubelles possibles */
+/* 2) Les types de poubelles possibles */
 var poubelles = [
   "plastique",
   "inerte",
   "papier",
   "verre",
   "organique",
-  "métal"
+  "métal",
 ];
 
-/* 4) Variables globales et récupération d'éléments DOM */
+/* 4) Variables globales & DOM */
 var items = document.getElementById("item");
+items.style.display = "none"; // caché avant de cliquer "Démarrer"
 var game = document.getElementById("game");
 var score = 0;
 var scoreDisplay = document.createElement("div");
@@ -173,56 +222,135 @@ scoreDisplay.className = "score-display";
 scoreDisplay.innerText = "Score: " + score;
 document.querySelector(".score").appendChild(scoreDisplay);
 
+/* Ajout des boutons start / restart dans la page */
+var startButton = document.createElement("button");
+startButton.innerText = "Démarrer le jeu";
+startButton.className = "button start-button";
+document.body.appendChild(startButton);
+
+var restartButton = document.createElement("button");
+restartButton.innerText = "Relancer le jeu";
+restartButton.className = "button restart-button";
+restartButton.style.display = "none";
+document.body.appendChild(restartButton);
+
+/* Paramètres de déplacement & chute */
 var positionY = 0;
 var positionX = 0;
-var speed = 5;
-var speedmovement = 50;
-var detritusCount = 0;
+var speed = 5;           // vitesse de chute
+var speedmovement = 50;  // déplacement horizontal
+var interval;            // pour moveDown
+var scoreInterval;       // pour +1 point par seconde
+var detritusCount = 0;   // nombre de détritus triés
 var rotationAngle = 0;
 
-/* Pour limiter le déplacement latéral */
+/* Limites latérales */
 var gameWidth = game.offsetWidth;
 var itemWidth = items.offsetWidth;
 var maxLeft = -gameWidth + itemWidth;
 var maxRight = gameWidth - itemWidth;
 
-/* 5) Observer le redimensionnement de #game */
-const resizeObserver = new ResizeObserver(function() {
+/* Observer redimensionnement */
+const resizeObserver = new ResizeObserver(() => {
   gameWidth = game.offsetWidth;
   maxLeft = -gameWidth + itemWidth;
   maxRight = gameWidth - itemWidth;
 });
 resizeObserver.observe(game);
 
-/* 6) Générer un détritus aléatoirement selon des probabilités */
+/* Fonctions Start / Stop */
+function startGame() {
+  items.style.display = "block";
+  interval = setInterval(moveDown, 75);
+  startButton.style.display = "none";
+  restartButton.style.display = "none";
+
+  score = 0;
+  scoreDisplay.innerText = `Score: ${score}`;
+  positionX = 0;
+  positionY = 0;
+  rotationAngle = 0;
+  items.style.transform = "none";
+
+  // Génère le premier détritus
+  randomObject = genererDetritusSelonProbabilite();
+  // foldIndex = 0 si c'est un objet pliable (images)
+  randomObject.foldIndex = 0;
+  afficherDetritus(randomObject);
+
+  // Score +1 par seconde
+  scoreInterval = setInterval(() => {
+    score += 1;
+    scoreDisplay.innerText = `Score: ${score}`;
+  }, 1000);
+
+  // Événements clavier
+  document.addEventListener("keydown", movement);
+}
+
+function stopGame() {
+  clearInterval(interval);
+  clearInterval(scoreInterval);
+  restartButton.style.display = "block";
+  document.removeEventListener("keydown", movement);
+
+  // Supprimer les poubelles dynamiques
+  document.querySelectorAll(".trash-bin.dynamic").forEach((bin) => {
+    bin.remove();
+  });
+  // Réinitialiser tbin
+  tbin = [];
+  updateTbin();
+}
+
+/* Boutons */
+startButton.addEventListener("click", startGame);
+restartButton.addEventListener("click", startGame);
+
+/* 5) Génération d'un détritus aléatoire selon probabilités */
 function genererDetritusSelonProbabilite() {
-  var tirage = Math.floor(Math.random() * 99);
-  var typeChoisi;
+  let tirage = Math.floor(Math.random() * 99);
+  let typeChoisi;
   if (tirage <= 20) typeChoisi = "plastique";
-  else if (tirage <= 40) typeChoisi = "verre";
-  else if (tirage <= 60) typeChoisi = "papier";
-  else if (tirage <= 80) typeChoisi = "organique";
-  else if (tirage <= 100) typeChoisi = "métal";
+  else if (tirage <= 30) typeChoisi = "verre";
+  else if (tirage <= 45) typeChoisi = "papier";
+  else if (tirage <= 60) typeChoisi = "organique";
+  else if (tirage <= 80) typeChoisi = "métal";
   else typeChoisi = "inerte";
 
-  var listeDetritus = assoDetritus[typeChoisi];
-  var choix = listeDetritus[Math.floor(Math.random() * listeDetritus.length)];
+  let listeDetritus = assoDetritus[typeChoisi];
+  let choix = listeDetritus[Math.floor(Math.random() * listeDetritus.length)];
+  // On renvoie un nouvel objet
   return { ...choix, type: typeChoisi };
 }
 
-/* 7) Initialiser le premier détritus (uniquement via l'image) */
-var randomObject = genererDetritusSelonProbabilite();
-items.innerHTML =
-    '<img src="' + randomObject.img + '" alt="' +
-    randomObject.nom + '" style="width:100%; height:100%; object-fit:contain;" />';
+/* Afficher le détritus (si images => foldIndex, sinon img) */
+function afficherDetritus(obj) {
+  if (obj.images) {
+    // multi-états
+    items.innerHTML = `
+      <img
+        src="${obj.images[obj.foldIndex]}"
+        alt="${obj.nom}"
+        style="width:100%; height:100%; object-fit:contain;"
+      />
+    `;
+  } else if (obj.img) {
+    // une seule image
+    items.innerHTML = `
+      <img
+        src="${obj.img}"
+        alt="${obj.nom}"
+        style="width:100%; height:100%; object-fit:contain;"
+      />
+    `;
+  }
+  // Position
+  items.style.left = positionX + "px";
+  items.style.top = positionY + "px";
+}
 
-/* 8) Incrémenter le score chaque seconde */
-setInterval(function() {
-  score += 1;
-  scoreDisplay.innerText = "Score: " + score;
-}, 1000);
-
-/* 9) Classe Poubelle : on ajoute une image */
+/* 6) Classe Poubelle & création des poubelles initiales */
 class Poubelle {
   constructor(type, id) {
     this.type = type;
@@ -230,8 +358,7 @@ class Poubelle {
     this.bin.className = "trash-bin";
     this.bin.id = id;
 
-    /* Création de l'image de poubelle */
-    var binImg = document.createElement("img");
+    let binImg = document.createElement("img");
     binImg.src = binImages[type];
     binImg.alt = type;
     this.bin.appendChild(binImg);
@@ -243,118 +370,160 @@ class Poubelle {
   }
 }
 
-/* 10) Créer deux poubelles initiales (plastique, inerte) */
 var bin1 = new Poubelle("plastique", "bin1");
 var bin2 = new Poubelle("inerte", "bin2");
 
-/* 11) Gérer le clavier (flèches + touche r) */
+/* 7) Gérer le clavier (déplacement, rotation, pliage) */
 function movement(event) {
   if (event.key === "ArrowLeft") {
     positionX = Math.max(maxLeft, positionX - speedmovement);
-  } else if (event.key === "ArrowRight") {
+  }
+  else if (event.key === "ArrowRight") {
     positionX = Math.min(maxRight, positionX + speedmovement);
-  } else if (event.key === "ArrowDown") {
+  }
+  else if (event.key === "ArrowDown") {
     positionY += 50;
-  } else if (event.key === "r") {
+  }
+  else if (event.key === "r") {
     rotationAngle += 15;
     items.style.transform = "rotate(" + rotationAngle + "deg)";
   }
-
+  // Touche "p" : plier
+  else if (event.key === "p") {
+    foldCurrentObject();
+  }
+  // Met à jour l'affichage position
   items.style.left = positionX + "px";
   items.style.top = positionY + "px";
 }
-document.addEventListener("keydown", movement);
 
-/* 12) Mouvement automatique vers le bas */
-var interval = setInterval(moveDown, 75);
+/* Fonction pour plier l'objet (si images) */
+function foldCurrentObject() {
+  if (!randomObject.images) return; // pas pliable
+
+  // si pas au dernier état
+  if (randomObject.foldIndex < randomObject.images.length - 1) {
+    randomObject.foldIndex++;
+    // On peut par ex. donner +5 points par pli
+    score += 5;
+    scoreDisplay.innerText = `Score: ${score}`;
+    // On ré-affiche
+    afficherDetritus(randomObject);
+  }
+}
+
+/* 8) Mouvement automatique vers le bas */
+var interval = null;
+var scoreInterval = null;
+var randomObject = genererDetritusSelonProbabilite(); // détritus courant
+randomObject.foldIndex = 0;
 var tbin = [];
 
-/* Mise à jour de la liste de positions des poubelles */
+/* Mise à jour positions poubelles */
 function updateTbin() {
   tbin = [];
-  var allBins = document.querySelectorAll(".trash-bin");
-  allBins.forEach(function(bin) {
+  document.querySelectorAll(".trash-bin").forEach((bin) => {
     tbin.push(bin.getBoundingClientRect());
   });
 }
 
-/* 13) Fonction moveDown : fait descendre l'item, vérifie collisions */
+/* moveDown : descente + collisions + mer */
 function moveDown() {
   positionY += speed;
   items.style.top = positionY + "px";
 
-  /* Quand l'objet sort de l'écran, on le remet en haut */
-  if (items.getBoundingClientRect().bottom >= window.innerHeight) {
-    rotationAngle = 0;
-    items.style.transform = "none";
-    positionX = 0;
-    positionY = 0;
-    randomObject = genererDetritusSelonProbabilite();
-    items.innerHTML =
-        '<img src="' + randomObject.img + '" alt="' +
-        randomObject.nom + '" style="width:100%; height:100%; object-fit:contain;" />';
-    items.style.left = positionX + "px";
-    items.style.top = positionY + "px";
+  // Si on touche le bas du #game => "dans la mer"
+  if (items.getBoundingClientRect().bottom >= game.offsetHeight) {
+    alert("Il ne faut en aucun cas jeter ses détritus dans la mer !");
+    stopGame();
+    return;
   }
 
   updateTbin();
-  var itemRect = items.getBoundingClientRect();
+  const itemRect = items.getBoundingClientRect();
 
-  /* Vérification de collision avec chaque poubelle */
-  for (var p = 0; p < poubelles.length; p++) {
+  // Vérif collision poubelles
+  for (let p = 0; p < poubelles.length; p++) {
     if (!tbin[p]) continue;
-    var rect = tbin[p];
-    /* On touche la poubelle ET c'est la bonne ? -> Score + nouveau détritus */
+    let rect = tbin[p];
     if (
         itemRect.bottom >= rect.top &&
         itemRect.top <= rect.bottom &&
         itemRect.right >= rect.left &&
-        itemRect.left <= rect.right &&
-        randomObject.type === poubelles[p]
+        itemRect.left <= rect.right
     ) {
-      detritusCount++;
-      score += 10;
-      scoreDisplay.innerText = "Score: " + score;
+      // Bonne poubelle ?
+      if (randomObject.type === poubelles[p]) {
+        detritusCount++;
+        score += 10;
+        console.log(`Détritus triés: ${detritusCount} (bonne poubelle)`);
+        scoreDisplay.innerText = `Score: ${score}`;
+      }
+      else if (poubelles[p] === "inerte") {
+        // La poubelle "inerte" agit comme un fourre-tout
+        // On ne donne pas de points si c'est faux
+        if (randomObject.type !== "inerte") {
+          detritusCount++;
+          console.log("Mauvaise poubelle -> inerte par défaut");
+          console.log(`Détritus triés: ${detritusCount}`);
+        }
+      }
+      else {
+        // Mauvaise poubelle => on arrête
+        alert(`Mauvaise Poubelle : ${randomObject.loose}`);
+        stopGame();
+        return;
+      }
 
-      rotationAngle = 0;
-      items.style.transform = "none";
-      positionX = 0;
-      positionY = 0;
-      randomObject = genererDetritusSelonProbabilite();
-      items.innerHTML =
-          '<img src="' + randomObject.img + '" alt="' +
-          randomObject.nom + '" style="width:100%; height:100%; object-fit:contain;" />';
-      items.style.left = positionX + "px";
-      items.style.top = positionY + "px";
-
-      /* Ajout progressif de poubelles */
-      if (detritusCount === 10) {
-        addNewBin("papier", "bin3");
-        updateTbin();
-        speed = 10;
-      }
-      if (detritusCount === 20) {
-        addNewBin("verre", "bin4");
-        updateTbin();
-        speed = 15;
-      }
-      if (detritusCount === 30) {
-        addNewBin("organique", "bin5");
-        updateTbin();
-        speed = 20;
-      }
-      if (detritusCount === 40) {
-        addNewBin("métal", "bin6");
-        updateTbin();
-        speed = 25;
-      }
+      // Réinitialiser l'objet
+      resetObject();
+      // Vérifier si on doit ajouter de nouvelles poubelles
+      checkForNewBins();
     }
   }
 }
 
-/* 14) Fonction pour ajouter une nouvelle poubelle */
+/* Réinitialiser l'objet (nouveau détritus) */
+function resetObject() {
+  positionX = 0;
+  positionY = 0;
+  rotationAngle = 0;
+  items.style.transform = "none";
+
+  randomObject = genererDetritusSelonProbabilite();
+  randomObject.foldIndex = 0; // état initial de pliage
+  afficherDetritus(randomObject);
+}
+
+/* Ajouter éventuellement de nouvelles poubelles en fonction de detritusCount */
+function checkForNewBins() {
+  if (detritusCount === 5 && !document.getElementById("bin3")) {
+    console.log("Ajout de la poubelle papier !");
+    addNewBin("papier", "bin3");
+    speed = 10;
+  }
+  if (detritusCount === 10 && !document.getElementById("bin4")) {
+    console.log("Ajout de la poubelle verre !");
+    addNewBin("verre", "bin4");
+    speed = 10;
+  }
+  if (detritusCount === 15 && !document.getElementById("bin5")) {
+    console.log("Ajout de la poubelle organique !");
+    addNewBin("organique", "bin5");
+    speed = 15;
+  }
+  if (detritusCount === 20 && !document.getElementById("bin6")) {
+    console.log("Ajout de la poubelle métal !");
+    addNewBin("métal", "bin6");
+    speed = 1;
+  }
+}
+
+/* Ajouter une nouvelle poubelle dynamique */
 function addNewBin(type, id) {
-  var newBin = new Poubelle(type, id);
+  console.log(`Nouvelle poubelle : ${type}`);
+  let newBin = new Poubelle(type, id);
+  newBin.bin.classList.add("dynamic");
   poubelles.push(type);
-  updateTbin();
+  tbin.push(newBin.getBoundingClientRect());
 }
