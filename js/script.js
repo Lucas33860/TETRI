@@ -360,7 +360,44 @@ restartButton.className = "button restart-button";
 restartButton.style.display = "none"; // Cacher le bouton de relance au début
 document.body.appendChild(restartButton);
 
+<<<<<<< Updated upstream
 // Fonction pour démarrer le jeu
+=======
+/* Paramètres de déplacement & chute */
+var positionY = 0;
+var positionX = 0;
+var speed = 5; // vitesse de chute
+var speedmovement = 50; // déplacement horizontal
+var interval; // pour moveDown
+var scoreInterval; // pour +1 point par seconde
+var detritusCount = 0; // nombre de détritus triés
+var rotationAngle = 0;
+
+/* Limites latérales */
+var gameWidth = game.offsetWidth;
+var itemWidth = items.offsetWidth;
+var maxLeft = -gameWidth + itemWidth;
+var maxRight = gameWidth - itemWidth;
+
+/* Observer redimensionnement */
+const resizeObserver = new ResizeObserver(() => {
+  gameWidth = game.offsetWidth;
+  maxLeft = -gameWidth + itemWidth;
+  maxRight = gameWidth - itemWidth;
+});
+resizeObserver.observe(game);
+
+/* Empêcher le débordement en bas */
+function preventOverflow() {
+  if (positionY + items.offsetHeight > game.offsetHeight) {
+    positionY = game.offsetHeight - items.offsetHeight;
+    items.style.top = positionY + "px";
+    preventOverflow();
+  }
+}
+
+/* Fonctions Start / Stop */
+>>>>>>> Stashed changes
 function startGame() {
   items.style.display = "block"; // Rendre l'élément invisible au début
   interval = setInterval(moveDown, 75);
@@ -479,7 +516,10 @@ function movement(event) {
   } else if (event.key === "ArrowRight") {
     positionX = Math.min(maxRight, positionX + speedmovement);
   } else if (event.key === "ArrowDown") {
-    positionY += 50;
+    positionY = Math.min(
+      game.offsetHeight - items.offsetHeight,
+      positionY + 50
+    );
   } else if (event.key === "r") {
     rotationAngle += 15;
     items.style.transform = "rotate(" + rotationAngle + "deg)";
