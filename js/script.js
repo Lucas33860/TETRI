@@ -1,14 +1,14 @@
 /*
 script.js
 Code complet pour :
- - Tri des détritus (images) + Pliage pour la canette et le carton
- - Déplacement (flèches), rotation (touche r), pliage (touche p)
- - Score (temps + tri + pli)
- - Boutons Start/Restart
+ - Tri des détritus
+ - Déplacement (flèches), rotation (touche r)
+ - Score
  - Ajout progressif de poubelles
+ - Affichage via images (poubelles + détritus)
 */
 
-/* 1) Images des poubelles */
+/* 1) Mapping des images de poubelles */
 const binImages = {
   plastique: "assets/Poubelle/bin_plastique.svg",
   inerte: "assets/Poubelle/bin_inerte.svg",
@@ -18,165 +18,159 @@ const binImages = {
   métal: "assets/Poubelle/bin_metal.svg",
 };
 
-/*
-2) Tableau associatif des détritus
-   Remarque :
-   - Les objets pliables ont un champ "images" (tableau)
-   - Les autres ont un champ "img" (unique)
-   - On garde "loose" pour le message d’erreur en cas de mauvaise poubelle
-*/
-/* 1) Tableau associatif des détritus fusionné */
+/* 2) Tableau associatif des détritus (avec images) */
 let assoDetritus = {
   plastique: [
     {
       nom: "Bouteille plastique",
       interaction: 1,
       weight: 10,
+<<<<<<< HEAD
       img: "assets/plastique/bouteille soda plastique.svg",
       loose:
         "Jeter ces bouteilles en plastique contribue à la dégradation de la biodiversité",
+=======
+      img: "assets/plastique/bouteille soda plastique.svg"
+>>>>>>> parent of e243c7d (refactor: enhance game mechanics with folding feature and dynamic bin addition)
     },
     {
       nom: "Sac plastique",
       interaction: 1,
       weight: 30,
-      img: "assets/plastique/sac plastique.svg",
-      loose: "Les sacs plastiques sont très polluants pour l'environnement",
+      img: "assets/plastique/sac plastique.svg"
     },
     {
       nom: "Dentifrice",
       interaction: 1,
       weight: 10,
-      img: "assets/plastique/DENTIFRICE.svg",
+      img: "assets/plastique/DENTIFRICE.svg"
     },
     {
       nom: "Sac plastique 2",
       interaction: 1,
       weight: 30,
-      img: "assets/plastique/Sac plastique 2.svg",
+      img: "assets/plastique/Sac plastique 2.svg"
     },
     {
       nom: "Gel Douche",
       interaction: 1,
       weight: 30,
-      img: "assets/plastique/gel douche.svg",
-    },
+      img: "assets/plastique/gel douche.svg"
+    }
   ],
   verre: [
     {
       nom: "Bouteille de bière",
       interaction: 0,
       weight: 15,
-      img: "assets/Verre/Biere.svg",
+      img: "assets/Verre/Biere.svg"
     },
     {
       nom: "Bouteille de vin",
       interaction: 0,
       weight: 20,
+<<<<<<< HEAD
       img: "assets/Verre/Vin.svg",
       loose: "Les bouteilles en verre sont recyclables",
     },
+=======
+      img: "assets/Verre/Vin.svg"
+    }
+>>>>>>> parent of e243c7d (refactor: enhance game mechanics with folding feature and dynamic bin addition)
   ],
   papier: [
     {
       nom: "Journal",
       interaction: 2,
       weight: 5,
-      img: "assets/papier/Journal.svg",
-      loose: "Les journaux sont recyclables",
+      img: "assets/papier/Journal.svg"
     },
     {
       nom: "Affiche",
       interaction: 2,
       weight: 5,
-      img: "assets/papier/affiche.svg",
-    },
-
-    {
-      nom: "Carton d'emballage",
-      interaction: 2,
-      weight: 15,
-      images: [
-        "assets/papier/carton/Carton 1.svg",
-        "assets/papier/carton/Carton 2.svg",
-        "assets/papier/carton/Carton 3.svg",
-      ],
-      loose: "Les cartons d'emballage sont recyclables",
-    },
+      img: "assets/papier/affiche.svg"
+    }
   ],
   organique: [
     {
       nom: "Noix",
       interaction: 0,
       weight: 10,
-      img: "assets/organique/Noix.svg",
+      img: "assets/organique/Noix.svg"
     },
     {
       nom: "Pain",
       interaction: 0,
       weight: 10,
-      img: "assets/organique/Pain.svg",
+      img: "assets/organique/Pain.svg"
     },
     {
       nom: "Pomme",
       interaction: 0,
       weight: 10,
-      img: "assets/organique/Pomme.svg",
+      img: "assets/organique/Pomme.svg"
     },
     {
       nom: "Sachet de thé",
       interaction: 0,
       weight: 10,
-      img: "assets/organique/sachet de thé.svg",
-    },
+      img: "assets/organique/sachet de thé.svg"
+    }
   ],
   métal: [
     {
       nom: "Boite de conserve",
       interaction: 2,
+<<<<<<< HEAD
       weight: 15,
       img: "assets/Métal/boite de conserve.svg",
       loose: "Les boîtes de conserve sont recyclables",
     },
+=======
+      weight: 10,
+      img: "assets/Métal/boite de conserve.svg"
+    }
+>>>>>>> parent of e243c7d (refactor: enhance game mechanics with folding feature and dynamic bin addition)
   ],
   inerte: [
     {
       nom: "Chips",
       interaction: 0,
       weight: 20,
-      img: "assets/inerte/Chips.svg",
+      img: "assets/inerte/Chips.svg"
     },
     {
       nom: "Mouchoir",
       interaction: 0,
       weight: 20,
-      img: "assets/inerte/Mouchoir.svg",
+      img: "assets/inerte/Mouchoir.svg"
     },
     {
       nom: "orange",
       interaction: 0,
       weight: 20,
-      img: "assets/inerte/orange.svg",
+      img: "assets/inerte/orange.svg"
     },
     {
       nom: "OS",
       interaction: 0,
       weight: 20,
-      img: "assets/inerte/os.svg",
+      img: "assets/inerte/os.svg"
     },
     {
       nom: "Pizza",
       interaction: 0,
       weight: 20,
-      img: "assets/inerte/Pizza.svg",
+      img: "assets/inerte/Pizza.svg"
     },
     {
       nom: "Steak",
       interaction: 0,
       weight: 20,
-      img: "assets/inerte/Steak.svg",
-    },
-  ],
+      img: "assets/inerte/Steak.svg"
+    }
+  ]
 };
 
 /* 3) Les types de poubelles possibles */
@@ -186,7 +180,7 @@ var poubelles = [
   "papier",
   "verre",
   "organique",
-  "métal",
+  "métal"
 ];
 
 /* 4) Variables globales et récupération d'éléments DOM */
@@ -198,42 +192,36 @@ scoreDisplay.className = "score-display";
 scoreDisplay.innerText = "Score: " + score;
 document.querySelector(".score").appendChild(scoreDisplay);
 
-/* Ajout des boutons start / restart dans la page */
-var startButton = document.createElement("button");
-startButton.innerText = "Démarrer le jeu";
-startButton.className = "button start-button";
-document.body.appendChild(startButton);
-
-var restartButton = document.createElement("button");
-restartButton.innerText = "Relancer le jeu";
-restartButton.className = "button restart-button";
-restartButton.style.display = "none";
-document.body.appendChild(restartButton);
-
-/* Paramètres de déplacement & chute */
 var positionY = 0;
 var positionX = 0;
+<<<<<<< HEAD
 var speed = 5; // vitesse de chute
 var speedmovement = 50; // déplacement horizontal
 var interval; // pour moveDown
 var scoreInterval; // pour +1 point par seconde
 var detritusCount = 0; // nombre de détritus triés
+=======
+var speed = 5;
+var speedmovement = 50;
+var detritusCount = 0;
+>>>>>>> parent of e243c7d (refactor: enhance game mechanics with folding feature and dynamic bin addition)
 var rotationAngle = 0;
 
-/* Limites latérales */
+/* Pour limiter le déplacement latéral */
 var gameWidth = game.offsetWidth;
 var itemWidth = items.offsetWidth;
 var maxLeft = -gameWidth + itemWidth;
 var maxRight = gameWidth - itemWidth;
 
-/* Observer redimensionnement */
-const resizeObserver = new ResizeObserver(() => {
+/* 5) Observer le redimensionnement de #game */
+const resizeObserver = new ResizeObserver(function() {
   gameWidth = game.offsetWidth;
   maxLeft = -gameWidth + itemWidth;
   maxRight = gameWidth - itemWidth;
 });
 resizeObserver.observe(game);
 
+<<<<<<< HEAD
 /* Empêcher le débordement en bas */
 function preventOverflow() {
   if (positionY + items.offsetHeight > game.offsetHeight) {
@@ -296,6 +284,9 @@ startButton.addEventListener("click", startGame);
 restartButton.addEventListener("click", startGame);
 
 /* 5) Génération d'un détritus aléatoire selon probabilités */
+=======
+/* 6) Générer un détritus aléatoirement selon des probabilités */
+>>>>>>> parent of e243c7d (refactor: enhance game mechanics with folding feature and dynamic bin addition)
 function genererDetritusSelonProbabilite() {
   var tirage = Math.floor(Math.random() * 99);
   var typeChoisi;
@@ -311,32 +302,21 @@ function genererDetritusSelonProbabilite() {
   return { ...choix, type: typeChoisi };
 }
 
-/* Afficher le détritus (si images => foldIndex, sinon img) */
-function afficherDetritus(obj) {
-  if (obj.images) {
-    // multi-états
-    items.innerHTML = `
-      <img
-        src="${obj.images[obj.foldIndex]}"
-        alt="${obj.nom}"
-        style="width:100%; height:100%; object-fit:contain;"
-      />
-    `;
-  } else if (obj.img) {
-    // une seule image
-    items.innerHTML = `
-      <img
-        src="${obj.img}"
-        alt="${obj.nom}"
-        style="width:100%; height:100%; object-fit:contain;"
-      />
-    `;
-  }
-  // Position
-  items.style.left = positionX + "px";
-  items.style.top = positionY + "px";
-}
+/* 7) Initialiser le premier détritus (uniquement via l'image) */
+var randomObject = genererDetritusSelonProbabilite();
+items.innerHTML =
+    '<img src="' + randomObject.img + '" alt="' +
+    randomObject.nom + '" style="width:100%; height:100%; object-fit:contain;" />';
 
+<<<<<<< HEAD
+=======
+/* 8) Incrémenter le score chaque seconde */
+setInterval(function() {
+  score += 1;
+  scoreDisplay.innerText = "Score: " + score;
+}, 1000);
+
+>>>>>>> parent of e243c7d (refactor: enhance game mechanics with folding feature and dynamic bin addition)
 /* 9) Classe Poubelle : on ajoute une image */
 class Poubelle {
   constructor(type, id) {
@@ -369,10 +349,14 @@ function movement(event) {
   } else if (event.key === "ArrowRight") {
     positionX = Math.min(maxRight, positionX + speedmovement);
   } else if (event.key === "ArrowDown") {
+<<<<<<< HEAD
     positionY = Math.min(
       game.offsetHeight - items.offsetHeight,
       positionY + 50
     );
+=======
+    positionY += 50;
+>>>>>>> parent of e243c7d (refactor: enhance game mechanics with folding feature and dynamic bin addition)
   } else if (event.key === "r") {
     rotationAngle += 15;
     items.style.transform = "rotate(" + rotationAngle + "deg)";
@@ -390,7 +374,8 @@ var tbin = [];
 /* Mise à jour de la liste de positions des poubelles */
 function updateTbin() {
   tbin = [];
-  document.querySelectorAll(".trash-bin").forEach((bin) => {
+  var allBins = document.querySelectorAll(".trash-bin");
+  allBins.forEach(function(bin) {
     tbin.push(bin.getBoundingClientRect());
   });
 }
@@ -400,23 +385,40 @@ function moveDown() {
   positionY += speed;
   items.style.top = positionY + "px";
 
+<<<<<<< HEAD
   // Si on touche le bas du #game => "dans la mer"
   if (items.getBoundingClientRect().bottom >= game.offsetHeight) {
     clearInterval(interval); // Stoppe le mouvement immédiatement
     alert("Il ne faut en aucun cas jeter ses détritus dans la mer !");
     stopGame();
     return;
+=======
+  /* Quand l'objet sort de l'écran, on le remet en haut */
+  if (items.getBoundingClientRect().bottom >= window.innerHeight) {
+    rotationAngle = 0;
+    items.style.transform = "none";
+    positionX = 0;
+    positionY = 0;
+    randomObject = genererDetritusSelonProbabilite();
+    items.innerHTML =
+        '<img src="' + randomObject.img + '" alt="' +
+        randomObject.nom + '" style="width:100%; height:100%; object-fit:contain;" />';
+    items.style.left = positionX + "px";
+    items.style.top = positionY + "px";
+>>>>>>> parent of e243c7d (refactor: enhance game mechanics with folding feature and dynamic bin addition)
   }
   updateTbin(); // Mise à jour immédiate des positions des poubelles
 
   updateTbin();
-  const itemRect = items.getBoundingClientRect();
+  var itemRect = items.getBoundingClientRect();
 
-  // Vérif collision poubelles
-  for (let p = 0; p < poubelles.length; p++) {
+  /* Vérification de collision avec chaque poubelle */
+  for (var p = 0; p < poubelles.length; p++) {
     if (!tbin[p]) continue;
-    let rect = tbin[p];
+    var rect = tbin[p];
+    /* On touche la poubelle ET c'est la bonne ? -> Score + nouveau détritus */
     if (
+<<<<<<< HEAD
       itemRect.bottom >= rect.top &&
       itemRect.top <= rect.bottom &&
       itemRect.right >= rect.left &&
@@ -442,56 +444,57 @@ function moveDown() {
         stopGame();
         return;
       }
+=======
+        itemRect.bottom >= rect.top &&
+        itemRect.top <= rect.bottom &&
+        itemRect.right >= rect.left &&
+        itemRect.left <= rect.right &&
+        randomObject.type === poubelles[p]
+    ) {
+      detritusCount++;
+      score += 10;
+      scoreDisplay.innerText = "Score: " + score;
+>>>>>>> parent of e243c7d (refactor: enhance game mechanics with folding feature and dynamic bin addition)
 
-      // Réinitialiser l'objet
-      resetObject();
-      // Vérifier si on doit ajouter de nouvelles poubelles
-      checkForNewBins();
+      rotationAngle = 0;
+      items.style.transform = "none";
+      positionX = 0;
+      positionY = 0;
+      randomObject = genererDetritusSelonProbabilite();
+      items.innerHTML =
+          '<img src="' + randomObject.img + '" alt="' +
+          randomObject.nom + '" style="width:100%; height:100%; object-fit:contain;" />';
+      items.style.left = positionX + "px";
+      items.style.top = positionY + "px";
+
+      /* Ajout progressif de poubelles */
+      if (detritusCount === 10) {
+        addNewBin("papier", "bin3");
+        updateTbin();
+        speed = 10;
+      }
+      if (detritusCount === 20) {
+        addNewBin("verre", "bin4");
+        updateTbin();
+        speed = 15;
+      }
+      if (detritusCount === 30) {
+        addNewBin("organique", "bin5");
+        updateTbin();
+        speed = 20;
+      }
+      if (detritusCount === 40) {
+        addNewBin("métal", "bin6");
+        updateTbin();
+        speed = 25;
+      }
     }
   }
 }
 
-/* Réinitialiser l'objet (nouveau détritus) */
-function resetObject() {
-  positionX = 0;
-  positionY = 0;
-  rotationAngle = 0;
-  items.style.transform = "none";
-
-  randomObject = genererDetritusSelonProbabilite();
-  randomObject.foldIndex = 0; // état initial de pliage
-  afficherDetritus(randomObject);
-}
-
-/* Ajouter éventuellement de nouvelles poubelles en fonction de detritusCount */
-function checkForNewBins() {
-  if (detritusCount === 5 && !document.getElementById("bin3")) {
-    console.log("Ajout de la poubelle papier !");
-    addNewBin("papier", "bin3");
-    speed = 10;
-  }
-  if (detritusCount === 10 && !document.getElementById("bin4")) {
-    console.log("Ajout de la poubelle verre !");
-    addNewBin("verre", "bin4");
-    speed = 10;
-  }
-  if (detritusCount === 15 && !document.getElementById("bin5")) {
-    console.log("Ajout de la poubelle organique !");
-    addNewBin("organique", "bin5");
-    speed = 15;
-  }
-  if (detritusCount === 20 && !document.getElementById("bin6")) {
-    console.log("Ajout de la poubelle métal !");
-    addNewBin("métal", "bin6");
-    speed = 1;
-  }
-}
-
-/* Ajouter une nouvelle poubelle dynamique */
+/* 14) Fonction pour ajouter une nouvelle poubelle */
 function addNewBin(type, id) {
-  console.log(`Nouvelle poubelle : ${type}`);
-  let newBin = new Poubelle(type, id);
-  newBin.bin.classList.add("dynamic");
+  var newBin = new Poubelle(type, id);
   poubelles.push(type);
-  tbin.push(newBin.getBoundingClientRect());
+  updateTbin();
 }
