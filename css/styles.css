@@ -90,7 +90,6 @@
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
 }
 
 /* L'image de la poubelle prend toute la place */
@@ -98,6 +97,13 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: black;
 }
 
 .button {

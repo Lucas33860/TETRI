@@ -231,6 +231,7 @@ function startGame() {
   startButton.style.display = "none";
   restartButton.style.display = "none";
 
+  detritusCount = 0;
   score = 0;
   scoreDisplay.innerText = `Score: ${score}`;
 
@@ -319,15 +320,19 @@ class Poubelle {
   constructor(type, id) {
     this.type = type;
     this.bin = document.createElement("div");
-    this.bin.className = "trash-bin";
+    this.bin.className = "trash-bin text";
     this.bin.id = id;
 
     /* Création de l'image de poubelle */
     var binImg = document.createElement("img");
     binImg.src = binImages[type];
     binImg.alt = type;
-
     this.bin.appendChild(binImg);
+
+    /* Ajout du texte */
+    var binText = document.createElement("p");
+    binText.innerText = type;
+    this.bin.appendChild(binText);
 
     document.querySelector(".bins").appendChild(this.bin);
   }
