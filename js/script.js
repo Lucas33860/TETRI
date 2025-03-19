@@ -220,14 +220,14 @@ var scoreInterval; // pour +1 point par seconde
 var detritusCount = 0; // nombre de détritus triés
 var rotationAngle = 0;
 
-/* Pour limiter le déplacement latéral */
+/* Limites latérales */
 var gameWidth = game.offsetWidth;
 var itemWidth = items.offsetWidth;
 var maxLeft = -gameWidth + itemWidth;
 var maxRight = gameWidth - itemWidth;
 
-/* 5) Observer le redimensionnement de #game */
-const resizeObserver = new ResizeObserver(function () {
+/* Observer redimensionnement */
+const resizeObserver = new ResizeObserver(() => {
   gameWidth = game.offsetWidth;
   maxLeft = -gameWidth + itemWidth;
   maxRight = gameWidth - itemWidth;
@@ -278,6 +278,9 @@ function stopGame() {
   clearInterval(scoreInterval);
   restartButton.style.display = "block";
   document.removeEventListener("keydown", movement);
+
+  // Masquer l'élément items
+  items.style.display = "none";
 
   // Supprimer les poubelles dynamiques
   document.querySelectorAll(".trash-bin.dynamic").forEach((bin) => {
@@ -366,7 +369,10 @@ function movement(event) {
   } else if (event.key === "ArrowRight") {
     positionX = Math.min(maxRight, positionX + speedmovement);
   } else if (event.key === "ArrowDown") {
-    positionY += 50;
+    positionY = Math.min(
+      game.offsetHeight - items.offsetHeight,
+      positionY + 50
+    );
   } else if (event.key === "r") {
     rotationAngle += 15;
     items.style.transform = "rotate(" + rotationAngle + "deg)";
@@ -396,6 +402,7 @@ function moveDown() {
 
   // Si on touche le bas du #game => "dans la mer"
   if (items.getBoundingClientRect().bottom >= game.offsetHeight) {
+    clearInterval(interval); // Stoppe le mouvement immédiatement
     alert("Il ne faut en aucun cas jeter ses détritus dans la mer !");
     stopGame();
     return;
