@@ -1,3 +1,4 @@
+/* Conteneur principal */
 .container {
   width: 100vw;
   height: 100vh;
@@ -6,64 +7,56 @@
   min-height: 100vh;
 }
 
+/* L'objet "item" : retiré le background-color rouge */
 .item {
   width: 80px;
   height: 80px;
-  background-color: red;
   position: absolute;
   left: 0;
   right: 0;
   margin: 0 auto;
   min-width: 20px;
   min-height: 20px;
+  /* Plus de background-color ici */
 }
 
+/* Responsivité pour petits écrans */
 @media (max-width: 1000px) {
-  .item {
-    width: 60px;
-    height: 60px;
-  }
+  .item { width: 60px; height: 60px; }
 }
-
 @media (max-width: 800px) {
-  .item {
-    width: 50px;
-    height: 50px;
-  }
+  .item { width: 50px; height: 50px; }
 }
-
 @media (max-width: 500px) {
-  .item {
-    width: 35px;
-    height: 35px;
-  }
+  .item { width: 35px; height: 35px; }
 }
-
 @media (max-width: 400px) {
-  .item {
-    width: 25px;
-    height: 25px;
-  }
+  .item { width: 25px; height: 25px; }
 }
 
+/* La zone de jeu */
 #game {
   margin: 0 auto;
   width: 75%;
   height: 100vh;
   background-color: cyan;
   min-width: 75%;
+  position: relative;
 }
 
+/* Score */
 .score {
   position: relative;
   top: 10px;
   left: 10px;
-  font-family: "Bebas Neue", sans-serif;
+  font-family: Arial, sans-serif;
   height: 5vh;
   font-size: 2em;
   min-width: 100%;
   min-height: 20px;
 }
+
+/* Zone pour les poubelles */
 .bins {
   width: 100%;
   height: 95vh;
@@ -74,33 +67,22 @@
   min-height: 800px;
 }
 
+/* Poubelles : plus de couleurs de fond en dur,
+   on n'utilise que l'image. */
 .trash-bin {
   width: 10%;
   height: 25%;
   min-width: 50px;
   min-height: 100px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
-#bin1 {
-  background-color: red;
-}
-
-#bin2 {
-  background-color: green;
-}
-
-#bin3 {
-  background-color: blue;
-}
-
-#bin4 {
-  background-color: yellow;
-}
-
-#bin5 {
-  background-color: purple;
-}
-
-#bin6 {
-  background-color: orange;
+/* L'image de la poubelle prend toute la place */
+.trash-bin img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
