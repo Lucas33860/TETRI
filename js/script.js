@@ -37,41 +37,41 @@ let assoDetritus = {
     new Detritus(
       "Bouteille plastique",
       1,
-      10,
+      0.02,
       "assets/plastique/bouteille soda plastique.svg",
-      "Jeter ces bouteilles en plastique contribue à la dégradation de la biodiversité",
+      "Les bouteilles en plastique mettent des centaines d'années à se décomposer.",
       Math.random() < 0.5 ? 0 : 1
     ),
     new Detritus(
       "Sac plastique",
       1,
-      30,
+      0.01,
       "assets/plastique/sac plastique.svg",
-      null,
+      "Les sacs en plastique sont une menace pour la faune marine.",
       Math.random() < 0.5 ? 0 : 1
     ),
     new Detritus(
       "Dentifrice",
       1,
-      10,
+      0.05,
       "assets/plastique/DENTIFRICE.svg",
-      null,
+      "Les tubes de dentifrice sont souvent faits de plastique non recyclable.",
       0
     ),
     new Detritus(
       "Sac plastique 2",
       1,
-      30,
+      0.01,
       "assets/plastique/Sac plastique 2.svg",
-      null,
+      "Les sacs en plastique sont une menace pour la faune marine.",
       Math.random() < 0.5 ? 0 : 1
     ),
     new Detritus(
       "Gel Douche",
       1,
-      30,
+      0.25,
       "assets/plastique/gel douche.svg",
-      null,
+      "Les bouteilles de gel douche sont souvent faites de plastique non recyclable.",
       Math.random() < 0.5 ? 0 : 1
     ),
   ],
@@ -79,17 +79,17 @@ let assoDetritus = {
     new Detritus(
       "Bouteille de bière",
       0,
-      15,
+      0.5,
       "assets/Verre/Biere.svg",
-      null,
+      "Les bouteilles en verre sont 100% recyclables.",
       Math.random() < 0.5 ? 0 : 1
     ),
     new Detritus(
       "Bouteille de vin",
       0,
-      20,
+      0.75,
       "assets/Verre/Vin.svg",
-      "Les bouteilles en verre sont recyclables",
+      "Les bouteilles en verre sont 100% recyclables.",
       Math.random() < 0.5 ? 0 : 1
     ),
   ],
@@ -97,42 +97,64 @@ let assoDetritus = {
     new Detritus(
       "Journal",
       2,
-      5,
+      0.2,
       "assets/papier/Journal.svg",
-      null,
+      "Le papier peut être recyclé plusieurs fois.",
       Math.random() < 0.5 ? 0 : 1
     ),
     new Detritus(
       "Affiche",
       2,
-      5,
+      0.1,
       "assets/papier/affiche.svg",
-      null,
+      "Le papier peut être recyclé plusieurs fois.",
       Math.random() < 0.5 ? 0 : 1
     ),
-    new Detritus("Carton d'emballage", 2, 15, null, null, 0, [
-      "assets/papier/carton/Carton 1.svg",
-      "assets/papier/carton/Carton 2.svg",
-      "assets/papier/carton/Carton 3.svg",
-    ]),
+    new Detritus(
+      "Carton d'emballage",
+      2,
+      0.5,
+      null,
+      "Le carton est recyclable.",
+      0,
+      [
+        "assets/papier/carton/Carton 1.svg",
+        "assets/papier/carton/Carton 2.svg",
+        "assets/papier/carton/Carton 3.svg",
+      ]
+    ),
   ],
   organique: [
-    new Detritus("Noix", 0, 10, "assets/organique/Noix.svg", null, 0),
-    new Detritus("Pain", 0, 10, "assets/organique/Pain.svg", null, 0),
+    new Detritus(
+      "Noix",
+      0,
+      0.02,
+      "assets/organique/Noix.svg",
+      "Les déchets organiques peuvent être compostés.",
+      0
+    ),
+    new Detritus(
+      "Pain",
+      0,
+      0.1,
+      "assets/organique/Pain.svg",
+      "Les déchets organiques peuvent être compostés.",
+      0
+    ),
     new Detritus(
       "Pomme",
       0,
-      10,
+      0.15,
       "assets/organique/Pomme.svg",
-      null,
+      "Les déchets organiques peuvent être compostés.",
       Math.random() < 0.5 ? 0 : 1
     ),
     new Detritus(
       "Sachet de thé",
       0,
-      10,
+      0.01,
       "assets/organique/sachet de thé.svg",
-      null,
+      "Les sachets de thé peuvent être compostés.",
       Math.random() < 0.5 ? 0 : 1
     ),
   ],
@@ -140,17 +162,17 @@ let assoDetritus = {
     new Detritus(
       "Boite de conserve",
       2,
-      10,
+      0.2,
       "assets/Métal/boite de conserve.svg",
-      null,
+      "Les boîtes de conserve sont recyclables.",
       0
     ),
     new Detritus(
       "Canette aluminium",
       2,
-      10,
+      0.03,
       null,
-      "Les boîtes de conserve sont recyclables",
+      "Les canettes en aluminium sont recyclables.",
       Math.random() < 0.5 ? 0 : 1,
       [
         "assets/métal/canette/Canette 3.svg",
@@ -163,49 +185,49 @@ let assoDetritus = {
     new Detritus(
       "Chips",
       0,
-      20,
+      0.05,
       "assets/inerte/Chips.svg",
-      null,
+      "Les emballages de chips ne sont pas recyclables.",
       Math.random() < 0.5 ? 0 : 1
     ),
     new Detritus(
       "Mouchoir",
       0,
-      20,
+      0.01,
       "assets/inerte/Mouchoir.svg",
-      null,
+      "Les mouchoirs en papier ne sont pas recyclables.",
       Math.random() < 0.5 ? 0 : 1
     ),
     new Detritus(
       "orange",
       0,
-      20,
+      0.2,
       "assets/inerte/orange.svg",
-      null,
+      "Les déchets organiques peuvent être compostés.",
       Math.random() < 0.5 ? 0 : 1
     ),
     new Detritus(
       "OS",
       0,
-      20,
+      0.1,
       "assets/inerte/os.svg",
-      null,
+      "Les os ne sont pas recyclables.",
       Math.random() < 0.5 ? 0 : 1
     ),
     new Detritus(
       "Pizza",
       0,
-      20,
+      0.3,
       "assets/inerte/Pizza.svg",
-      null,
+      "Les restes de pizza ne sont pas recyclables.",
       Math.random() < 0.5 ? 0 : 1
     ),
     new Detritus(
       "Steak",
       0,
-      20,
+      0.25,
       "assets/inerte/Steak.svg",
-      null,
+      "Les restes de viande ne sont pas recyclables.",
       Math.random() < 0.5 ? 0 : 1
     ),
   ],
@@ -543,24 +565,27 @@ function moveDown() {
       items.style.top = positionY + "px";
 
       /* Ajout progressif de poubelles */
-      if (detritusCount === 5) {
+      if (detritusCount === 3) {
         addNewBin("papier", "bin3");
         updateTbin();
         speed = 10;
       }
-      if (detritusCount === 10) {
+      if (detritusCount === 8) {
         addNewBin("verre", "bin4");
         updateTbin();
         speed = 12;
       }
-      if (detritusCount === 15) {
+      if (detritusCount === 13) {
         addNewBin("organique", "bin5");
         updateTbin();
         speed = 15;
       }
-      if (detritusCount === 20) {
+      if (detritusCount === 16) {
         addNewBin("métal", "bin6");
         updateTbin();
+        speed = 15;
+      }
+      if (detritusCount === 30) {
         speed = 20;
       }
     }
@@ -594,12 +619,12 @@ var wasteChart = new Chart(ctx, {
         label: "Poids (kg) par poubelle",
         data: Object.values(wasteWeights),
         backgroundColor: [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56",
-          "#4BC0C0",
-          "#9966FF",
-          "#FF9F40",
+          "#D0B711",
+          "#2513B0",
+          "#BE1C1C",
+          "#216623",
+          "#BF6B24",
+          "#494848",
         ],
         borderRadius: 8, // Ajoute des bords arrondis pour un meilleur rendu
       },
