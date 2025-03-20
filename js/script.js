@@ -279,6 +279,7 @@ function preventOverflow() {
 
 /* Fonctions Start / Stop */
 function startGame() {
+  resetWasteWeights();
   items.style.display = "block";
   interval = setInterval(moveDown, 75);
   startButton.style.display = "none";
@@ -345,8 +346,8 @@ function genererDetritusSelonProbabilite() {
   if (tirage <= 20) typeChoisi = "plastique";
   else if (tirage <= 40) typeChoisi = "verre";
   else if (tirage <= 60) typeChoisi = "papier";
-  else if (tirage <= 80) typeChoisi = "organique";
-  else if (tirage <= 100) typeChoisi = "métal";
+  else if (tirage <= 75) typeChoisi = "organique";
+  else if (tirage <= 80) typeChoisi = "métal";
   else typeChoisi = "inerte";
 
   var listeDetritus = assoDetritus[typeChoisi];
@@ -508,6 +509,7 @@ function moveDown() {
         score += 10; // 10 points for the correct bin
         console.log(`Détritus triés: ${detritusCount} (bonne poubelle)`);
         scoreDisplay.innerText = `Score: ${score}`;
+        addWaste(randomObject.type, randomObject.weight);
         if (
           randomObject.orientation === 1 &&
           (rotationAngle === 90 || rotationAngle === 270)
@@ -570,4 +572,84 @@ function addNewBin(type, id) {
   new Poubelle(type, id);
   poubelles.push(type);
   updateTbin();
+}
+
+var wasteWeights = {
+  plastique: 0,
+  papier: 0,
+  métal: 0,
+  verre: 0,
+  organique: 0,
+  inerte: 0,
+};
+
+var ctx = document.getElementById("wasteChart").getContext("2d");
+
+var wasteChart = new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: ["Plastique", "Papier", "Métal", "Verre", "Organique", "Inerte"],
+    datasets: [
+      {
+        label: "Poids (kg) par poubelle",
+        data: Object.values(wasteWeights),
+        backgroundColor: [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#9966FF",
+          "#FF9F40",
+        ],
+        borderRadius: 8, // Ajoute des bords arrondis pour un meilleur rendu
+      },
+    ],
+  },
+  options: {
+    indexAxis: "y", // Affichage horizontal
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true }, // Affiche la légende "Poids (kg) par poubelle"
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            return context.raw + " kg"; // Affiche le poids clairement
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        grid: { color: "rgba(200, 200, 200, 0.3)" },
+        ticks: { color: "#FFF", font: { size: 14 } }, // Texte lisible
+      },
+      y: {
+        ticks: { color: "#FFF", font: { size: 14 } }, // Texte lisible
+      },
+    },
+  },
+});
+
+// Mise à jour dynamique pendant le jeu
+function updateWasteChart() {
+  wasteChart.data.datasets[0].data = Object.values(wasteWeights);
+  wasteChart.update();
+}
+
+function addWaste(type, weight) {
+  if (wasteWeights.hasOwnProperty(type)) {
+    wasteWeights[type] += weight;
+    updateWasteChart(); // Met à jour le graphique instantanément
+  }
+}
+
+function resetWasteWeights() {
+  for (let type in wasteWeights) {
+    if (wasteWeights.hasOwnProperty(type)) {
+      wasteWeights[type] = 0;
+    }
+  }
+  updateWasteChart();
 }
