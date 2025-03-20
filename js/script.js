@@ -19,6 +19,16 @@ const binImages = {
   métal: "assets/Poubelle/bin_metal.svg",
 };
 
+/* Mapping des couleurs des poubelles */
+const binColors = {
+  plastique: "jaune",
+  inerte: "gray",
+  papier: "blue",
+  verre: "green",
+  organique: "brown",
+  métal: "red",
+};
+
 /* 2) Tableau associatif des détritus (avec images) */
 let assoDetritus = {
   plastique: [
@@ -369,6 +379,7 @@ function afficherDetritus(obj) {
   let orientationStyle = "width: 80px; height: 80px;";
   items.style.transform =
     obj.orientation === 0 ? "rotate(0deg)" : "rotate(90deg)";
+  items.style.border = `5px solid ${binColors[obj.type]}`; // Ajouter la bordure colorée
   console.log(
     "Orientation de l'objet:",
     obj.orientation === 0 ? "Verticale" : "Horizontale"

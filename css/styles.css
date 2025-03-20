@@ -17,6 +17,7 @@
   margin: 0 auto;
   min-width: 20px;
   min-height: 20px;
+
   /* Plus de background-color ici */
 }
 
@@ -88,8 +89,8 @@
   min-width: 50px;
   min-height: 100px;
   position: relative;
-  display: flex;
   justify-content: center;
+  gap: 15px;
 }
 
 /* L'image de la poubelle prend toute la place */
