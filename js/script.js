@@ -19,195 +19,195 @@ const binImages = {
   métal: "assets/Poubelle/bin_metal.svg",
 };
 
-/* Mapping des couleurs des poubelles */
-const binColors = {
-  plastique: "jaune",
-  inerte: "gray",
-  papier: "blue",
-  verre: "green",
-  organique: "brown",
-  métal: "red",
-};
-
 /* 2) Tableau associatif des détritus (avec images) */
+class Detritus {
+  constructor(nom, interaction, weight, img, loose, orientation, images) {
+    this.nom = nom;
+    this.interaction = interaction;
+    this.weight = weight;
+    this.img = img;
+    this.loose = loose;
+    this.orientation = orientation;
+    this.images = images;
+  }
+}
+
 let assoDetritus = {
   plastique: [
-    {
-      nom: "Bouteille plastique",
-      interaction: 1,
-      weight: 10,
-      img: "assets/plastique/bouteille soda plastique.svg",
-      loose:
-        "Jeter ces bouteilles en plastique contribue à la dégradation de la biodiversité",
-      orientation: Math.random() < 0.5 ? 0 : 1, // 0: vertical, 1: horizontal
-    },
-    {
-      nom: "Sac plastique",
-      interaction: 1,
-      weight: 30,
-      img: "assets/plastique/sac plastique.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Dentifrice",
-      interaction: 1,
-      weight: 10,
-      img: "assets/plastique/DENTIFRICE.svg",
-      orientation: 0,
-    },
-    {
-      nom: "Sac plastique 2",
-      interaction: 1,
-      weight: 30,
-      img: "assets/plastique/Sac plastique 2.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Gel Douche",
-      interaction: 1,
-      weight: 30,
-      img: "assets/plastique/gel douche.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
+    new Detritus(
+      "Bouteille plastique",
+      1,
+      10,
+      "assets/plastique/bouteille soda plastique.svg",
+      "Jeter ces bouteilles en plastique contribue à la dégradation de la biodiversité",
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Sac plastique",
+      1,
+      30,
+      "assets/plastique/sac plastique.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Dentifrice",
+      1,
+      10,
+      "assets/plastique/DENTIFRICE.svg",
+      null,
+      0
+    ),
+    new Detritus(
+      "Sac plastique 2",
+      1,
+      30,
+      "assets/plastique/Sac plastique 2.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Gel Douche",
+      1,
+      30,
+      "assets/plastique/gel douche.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
   ],
   verre: [
-    {
-      nom: "Bouteille de bière",
-      interaction: 0,
-      weight: 15,
-      img: "assets/Verre/Biere.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Bouteille de vin",
-      interaction: 0,
-      weight: 20,
-      img: "assets/Verre/Vin.svg",
-      loose: "Les bouteilles en verre sont recyclables",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
+    new Detritus(
+      "Bouteille de bière",
+      0,
+      15,
+      "assets/Verre/Biere.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Bouteille de vin",
+      0,
+      20,
+      "assets/Verre/Vin.svg",
+      "Les bouteilles en verre sont recyclables",
+      Math.random() < 0.5 ? 0 : 1
+    ),
   ],
   papier: [
-    {
-      nom: "Journal",
-      interaction: 2,
-      weight: 5,
-      img: "assets/papier/Journal.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Affiche",
-      interaction: 2,
-      weight: 5,
-      img: "assets/papier/affiche.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Carton d'emballage",
-      interaction: 2,
-      weight: 15,
-      images: [
-        "assets/papier/carton/Carton 1.svg",
-        "assets/papier/carton/Carton 2.svg",
-        "assets/papier/carton/Carton 3.svg",
-      ],
-      orientation: 0,
-    },
+    new Detritus(
+      "Journal",
+      2,
+      5,
+      "assets/papier/Journal.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Affiche",
+      2,
+      5,
+      "assets/papier/affiche.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus("Carton d'emballage", 2, 15, null, null, 0, [
+      "assets/papier/carton/Carton 1.svg",
+      "assets/papier/carton/Carton 2.svg",
+      "assets/papier/carton/Carton 3.svg",
+    ]),
   ],
   organique: [
-    {
-      nom: "Noix",
-      interaction: 0,
-      weight: 10,
-      img: "assets/organique/Noix.svg",
-      orientation: 0,
-    },
-    {
-      nom: "Pain",
-      interaction: 0,
-      weight: 10,
-      img: "assets/organique/Pain.svg",
-      orientation: 0,
-    },
-    {
-      nom: "Pomme",
-      interaction: 0,
-      weight: 10,
-      img: "assets/organique/Pomme.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Sachet de thé",
-      interaction: 0,
-      weight: 10,
-      img: "assets/organique/sachet de thé.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
+    new Detritus("Noix", 0, 10, "assets/organique/Noix.svg", null, 0),
+    new Detritus("Pain", 0, 10, "assets/organique/Pain.svg", null, 0),
+    new Detritus(
+      "Pomme",
+      0,
+      10,
+      "assets/organique/Pomme.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Sachet de thé",
+      0,
+      10,
+      "assets/organique/sachet de thé.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
   ],
   métal: [
-    {
-      nom: "Boite de conserve",
-      interaction: 2,
-      weight: 10,
-      img: "assets/Métal/boite de conserve.svg",
-      orientation: 0,
-    },
-    {
-      nom: "Canette aluminium",
-      interaction: 2,
-      weight: 10,
-      images: [
+    new Detritus(
+      "Boite de conserve",
+      2,
+      10,
+      "assets/Métal/boite de conserve.svg",
+      null,
+      0
+    ),
+    new Detritus(
+      "Canette aluminium",
+      2,
+      10,
+      null,
+      "Les boîtes de conserve sont recyclables",
+      Math.random() < 0.5 ? 0 : 1,
+      [
         "assets/métal/canette/Canette 3.svg",
         "assets/métal/canette/Canette 2.svg",
         "assets/métal/canette/Canette 1.svg",
-      ],
-      loose: "Les boîtes de conserve sont recyclables",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
+      ]
+    ),
   ],
   inerte: [
-    {
-      nom: "Chips",
-      interaction: 0,
-      weight: 20,
-      img: "assets/inerte/Chips.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Mouchoir",
-      interaction: 0,
-      weight: 20,
-      img: "assets/inerte/Mouchoir.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "orange",
-      interaction: 0,
-      weight: 20,
-      img: "assets/inerte/orange.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "OS",
-      interaction: 0,
-      weight: 20,
-      img: "assets/inerte/os.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Pizza",
-      interaction: 0,
-      weight: 20,
-      img: "assets/inerte/Pizza.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Steak",
-      interaction: 0,
-      weight: 20,
-      img: "assets/inerte/Steak.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
+    new Detritus(
+      "Chips",
+      0,
+      20,
+      "assets/inerte/Chips.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Mouchoir",
+      0,
+      20,
+      "assets/inerte/Mouchoir.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "orange",
+      0,
+      20,
+      "assets/inerte/orange.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "OS",
+      0,
+      20,
+      "assets/inerte/os.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Pizza",
+      0,
+      20,
+      "assets/inerte/Pizza.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Steak",
+      0,
+      20,
+      "assets/inerte/Steak.svg",
+      null,
+      Math.random() < 0.5 ? 0 : 1
+    ),
   ],
 };
 
@@ -379,7 +379,6 @@ function afficherDetritus(obj) {
   let orientationStyle = "width: 80px; height: 80px;";
   items.style.transform =
     obj.orientation === 0 ? "rotate(0deg)" : "rotate(90deg)";
-  items.style.border = `5px solid ${binColors[obj.type]}`; // Ajouter la bordure colorée
   console.log(
     "Orientation de l'objet:",
     obj.orientation === 0 ? "Verticale" : "Horizontale"
