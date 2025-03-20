@@ -28,31 +28,36 @@ let assoDetritus = {
       weight: 10,
       img: "assets/plastique/bouteille soda plastique.svg",
       loose:
-          "Jeter ces bouteilles en plastique contribue à la dégradation de la biodiversité",
+        "Jeter ces bouteilles en plastique contribue à la dégradation de la biodiversité",
+      orientation: Math.random() < 0.5 ? 0 : 1, // 0: vertical, 1: horizontal
     },
     {
       nom: "Sac plastique",
       interaction: 1,
       weight: 30,
       img: "assets/plastique/sac plastique.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Dentifrice",
       interaction: 1,
       weight: 10,
       img: "assets/plastique/DENTIFRICE.svg",
+      orientation: 0,
     },
     {
       nom: "Sac plastique 2",
       interaction: 1,
       weight: 30,
       img: "assets/plastique/Sac plastique 2.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Gel Douche",
       interaction: 1,
       weight: 30,
       img: "assets/plastique/gel douche.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
   ],
   verre: [
@@ -61,6 +66,7 @@ let assoDetritus = {
       interaction: 0,
       weight: 15,
       img: "assets/Verre/Biere.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Bouteille de vin",
@@ -68,32 +74,34 @@ let assoDetritus = {
       weight: 20,
       img: "assets/Verre/Vin.svg",
       loose: "Les bouteilles en verre sont recyclables",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
   ],
-  /* -- Tableau "papier" corrigé : simple tableau -- */
   papier: [
     {
       nom: "Journal",
       interaction: 2,
       weight: 5,
       img: "assets/papier/Journal.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Affiche",
       interaction: 2,
       weight: 5,
       img: "assets/papier/affiche.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Carton d'emballage",
       interaction: 2,
       weight: 15,
-      // Trois états de pliage
       images: [
         "assets/papier/carton/Carton 1.svg",
         "assets/papier/carton/Carton 2.svg",
         "assets/papier/carton/Carton 3.svg",
       ],
+      orientation: 0,
     },
   ],
   organique: [
@@ -102,24 +110,28 @@ let assoDetritus = {
       interaction: 0,
       weight: 10,
       img: "assets/organique/Noix.svg",
+      orientation: 0,
     },
     {
       nom: "Pain",
       interaction: 0,
       weight: 10,
       img: "assets/organique/Pain.svg",
+      orientation: 0,
     },
     {
       nom: "Pomme",
       interaction: 0,
       weight: 10,
       img: "assets/organique/Pomme.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Sachet de thé",
       interaction: 0,
       weight: 10,
       img: "assets/organique/sachet de thé.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
   ],
   métal: [
@@ -128,17 +140,19 @@ let assoDetritus = {
       interaction: 2,
       weight: 10,
       img: "assets/Métal/boite de conserve.svg",
+      orientation: 0,
     },
     {
       nom: "Canette aluminium",
       interaction: 2,
       weight: 10,
-      /* 3 états : normale, puis écrasée */
       images: [
         "assets/métal/canette/Canette 3.svg",
         "assets/métal/canette/Canette 2.svg",
         "assets/métal/canette/Canette 1.svg",
       ],
+      loose: "Les boîtes de conserve sont recyclables",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
   ],
   inerte: [
@@ -147,36 +161,42 @@ let assoDetritus = {
       interaction: 0,
       weight: 20,
       img: "assets/inerte/Chips.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Mouchoir",
       interaction: 0,
       weight: 20,
       img: "assets/inerte/Mouchoir.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "orange",
       interaction: 0,
       weight: 20,
       img: "assets/inerte/orange.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "OS",
       interaction: 0,
       weight: 20,
       img: "assets/inerte/os.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Pizza",
       interaction: 0,
       weight: 20,
       img: "assets/inerte/Pizza.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Steak",
       interaction: 0,
       weight: 20,
       img: "assets/inerte/Steak.svg",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
   ],
 };
@@ -343,8 +363,18 @@ function afficherDetritus(obj) {
     `;
   } else {
     // Fallback
-    items.innerHTML = '<div style="padding:10px;color:white;">' + obj.nom + '</div>';
+    items.innerHTML =
+      '<div style="padding:10px;color:white;">' + obj.nom + "</div>";
   }
+  let orientationStyle = "width: 80px; height: 80px;";
+  items.style.transform =
+    obj.orientation === 0 ? "rotate(0deg)" : "rotate(90deg)";
+  console.log(
+    "Orientation de l'objet:",
+    obj.orientation === 0 ? "Verticale" : "Horizontale"
+  );
+  console.log("Angle de l'objet:", rotationAngle);
+  console.log("Poubelle attendue:", obj.type);
 }
 
 /* 7) Initialiser le premier détritus (uniquement via l'image) */
@@ -385,35 +415,45 @@ var bin2 = new Poubelle("inerte", "bin2");
 function movement(event) {
   if (event.key === "ArrowLeft") {
     positionX = Math.max(maxLeft, positionX - speedmovement);
+    items.style.left = positionX + "px";
   } else if (event.key === "ArrowRight") {
     positionX = Math.min(maxRight, positionX + speedmovement);
+    items.style.left = positionX + "px";
   } else if (event.key === "ArrowDown") {
     positionY = Math.min(
-        game.offsetHeight - items.offsetHeight,
-        positionY + 50
+      game.offsetHeight - items.offsetHeight,
+      positionY + 50
     );
+    items.style.top = positionY + "px";
   } else if (event.key === "r") {
+    // Ajuste la rotation de 90°
     rotationAngle += 90;
     items.style.transform = "rotate(" + rotationAngle + "deg)";
-  }
-  // --- Touche f => pliage/écrasement ---
-  else if (event.key === "f") {
+  } else if (event.key === "f") {
     if (randomObject.images && randomObject.images.length > 1) {
       randomObject.foldIndex = randomObject.foldIndex || 0;
       if (randomObject.foldIndex < randomObject.images.length - 1) {
         randomObject.foldIndex++;
       }
-      // Pour boucler, décommentez :
-      // else {
-      //   randomObject.foldIndex = 0;
-      // }
       afficherDetritus(randomObject);
     }
   }
+  rotationAngle = rotationAngle % 360; // Assurer que l'angle reste dans [0, 360]
 
-  items.style.left = positionX + "px";
-  items.style.top = positionY + "px";
+  // Applique la rotation initiale si l'objet est horizontal
+  if (randomObject.orientation === 1) {
+    items.style.transform = `rotate(${rotationAngle + 90}deg)`;
+  } else {
+    items.style.transform = `rotate(${rotationAngle}deg)`;
+  }
+  console.log("Angle de rotation:", rotationAngle);
 }
+
+items.style.left = positionX + "px";
+items.style.top = positionY + "px";
+
+// Le listener global est retiré ici pour éviter les doublons (il est ajouté dans startGame)
+// document.addEventListener("keydown", movement);
 
 /* 12) Mouvement automatique vers le bas */
 var tbin = [];
@@ -447,47 +487,31 @@ function moveDown() {
     if (!tbin[p]) continue;
     var rect = tbin[p];
     if (
-        itemRect.bottom >= rect.top &&
-        itemRect.top <= rect.bottom &&
-        itemRect.right >= rect.left &&
-        itemRect.left <= rect.right
+      itemRect.bottom >= rect.top &&
+      itemRect.top <= rect.bottom &&
+      itemRect.right >= rect.left &&
+      itemRect.left <= rect.right
     ) {
       // ----- BONNE POUBELLE -----
       if (randomObject.type === poubelles[p]) {
         detritusCount++;
-
-        // +10 points pour bonne poubelle
-        score += 10;
-
-        // +20 si rotationAngle est 90 ou 270
-        if (rotationAngle === 90 || rotationAngle === 270) {
-          score += 20;
-        }
-
-        // +20 si l'objet est plié (foldIndex > 0)
-        if (randomObject.foldIndex && randomObject.foldIndex > 0) {
-          score += 20;
-        }
-
+        score += 10; // 10 points for the correct bin
         console.log(`Détritus triés: ${detritusCount} (bonne poubelle)`);
         scoreDisplay.innerText = `Score: ${score}`;
-      }
-      // ----- POUBELLE INERTE -----
-      else if (poubelles[p] === "inerte") {
-        // inerte par défaut
-        if (randomObject.type !== "inerte") {
-          detritusCount++;
-          console.log("Mauvaise poubelle -> inerte par défaut");
-          console.log(`Détritus triés: ${detritusCount}`);
+        if (
+          randomObject.orientation === 1 &&
+          (rotationAngle === 90 || rotationAngle === 270)
+        ) {
+          score += 25; // 25 points for correct orientation
+          console.log("Bonne orientation -> +25 points");
+          rotationAngle = 0; // Reset rotation angle after scoring
         }
-      }
-      // ----- MAUVAISE POUBELLE -----
-      else {
-        if (randomObject.loose) {
-          alert(`Mauvaise Poubelle : ${randomObject.loose}`);
-        } else {
-          alert("Mauvaise poubelle !");
-        }
+      } else if (poubelles[p] === "inerte") {
+        detritusCount++;
+        console.log("Mauvaise poubelle -> inerte par défaut");
+        console.log(`Détritus triés: ${detritusCount}`);
+      } else {
+        alert(`Mauvaise Poubelle : ${randomObject.loose}`);
         stopGame(true);
         return;
       }
