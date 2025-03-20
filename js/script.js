@@ -264,7 +264,7 @@ restartButton.style.display = "none"; // Masquer le bouton restart au départ
 var score = 0;
 var scoreDisplay = document.createElement("div");
 scoreDisplay.className = "score-display";
-scoreDisplay.innerText = "Score: " + score;
+scoreDisplay.innerText = "Score : " + score;
 document.querySelector(".score").appendChild(scoreDisplay);
 
 var positionY = 0;
