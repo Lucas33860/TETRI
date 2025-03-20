@@ -339,20 +339,35 @@ startButton.addEventListener("click", startGame);
 restartButton.addEventListener("click", startGame);
 
 /* 5) Génération d'un détritus aléatoire selon probabilités */
-function genererDetritusSelonProbabilite() {
-  var tirage = Math.floor(Math.random() * 99);
-  var typeChoisi;
-  if (tirage <= 20) typeChoisi = "plastique";
-  else if (tirage <= 40) typeChoisi = "verre";
-  else if (tirage <= 60) typeChoisi = "papier";
-  else if (tirage <= 80) typeChoisi = "organique";
-  else if (tirage <= 100) typeChoisi = "métal";
-  else typeChoisi = "inerte";
+var poubelles = ["plastique", "inerte"];
 
+/* 5) Génération d'un détritus aléatoire correspondant UNIQUEMENT aux poubelles visibles */
+function genererDetritusSelonProbabilite() {
+  // Sélection aléatoire d'un type de poubelle parmi celles disponibles actuellement
+  var typeChoisi = poubelles[Math.floor(Math.random() * poubelles.length)];
+
+  // Choisir un détritus aléatoire dans le type sélectionné
   var listeDetritus = assoDetritus[typeChoisi];
   var choix = listeDetritus[Math.floor(Math.random() * listeDetritus.length)];
+
   return { ...choix, type: typeChoisi };
 }
+
+// Fonction pour ajouter progressivement de nouvelles poubelles
+function addNewBin(type, id) {
+  new Poubelle(type, id);
+  poubelles.push(type);
+  updateTbin();
+}
+
+// Exemple de condition pour l'ajout progressif (à intégrer dans ta fonction existante)
+function gestionProgressiveDesPoubelles(detritusCount) {
+  if (detritusCount === 5) addNewBin("papier", "bin3");
+  if (detritusCount === 10) addNewBin("verre", "bin4");
+  if (detritusCount === 15) addNewBin("organique", "bin5");
+  if (detritusCount === 20) addNewBin("métal", "bin6");
+}
+
 
 /* Afficher le détritus dans l'élément items */
 /* Gère plusieurs images si obj.images existe */
