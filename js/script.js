@@ -201,7 +201,7 @@ let assoDetritus = {
     new Detritus(
       "orange",
       0,
-      20,
+      0.2,
       "assets/inerte/orange.svg",
       "Les déchets organiques peuvent être compostés.",
       Math.random() < 0.5 ? 0 : 1
@@ -211,24 +211,21 @@ let assoDetritus = {
       0,
       0.1,
       "assets/inerte/os.svg",
-      "Les os ne sont pas recyclables.",
-      Math.random() < 0.5 ? 0 : 1
+      "Les os ne sont pas recyclables."
     ),
     new Detritus(
       "Pizza",
       0,
       0.3,
       "assets/inerte/Pizza.svg",
-      "Les restes de pizza ne sont pas recyclables.",
-      Math.random() < 0.5 ? 0 : 1
+      "Les restes de pizza ne sont pas recyclables."
     ),
     new Detritus(
       "Steak",
       0,
       0.25,
       "assets/inerte/Steak.svg",
-      "Les restes de viande ne sont pas recyclables.",
-      Math.random() < 0.5 ? 0 : 1
+      "Les restes de viande ne sont pas recyclables."
     ),
   ],
 };
@@ -390,7 +387,6 @@ function gestionProgressiveDesPoubelles(detritusCount) {
   if (detritusCount === 15) addNewBin("organique", "bin5");
   if (detritusCount === 20) addNewBin("métal", "bin6");
 }
-
 
 /* Afficher le détritus dans l'élément items */
 /* Gère plusieurs images si obj.images existe */
