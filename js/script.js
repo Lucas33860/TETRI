@@ -55,6 +55,7 @@ let assoDetritus = {
       interaction: 0,
       weight: 10,
       img: "assets/plastique/DENTIFRICE.svg",
+      orientation: 0,
     },
     {
       nom: "Sac plastique 2",
@@ -107,15 +108,17 @@ let assoDetritus = {
   organique: [
     {
       nom: "Noix",
-      interaction: 1,
+      interaction: 0,
       weight: 10,
       img: "assets/organique/Noix.svg",
+      orientation: 0,
     },
     {
       nom: "Pain",
-      interaction: 1,
+      interaction: 0,
       weight: 10,
       img: "assets/organique/Pain.svg",
+      orientation: 0,
     },
     {
       nom: "Pomme",
@@ -180,9 +183,10 @@ let assoDetritus = {
     },
     {
       nom: "Steak",
-      interaction: 1,
+      interaction: 0,
       weight: 20,
       img: "assets/inerte/Steak.svg",
+      orientation: 0,
     },
   ],
 };
@@ -198,8 +202,7 @@ var poubelles = [
 ];
 
 /* 4) Variables globales et récupération d'éléments DOM */
-var items = document.getElementById("item");
-items.style.display = "none"; // Masquer l'élément items par défaut
+var items = document.querySelector(".item");
 var game = document.getElementById("game");
 
 var startButton = document.createElement("button");
@@ -231,27 +234,42 @@ var detritusCount = 0; // nombre de détritus triés
 var rotationAngle = 0;
 
 /* Pour limiter le déplacement latéral */
-var gameWidth = game.offsetWidth;
-var itemWidth = items.offsetWidth;
+var gameWidth = game.clientWidth;
+var itemWidth = items ? items.offsetWidth : 80; // Prend le premier item s'il existe, sinon 80px par défaut
+
 var maxLeft = -gameWidth + itemWidth;
 var maxRight = gameWidth - itemWidth;
 
 /* 5) Observer le redimensionnement de #game */
 const resizeObserver = new ResizeObserver(function () {
-  gameWidth = game.offsetWidth;
+  gameWidth = game.clientWidth; // Met à jour la largeur du jeu
+  itemWidth = items ? items.offsetWidth : 80; // Met à jour la largeur d'un item
+
   maxLeft = -gameWidth + itemWidth;
-  maxRight = game.offsetWidth - itemWidth;
+  maxRight = gameWidth - itemWidth;
+
+  // Vérifie que l'item reste bien dans les limites après redimensionnement
+  let itemLeft = parseInt(items.style.left || 0, 10);
+
+  if (itemLeft < maxLeft) {
+    items.style.left = maxLeft + "px";
+  } else if (itemLeft > maxRight) {
+    items.style.left = maxRight + "px";
+  }
 });
 resizeObserver.observe(game);
 
 /* Empêcher le débordement en bas */
-function preventOverflow() {
-  if (positionY + items.offsetHeight > game.offsetHeight) {
-    positionY = game.offsetHeight - items.offsetHeight;
-    items.style.top = positionY + "px";
-    preventOverflow();
+function preventOverflow(item) {
+  let positionY = parseInt(item.style.top || 0, 10);
+
+  if (positionY + item.offsetHeight > game.clientHeight) {
+    positionY = game.clientHeight - item.offsetHeight;
+    item.style.top = positionY + "px";
   }
 }
+
+
 
 /* Fonctions Start / Stop */
 function startGame() {
@@ -367,7 +385,6 @@ function afficherDetritus(obj) {
     items.innerHTML =
       '<div style="padding:10px;color:white;">' + obj.nom + "</div>";
   }
-  let orientationStyle = "width: 80px; height: 80px;";
   items.style.transform =
     obj.orientation === 0 ? "rotate(0deg)" : "rotate(90deg)";
   console.log(
