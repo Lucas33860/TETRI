@@ -3,7 +3,8 @@ script.js
 Code complet pour :
  - Tri des détritus
  - Déplacement (flèches), rotation (touche r)
- - Score
+ - Pliage (touche f) si l'objet a plusieurs images (carton, canette...)
+ - Score (+1/sec, +10 par bon tri, +20 si rotation 90 ou 270, +20 si plié)
  - Ajout progressif de poubelles
  - Affichage via images (poubelles + détritus)
 */
@@ -27,7 +28,7 @@ let assoDetritus = {
       weight: 10,
       img: "assets/plastique/bouteille soda plastique.svg",
       loose:
-        "Jeter ces bouteilles en plastique contribue à la dégradation de la biodiversité",
+          "Jeter ces bouteilles en plastique contribue à la dégradation de la biodiversité",
     },
     {
       nom: "Sac plastique",
@@ -69,6 +70,7 @@ let assoDetritus = {
       loose: "Les bouteilles en verre sont recyclables",
     },
   ],
+  /* -- Tableau "papier" corrigé : simple tableau -- */
   papier: [
     {
       nom: "Journal",
@@ -81,6 +83,17 @@ let assoDetritus = {
       interaction: 2,
       weight: 5,
       img: "assets/papier/affiche.svg",
+    },
+    {
+      nom: "Carton d'emballage",
+      interaction: 2,
+      weight: 15,
+      // Trois états de pliage
+      images: [
+        "assets/papier/carton/Carton 1.svg",
+        "assets/papier/carton/Carton 2.svg",
+        "assets/papier/carton/Carton 3.svg",
+      ],
     },
   ],
   organique: [
@@ -113,9 +126,19 @@ let assoDetritus = {
     {
       nom: "Boite de conserve",
       interaction: 2,
-      weight: 15,
+      weight: 10,
       img: "assets/Métal/boite de conserve.svg",
-      loose: "Les boîtes de conserve sont recyclables",
+    },
+    {
+      nom: "Canette aluminium",
+      interaction: 2,
+      weight: 10,
+      /* 3 états : normale, puis écrasée */
+      images: [
+        "assets/métal/canette/Canette 3.svg",
+        "assets/métal/canette/Canette 2.svg",
+        "assets/métal/canette/Canette 1.svg",
+      ],
     },
   ],
   inerte: [
@@ -244,7 +267,7 @@ function startGame() {
 
   // Génère le premier détritus
   randomObject = genererDetritusSelonProbabilite();
-  randomObject.foldIndex = 0; // initialisation si applicable
+  randomObject.foldIndex = 0; // initialisation du pliage
   afficherDetritus(randomObject);
 
   // Score +1 par seconde
@@ -253,7 +276,7 @@ function startGame() {
     scoreDisplay.innerText = `Score: ${score}`;
   }, 1000);
 
-  // Événements clavier (ajouté ici pour éviter les doublons)
+  // Événements clavier (ajoutés ici pour éviter les doublons)
   document.addEventListener("keydown", movement);
 }
 
@@ -302,20 +325,33 @@ function genererDetritusSelonProbabilite() {
 }
 
 /* Afficher le détritus dans l'élément items */
+/* Gère plusieurs images si obj.images existe */
 function afficherDetritus(obj) {
-  items.innerHTML =
-    '<img src="' +
-    obj.img +
-    '" alt="' +
-    obj.nom +
-    '" style="width:100%; height:100%; object-fit:contain;" />';
+  if (obj.images && obj.images.length > 0) {
+    let idx = obj.foldIndex || 0;
+    let safeIndex = Math.min(idx, obj.images.length - 1);
+    items.innerHTML = `
+      <img src="${obj.images[safeIndex]}"
+           alt="${obj.nom}"
+           style="width:100%; height:100%; object-fit:contain;" />
+    `;
+  } else if (obj.img) {
+    items.innerHTML = `
+      <img src="${obj.img}"
+           alt="${obj.nom}"
+           style="width:100%; height:100%; object-fit:contain;" />
+    `;
+  } else {
+    // Fallback
+    items.innerHTML = '<div style="padding:10px;color:white;">' + obj.nom + '</div>';
+  }
 }
 
 /* 7) Initialiser le premier détritus (uniquement via l'image) */
 var randomObject = genererDetritusSelonProbabilite();
 afficherDetritus(randomObject);
 
-/* 9) Classe Poubelle : on ajoute une image */
+/* 9) Classe Poubelle : on ajoute une image + texte */
 class Poubelle {
   constructor(type, id) {
     this.type = type;
@@ -329,7 +365,7 @@ class Poubelle {
     binImg.alt = type;
     this.bin.appendChild(binImg);
 
-    /* Ajout du texte */
+    /* Ajout du texte sur la poubelle (facultatif) */
     var binText = document.createElement("p");
     binText.innerText = type;
     this.bin.appendChild(binText);
@@ -345,7 +381,7 @@ class Poubelle {
 var bin1 = new Poubelle("plastique", "bin1");
 var bin2 = new Poubelle("inerte", "bin2");
 
-/* 11) Gérer le clavier (flèches + touche r) */
+/* 11) Gérer le clavier (flèches + touche r + touche f pour plier) */
 function movement(event) {
   if (event.key === "ArrowLeft") {
     positionX = Math.max(maxLeft, positionX - speedmovement);
@@ -353,19 +389,31 @@ function movement(event) {
     positionX = Math.min(maxRight, positionX + speedmovement);
   } else if (event.key === "ArrowDown") {
     positionY = Math.min(
-      game.offsetHeight - items.offsetHeight,
-      positionY + 50
+        game.offsetHeight - items.offsetHeight,
+        positionY + 50
     );
   } else if (event.key === "r") {
     rotationAngle += 90;
     items.style.transform = "rotate(" + rotationAngle + "deg)";
   }
+  // --- Touche f => pliage/écrasement ---
+  else if (event.key === "f") {
+    if (randomObject.images && randomObject.images.length > 1) {
+      randomObject.foldIndex = randomObject.foldIndex || 0;
+      if (randomObject.foldIndex < randomObject.images.length - 1) {
+        randomObject.foldIndex++;
+      }
+      // Pour boucler, décommentez :
+      // else {
+      //   randomObject.foldIndex = 0;
+      // }
+      afficherDetritus(randomObject);
+    }
+  }
 
   items.style.left = positionX + "px";
   items.style.top = positionY + "px";
 }
-// Le listener global est retiré ici pour éviter les doublons (il est ajouté dans startGame)
-// document.addEventListener("keydown", movement);
 
 /* 12) Mouvement automatique vers le bas */
 var tbin = [];
@@ -399,37 +447,62 @@ function moveDown() {
     if (!tbin[p]) continue;
     var rect = tbin[p];
     if (
-      itemRect.bottom >= rect.top &&
-      itemRect.top <= rect.bottom &&
-      itemRect.right >= rect.left &&
-      itemRect.left <= rect.right
+        itemRect.bottom >= rect.top &&
+        itemRect.top <= rect.bottom &&
+        itemRect.right >= rect.left &&
+        itemRect.left <= rect.right
     ) {
+      // ----- BONNE POUBELLE -----
       if (randomObject.type === poubelles[p]) {
         detritusCount++;
-        score += 10; // 10 points for the correct bin
+
+        // +10 points pour bonne poubelle
+        score += 10;
+
+        // +20 si rotationAngle est 90 ou 270
         if (rotationAngle === 90 || rotationAngle === 270) {
-          score += 20; // 20 points for the correct bin with rotation
+          score += 20;
         }
+
+        // +20 si l'objet est plié (foldIndex > 0)
+        if (randomObject.foldIndex && randomObject.foldIndex > 0) {
+          score += 20;
+        }
+
         console.log(`Détritus triés: ${detritusCount} (bonne poubelle)`);
         scoreDisplay.innerText = `Score: ${score}`;
-      } else if (poubelles[p] === "inerte") {
+      }
+      // ----- POUBELLE INERTE -----
+      else if (poubelles[p] === "inerte") {
+        // inerte par défaut
         if (randomObject.type !== "inerte") {
           detritusCount++;
           console.log("Mauvaise poubelle -> inerte par défaut");
           console.log(`Détritus triés: ${detritusCount}`);
         }
-      } else {
-        alert(`Mauvaise Poubelle : ${randomObject.loose}`);
+      }
+      // ----- MAUVAISE POUBELLE -----
+      else {
+        if (randomObject.loose) {
+          alert(`Mauvaise Poubelle : ${randomObject.loose}`);
+        } else {
+          alert("Mauvaise poubelle !");
+        }
         stopGame(true);
         return;
       }
 
+      // Réinitialiser la position + angle
       rotationAngle = 0;
       items.style.transform = "none";
       positionX = 0;
       positionY = 0;
+
+      // Générer un nouvel objet
       randomObject = genererDetritusSelonProbabilite();
+      randomObject.foldIndex = 0;
       afficherDetritus(randomObject);
+
       items.style.left = positionX + "px";
       items.style.top = positionY + "px";
 
