@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 /* Conteneur principal */
 .container {
   width: 100vw;
@@ -56,6 +57,10 @@
   min-width: 75%;
   min-height: 100vh;
   position: relative;
+  background-image: url('/assets/Fond/backgroundjeu.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 /* Score */
