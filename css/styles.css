@@ -136,3 +136,21 @@
 .restart-button {
   display: none;
 }
+
+#chart-container {
+  width: 200px; /* Ajuste la taille du conteneur */
+  height: 400px;
+  position: absolute;
+  right: 10px; /* Distance du bord droit */
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.8); /* Fond semi-transparent */
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#wasteChart {
+  width: 100% !important;
+  height: 100% !important;
+}
