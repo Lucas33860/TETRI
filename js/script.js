@@ -41,7 +41,7 @@ let assoDetritus = {
       img: "assets/plastique/bouteille soda plastique.svg",
       loose:
         "Jeter ces bouteilles en plastique contribue à la dégradation de la biodiversité",
-      orientation: Math.random() < 0.5 ? 0 : 1, // 0: vertical, 1: horizontal
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Sac plastique",
@@ -52,7 +52,7 @@ let assoDetritus = {
     },
     {
       nom: "Dentifrice",
-      interaction: 1,
+      interaction: 0,
       weight: 10,
       img: "assets/plastique/DENTIFRICE.svg",
     },
@@ -74,14 +74,14 @@ let assoDetritus = {
   verre: [
     {
       nom: "Bouteille de bière",
-      interaction: 0,
+      interaction: 1,
       weight: 15,
       img: "assets/Verre/Biere.svg",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Bouteille de vin",
-      interaction: 0,
+      interaction: 1,
       weight: 20,
       img: "assets/Verre/Vin.svg",
       loose: "Les bouteilles en verre sont recyclables",
@@ -91,14 +91,14 @@ let assoDetritus = {
   papier: [
     {
       nom: "Journal",
-      interaction: 2,
+      interaction: 1,
       weight: 5,
       img: "assets/papier/Journal.svg",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Affiche",
-      interaction: 2,
+      interaction: 1,
       weight: 5,
       img: "assets/papier/affiche.svg",
       orientation: Math.random() < 0.5 ? 0 : 1,
@@ -107,26 +107,26 @@ let assoDetritus = {
   organique: [
     {
       nom: "Noix",
-      interaction: 0,
+      interaction: 1,
       weight: 10,
       img: "assets/organique/Noix.svg",
     },
     {
       nom: "Pain",
-      interaction: 0,
+      interaction: 1,
       weight: 10,
       img: "assets/organique/Pain.svg",
     },
     {
       nom: "Pomme",
-      interaction: 0,
+      interaction: 1,
       weight: 10,
       img: "assets/organique/Pomme.svg",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Sachet de thé",
-      interaction: 0,
+      interaction: 1,
       weight: 10,
       img: "assets/organique/sachet de thé.svg",
       orientation: Math.random() < 0.5 ? 0 : 1,
@@ -135,7 +135,7 @@ let assoDetritus = {
   métal: [
     {
       nom: "Boite de conserve",
-      interaction: 2,
+      interaction: 1,
       weight: 15,
       img: "assets/Métal/boite de conserve.svg",
       loose: "Les boîtes de conserve sont recyclables",
@@ -145,45 +145,44 @@ let assoDetritus = {
   inerte: [
     {
       nom: "Chips",
-      interaction: 0,
+      interaction: 1,
       weight: 20,
       img: "assets/inerte/Chips.svg",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Mouchoir",
-      interaction: 0,
+      interaction: 1,
       weight: 20,
       img: "assets/inerte/Mouchoir.svg",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "orange",
-      interaction: 0,
+      interaction: 1,
       weight: 20,
       img: "assets/inerte/orange.svg",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "OS",
-      interaction: 0,
+      interaction: 1,
       weight: 20,
       img: "assets/inerte/os.svg",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Pizza",
-      interaction: 0,
+      interaction: 1,
       weight: 20,
       img: "assets/inerte/Pizza.svg",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
       nom: "Steak",
-      interaction: 0,
+      interaction: 1,
       weight: 20,
       img: "assets/inerte/Steak.svg",
-      orientation: Math.random() < 0.5 ? 0 : 1,
     },
   ],
 };
