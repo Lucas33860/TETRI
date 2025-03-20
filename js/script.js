@@ -200,7 +200,7 @@ let assoDetritus = {
       interaction: 1,
       weight: 0.01,
       img: "assets/inerte/Mouchoir.svg",
-      loose: "Les mouchoirs en papier peuvent être compostés s'ils ne sont pas trop souillés.",
+      loose: "Les mouchoirs doivent être jetés dans les déchets inertes.",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
@@ -208,7 +208,7 @@ let assoDetritus = {
       interaction: 1,
       weight: 0.2,
       img: "assets/inerte/orange.svg",
-      loose: "Les épluchures d'orange peuvent être compostées pour enrichir les sols.",
+      loose: "Les oranges doivent être jetées dans les déchets inertes.",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
@@ -216,24 +216,24 @@ let assoDetritus = {
       interaction: 1,
       weight: 0.1,
       img: "assets/inerte/os.svg",
-      loose: "Les os peuvent être compostés mais prennent beaucoup de temps à se décomposer.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
+      loose: "Les os doivent être jeté dans les déchets inertes.",
+      orientation: 0,
     },
     {
       nom: "Pizza",
       interaction: 1,
       weight: 0.25,
       img: "assets/inerte/Pizza.svg",
-      loose: "Les restes de pizza peuvent être compostés s'ils ne contiennent pas trop de graisse.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
+      loose: "La pizza doit être jetée dans les déchets inertes.",
+      orientation: 0,
     },
     {
       nom: "Steak",
       interaction: 0,
       weight: 0.3,
       img: "assets/inerte/Steak.svg",
-      loose: "Les restes de viande peuvent être compostés mais attirent souvent les nuisibles.",
-      orientation: 0,
+      loose: "La viande doit être jetée dans les déchets inertes.",
+      orientation: Math.random() < 0.5 ? 0 : 1,
     },
   ],
 };
@@ -316,7 +316,133 @@ function preventOverflow(item) {
   }
 }
 
+function moveDown() {
+  positionY += speed;
+  items.style.top = positionY + "px";
 
+  if (items.getBoundingClientRect().bottom >= game.offsetHeight) {
+    clearInterval(interval);
+    alert("Il ne faut en aucun cas jeter ses détritus dans la mer !");
+    stopGame(true);
+    return;
+  }
+  updateTbin();
+  var itemRect = items.getBoundingClientRect();
+
+  for (var p = 0; p < poubelles.length; p++) {
+    if (!tbin[p]) continue;
+    var rect = tbin[p];
+    if (
+      itemRect.bottom >= rect.top &&
+      itemRect.top <= rect.bottom &&
+      itemRect.right >= rect.left &&
+      itemRect.left <= rect.right
+    ) {
+      items.style.display = "none";
+
+      if (randomObject.type === poubelles[p]) {
+        detritusCount++;
+        score += 10;
+        console.log(`Détritus triés: ${detritusCount} (bonne poubelle)`);
+        scoreDisplay.innerText = `Score: ${score}`;
+        addWaste(randomObject.type, randomObject.weight);
+        if (
+          randomObject.orientation === 1 &&
+          (rotationAngle === 90 || rotationAngle === 270)
+        ) {
+          score += 25;
+          console.log("Bonne orientation -> +25 points");
+          rotationAngle = 0;
+        }
+      } else {
+        alert(`Mauvaise Poubelle : ${randomObject.loose}`);
+        stopGame(true);
+        return;
+      }
+
+      rotationAngle = 0;
+      items.style.transform = "none";
+      positionX = 0;
+      positionY = 0;
+
+      randomObject = genererDetritusSelonProbabilite();
+      randomObject.foldIndex = 0;
+      afficherDetritus(randomObject);
+
+      items.style.left = positionX + "px";
+      items.style.top = positionY + "px";
+      items.style.display = "block";
+
+      if (detritusCount === 3) {
+        addNewBin("papier", "bin3");
+        updateTbin();
+        speed = 10;
+      }
+      if (detritusCount === 8) {
+        addNewBin("verre", "bin4");
+        updateTbin();
+        speed = 12;
+      }
+      if (detritusCount === 13) {
+        addNewBin("organique", "bin5");
+        updateTbin();
+        speed = 10;
+      }
+      if (detritusCount === 16) {
+        addNewBin("métal", "bin6");
+        updateTbin();
+        speed = 10;
+      }
+      if (detritusCount === 30) {
+        speed = 15;
+      }
+      if (detritusCount === 50) {
+        speed = 20;
+      }
+    }
+  }
+}
+
+/* 11) Gérer le clavier (flèches + touche r + touche f pour plier) */
+function movement(event) {
+  if (event.key === "ArrowLeft") {
+    positionX = Math.max(maxLeft, positionX - speedmovement);
+    items.style.left = positionX + "px";
+  } else if (event.key === "ArrowRight") {
+    positionX = Math.min(maxRight, positionX + speedmovement);
+    items.style.left = positionX + "px";
+  } else if (event.key === "ArrowDown") {
+    positionY = Math.min(
+      game.offsetHeight - items.offsetHeight,
+      positionY + 50
+    );
+    items.style.top = positionY + "px";
+  } else if (event.key === "r") {
+    // Ajuste la rotation de 90°
+    rotationAngle += 90;
+    items.style.transform = "rotate(" + rotationAngle + "deg)";
+  } else if (event.key === "f") {
+    if (randomObject.images && randomObject.images.length > 1) {
+      randomObject.foldIndex = randomObject.foldIndex || 0;
+      if (randomObject.foldIndex < randomObject.images.length - 1) {
+        randomObject.foldIndex++;
+      }
+      afficherDetritus(randomObject);
+    }
+  }
+  rotationAngle = rotationAngle % 360; // Assurer que l'angle reste dans [0, 360]
+
+  // Applique la rotation initiale si l'objet est horizontal
+  if (randomObject.orientation === 1) {
+    items.style.transform = `rotate(${rotationAngle + 90}deg)`;
+  } else {
+    items.style.transform = `rotate(${rotationAngle}deg)`;
+  }
+  console.log("Angle de rotation:", rotationAngle);
+}
+
+items.style.left = positionX + "px";
+items.style.top = positionY + "px";
 
 /* Fonctions Start / Stop */
 function startGame() {
@@ -385,14 +511,11 @@ var poubelles = ["plastique", "inerte"];
 
 /* 5) Génération d'un détritus aléatoire correspondant UNIQUEMENT aux poubelles visibles */
 function genererDetritusSelonProbabilite() {
-  // Sélection aléatoire d'un type de poubelle parmi celles disponibles actuellement
   var typeChoisi = poubelles[Math.floor(Math.random() * poubelles.length)];
-
-  // Choisir un détritus aléatoire dans le type sélectionné
   var listeDetritus = assoDetritus[typeChoisi];
   var choix = listeDetritus[Math.floor(Math.random() * listeDetritus.length)];
 
-  return { ...choix, type: typeChoisi };
+  return { ...choix, type: typeChoisi, foldIndex: 0 }; // Initialisation de foldIndex à 0
 }
 
 // Fonction pour ajouter progressivement de nouvelles poubelles
@@ -476,46 +599,7 @@ class Poubelle {
 var bin1 = new Poubelle("plastique", "bin1");
 var bin2 = new Poubelle("inerte", "bin2");
 
-/* 11) Gérer le clavier (flèches + touche r + touche f pour plier) */
-function movement(event) {
-  if (event.key === "ArrowLeft") {
-    positionX = Math.max(maxLeft, positionX - speedmovement);
-    items.style.left = positionX + "px";
-  } else if (event.key === "ArrowRight") {
-    positionX = Math.min(maxRight, positionX + speedmovement);
-    items.style.left = positionX + "px";
-  } else if (event.key === "ArrowDown") {
-    positionY = Math.min(
-      game.offsetHeight - items.offsetHeight,
-      positionY + 50
-    );
-    items.style.top = positionY + "px";
-  } else if (event.key === "r") {
-    // Ajuste la rotation de 90°
-    rotationAngle += 90;
-    items.style.transform = "rotate(" + rotationAngle + "deg)";
-  } else if (event.key === "f") {
-    if (randomObject.images && randomObject.images.length > 1) {
-      randomObject.foldIndex = randomObject.foldIndex || 0;
-      if (randomObject.foldIndex < randomObject.images.length - 1) {
-        randomObject.foldIndex++;
-      }
-      afficherDetritus(randomObject);
-    }
-  }
-  rotationAngle = rotationAngle % 360; // Assurer que l'angle reste dans [0, 360]
 
-  // Applique la rotation initiale si l'objet est horizontal
-  if (randomObject.orientation === 1) {
-    items.style.transform = `rotate(${rotationAngle + 90}deg)`;
-  } else {
-    items.style.transform = `rotate(${rotationAngle}deg)`;
-  }
-  console.log("Angle de rotation:", rotationAngle);
-}
-
-items.style.left = positionX + "px";
-items.style.top = positionY + "px";
 
 // Le listener global est retiré ici pour éviter les doublons (il est ajouté dans startGame)
 // document.addEventListener("keydown", movement);
@@ -533,109 +617,6 @@ function updateTbin() {
 }
 
 /* 13) Fonction moveDown : fait descendre l'item, vérifie collisions */
-function moveDown() {
-  positionY += speed;
-  items.style.top = positionY + "px";
-
-  // Si on touche le bas du #game => "dans la mer"
-  if (items.getBoundingClientRect().bottom >= game.offsetHeight) {
-    clearInterval(interval);
-    alert("Il ne faut en aucun cas jeter ses détritus dans la mer !");
-    stopGame(true);
-    return;
-  }
-  updateTbin();
-  var itemRect = items.getBoundingClientRect();
-
-  /* Vérification de collision avec chaque poubelle */
-  for (var p = 0; p < poubelles.length; p++) {
-    if (!tbin[p]) continue;
-    var rect = tbin[p];
-    if (
-      itemRect.bottom >= rect.top &&
-      itemRect.top <= rect.bottom &&
-      itemRect.right >= rect.left &&
-      itemRect.left <= rect.right
-    ) {
-      // ----- BONNE POUBELLE -----
-      if (randomObject.type === poubelles[p]) {
-        detritusCount++;
-        score += 10; // 10 points for the correct bin
-        console.log(`Détritus triés: ${detritusCount} (bonne poubelle)`);
-        scoreDisplay.innerText = `Score: ${score}`;
-        addWaste(randomObject.type, randomObject.weight);
-        if (
-          randomObject.orientation === 1 &&
-          (rotationAngle === 90 || rotationAngle === 270)
-        ) {
-          score += 25; // 25 points for correct orientation
-          console.log("Bonne orientation -> +25 points");
-          rotationAngle = 0; // Reset rotation angle after scoring
-        }
-      } else if (poubelles[p] === "inerte") {
-        if (
-          randomObject.type !== "inerte" &&
-          randomObject.type !== "plastique"
-        ) {
-          detritusCount++;
-          console.log("Mauvaise poubelle -> inerte par défaut");
-          console.log(`Détritus triés: ${detritusCount}`);
-        } else {
-          alert(`Mauvaise Poubelle : ${randomObject.loose}`);
-          stopGame(true);
-          return;
-        }
-      } else if (poubelles[p] === "inerte") {
-        detritusCount++;
-        console.log("Mauvaise poubelle -> inerte par défaut");
-        console.log(`Détritus triés: ${detritusCount}`);
-      } else {
-        alert(`Mauvaise Poubelle : ${randomObject.loose}`);
-        stopGame(true);
-        return;
-      }
-
-      // Réinitialiser la position + angle
-      rotationAngle = 0;
-      items.style.transform = "none";
-      positionX = 0;
-      positionY = 0;
-
-      // Générer un nouvel objet
-      randomObject = genererDetritusSelonProbabilite();
-      randomObject.foldIndex = 0;
-      afficherDetritus(randomObject);
-
-      items.style.left = positionX + "px";
-      items.style.top = positionY + "px";
-
-      /* Ajout progressif de poubelles */
-      if (detritusCount === 3) {
-        addNewBin("papier", "bin3");
-        updateTbin();
-        speed = 10;
-      }
-      if (detritusCount === 8) {
-        addNewBin("verre", "bin4");
-        updateTbin();
-        speed = 12;
-      }
-      if (detritusCount === 13) {
-        addNewBin("organique", "bin5");
-        updateTbin();
-        speed = 15;
-      }
-      if (detritusCount === 16) {
-        addNewBin("métal", "bin6");
-        updateTbin();
-        speed = 15;
-      }
-      if (detritusCount === 30) {
-        speed = 20;
-      }
-    }
-  }
-}
 
 /* 14) Fonction pour ajouter une nouvelle poubelle */
 function addNewBin(type, id) {
