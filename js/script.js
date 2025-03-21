@@ -94,7 +94,8 @@ let assoDetritus = {
       interaction: 1,
       weight: 0.75,
       img: "assets/Verre/Vin.svg",
-      loose: "Les bouteilles en verre sont recyclables et peuvent être réutilisées.",
+      loose:
+        "Les bouteilles en verre sont recyclables et peuvent être réutilisées.",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
   ],
@@ -104,7 +105,8 @@ let assoDetritus = {
       interaction: 1,
       weight: 0.1,
       img: "assets/papier/Journal.svg",
-      loose: "Le papier peut être recyclé jusqu'à 5 à 7 fois avant que les fibres ne soient trop courtes.",
+      loose:
+        "Le papier peut être recyclé jusqu'à 5 à 7 fois avant que les fibres ne soient trop courtes.",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
@@ -112,7 +114,8 @@ let assoDetritus = {
       interaction: 1,
       weight: 0.05,
       img: "assets/papier/affiche.svg",
-      loose: "Le recyclage du papier permet de réduire la consommation d'eau et d'énergie.",
+      loose:
+        "Le recyclage du papier permet de réduire la consommation d'eau et d'énergie.",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
@@ -135,7 +138,8 @@ let assoDetritus = {
       interaction: 0,
       weight: 0.02,
       img: "assets/organique/Noix.svg",
-      loose: "Les déchets organiques peuvent être compostés pour enrichir les sols.",
+      loose:
+        "Les déchets organiques peuvent être compostés pour enrichir les sols.",
       orientation: 0,
     },
     {
@@ -143,7 +147,8 @@ let assoDetritus = {
       interaction: 0,
       weight: 0.05,
       img: "assets/organique/Pain.svg",
-      loose: "Le pain rassis peut être utilisé pour nourrir les animaux ou composté.",
+      loose:
+        "Le pain rassis peut être utilisé pour nourrir les animaux ou composté.",
       orientation: 0,
     },
     {
@@ -151,7 +156,8 @@ let assoDetritus = {
       interaction: 1,
       weight: 0.15,
       img: "assets/organique/Pomme.svg",
-      loose: "Les épluchures de pomme peuvent être compostées pour réduire les déchets.",
+      loose:
+        "Les épluchures de pomme peuvent être compostées pour réduire les déchets.",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
@@ -159,7 +165,8 @@ let assoDetritus = {
       interaction: 1,
       weight: 0.01,
       img: "assets/organique/sachet de thé.svg",
-      loose: "Les sachets de thé peuvent être compostés, mais attention aux agrafes et aux matériaux synthétiques.",
+      loose:
+        "Les sachets de thé peuvent être compostés, mais attention aux agrafes et aux matériaux synthétiques.",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
   ],
@@ -169,7 +176,8 @@ let assoDetritus = {
       interaction: 1,
       weight: 0.2,
       img: "assets/Métal/boite de conserve.svg",
-      loose: "Les boîtes de conserve sont recyclables et peuvent être transformées en nouveaux produits métalliques.",
+      loose:
+        "Les boîtes de conserve sont recyclables et peuvent être transformées en nouveaux produits métalliques.",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
@@ -192,7 +200,8 @@ let assoDetritus = {
       interaction: 1,
       weight: 0.03,
       img: "assets/inerte/Chips.svg",
-      loose: "Les emballages de chips sont souvent composés de plusieurs matériaux, rendant leur recyclage difficile.",
+      loose:
+        "Les emballages de chips sont souvent composés de plusieurs matériaux, rendant leur recyclage difficile.",
       orientation: Math.random() < 0.5 ? 0 : 1,
     },
     {
@@ -229,7 +238,7 @@ let assoDetritus = {
     },
     {
       nom: "Steak",
-      interaction: 0,
+      interaction: 1,
       weight: 0.3,
       img: "assets/inerte/Steak.svg",
       loose: "La viande doit être jetée dans les déchets inertes.",
@@ -598,8 +607,6 @@ class Poubelle {
 /* 10) Créer deux poubelles initiales (plastique, inerte) */
 var bin1 = new Poubelle("plastique", "bin1");
 var bin2 = new Poubelle("inerte", "bin2");
-
-
 
 // Le listener global est retiré ici pour éviter les doublons (il est ajouté dans startGame)
 // document.addEventListener("keydown", movement);
