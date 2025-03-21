@@ -167,3 +167,16 @@
   width: 100% !important;
   height: 100% !important;
 }
+
+#logo-wwf {
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  width: 10%;
+}
+#logo-sysco {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  width: 10%;
+}

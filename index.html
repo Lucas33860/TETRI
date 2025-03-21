@@ -1,9 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Tetri</title>
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="js/script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
-  <body></body>
+  <body>
+    <section id="tetri" class="container">
+      <div id="chart-container">
+        <canvas id="wasteChart"></canvas>
+      </div>
+
+      <div id="game">
+        <div class="score"></div>
+        <div id="item" class="item"></div>
+        <div class="bins"></div>
+      </div>
+      <img
+        id="logo-wwf"
+        src="assets/Logo/WWF_Logo_Medium_RGB_72dpi.jpg"
+        alt="Logo WWF"
+      />
+      <img id="logo-sysco" src="assets/Logo/logosysco.png" alt="Logo Sysco" />
+    </section>
+  </body>
 </html>
