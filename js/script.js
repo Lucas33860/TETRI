@@ -326,51 +326,59 @@ function moveDown() {
     stopGame(true);
     return;
   }
-  updateTbin();
-  var itemRect = items.getBoundingClientRect();
 
-  for (var p = 0; p < poubelles.length; p++) {
+  updateTbin();
+  const itemRect = items.getBoundingClientRect();
+
+  for (let p = 0; p < poubelles.length; p++) {
     if (!tbin[p]) continue;
-    var rect = tbin[p];
+    const rect = tbin[p];
     if (
-      itemRect.bottom >= rect.top &&
-      itemRect.top <= rect.bottom &&
-      itemRect.right >= rect.left &&
-      itemRect.left <= rect.right
+        itemRect.bottom >= rect.top &&
+        itemRect.top <= rect.bottom &&
+        itemRect.right >= rect.left &&
+        itemRect.left <= rect.right
     ) {
       items.style.display = "none";
 
-      if (randomObject.type === poubelles[p]) {
+      const objetCourant = randomObject;
+
+      if (objetCourant.type === poubelles[p]) {
         detritusCount++;
         score += 10;
-        console.log(`Détritus triés: ${detritusCount} (bonne poubelle)`);
-        scoreDisplay.innerText = `Score: ${score}`;
-        addWaste(randomObject.type, randomObject.weight);
+
         if (
-          randomObject.orientation === 1 &&
-          (rotationAngle === 90 || rotationAngle === 270)
+            objetCourant.orientation === 1 &&
+            (rotationAngle === 90 || rotationAngle === 270)
         ) {
-          score += 25;
-          console.log("Bonne orientation -> +25 points");
-          rotationAngle = 0;
+          score += 20;
+          console.log("Bonne orientation -> +20 points");
         }
+
+        if (objetCourant.images && objetCourant.foldIndex === objetCourant.images.length - 1) {
+          score += 20;
+          console.log("Objet plié -> +20 points");
+        }
+
+        addWaste(objetCourant.type, objetCourant.weight);
+        scoreDisplay.innerText = `Score: ${score}`;
       } else {
-        alert(`Mauvaise Poubelle : ${randomObject.loose}`);
+        alert(`Mauvaise Poubelle : ${objetCourant.loose}`);
         stopGame(true);
         return;
       }
 
-      rotationAngle = 0;
-      items.style.transform = "none";
       positionX = 0;
       positionY = 0;
+      rotationAngle = 0;
+      items.style.transform = "none";
+      items.style.left = positionX + "px";
+      items.style.top = positionY + "px";
 
       randomObject = genererDetritusSelonProbabilite();
       randomObject.foldIndex = 0;
-      afficherDetritus(randomObject);
 
-      items.style.left = positionX + "px";
-      items.style.top = positionY + "px";
+      afficherDetritus(randomObject);
       items.style.display = "block";
 
       if (detritusCount === 3) {
@@ -399,6 +407,8 @@ function moveDown() {
       if (detritusCount === 50) {
         speed = 20;
       }
+
+      break;
     }
   }
 }
