@@ -242,7 +242,7 @@ let assoDetritus = {
       weight: 0.3,
       img: "assets/inerte/Steak.svg",
       loose: "La viande doit être jetée dans les déchets inertes.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
+      orientation: 0,
     },
   ],
 };
@@ -343,10 +343,10 @@ function moveDown() {
     if (!tbin[p]) continue;
     const rect = tbin[p];
     if (
-        itemRect.bottom >= rect.top &&
-        itemRect.top <= rect.bottom &&
-        itemRect.right >= rect.left &&
-        itemRect.left <= rect.right
+      itemRect.bottom >= rect.top &&
+      itemRect.top <= rect.bottom &&
+      itemRect.right >= rect.left &&
+      itemRect.left <= rect.right
     ) {
       items.style.display = "none";
 
@@ -357,14 +357,17 @@ function moveDown() {
         score += 10;
 
         if (
-            objetCourant.orientation === 1 &&
-            (rotationAngle === 90 || rotationAngle === 270)
+          objetCourant.orientation === 1 &&
+          (rotationAngle === 90 || rotationAngle === 270)
         ) {
           score += 20;
           console.log("Bonne orientation -> +20 points");
         }
 
-        if (objetCourant.images && objetCourant.foldIndex === objetCourant.images.length - 1) {
+        if (
+          objetCourant.images &&
+          objetCourant.foldIndex === objetCourant.images.length - 1
+        ) {
           score += 20;
           console.log("Objet plié -> +20 points");
         }
