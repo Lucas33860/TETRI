@@ -171,13 +171,13 @@ let assoDetritus = {
       "Canette",
       2,
       0.015,
-      "assets/métal/canette/Canette 1.svg",
+      "assets/métal/canette/Canette 3.svg",
       "Mauvaise poubelle. La canette se place dans le bac de recyclage des métaux. L'aluminium est recyclable à 100% et à l'infini, fais donc ce geste pour la planète !",
       0,
       [
-        "assets/métal/canette/Canette 1.svg",
-        "assets/métal/canette/Canette 2.svg",
         "assets/métal/canette/Canette 3.svg",
+        "assets/métal/canette/Canette 2.svg",
+        "assets/métal/canette/Canette 1.svg",
       ]
     ),
   ],
