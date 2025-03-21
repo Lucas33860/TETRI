@@ -34,216 +34,202 @@ class Detritus {
 
 let assoDetritus = {
   plastique: [
-    {
-      nom: "Bouteille plastique",
-      interaction: 1,
-      weight: 0.02,
-      img: "assets/plastique/bouteille soda plastique.svg",
-      loose:
-        "Les bouteilles en plastique mettent jusqu'à 450 ans à se décomposer.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Sac plastique",
-      interaction: 1,
-      weight: 0.01,
-      img: "assets/plastique/sac plastique.svg",
-      loose:
-        "Les sacs plastiques sont une des principales causes de pollution marine.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Dentifrice",
-      interaction: 0,
-      weight: 0.05,
-      img: "assets/plastique/DENTIFRICE.svg",
-      loose:
-        "Les tubes de dentifrice sont souvent composés de plusieurs matériaux, rendant leur recyclage difficile.",
-      orientation: 0,
-    },
-    {
-      nom: "Sac plastique 2",
-      interaction: 1,
-      weight: 0.01,
-      img: "assets/plastique/Sac plastique 2.svg",
-      loose:
-        "Les sacs plastiques sont une des principales causes de pollution marine.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Gel Douche",
-      interaction: 1,
-      weight: 0.25,
-      img: "assets/plastique/gel douche.svg",
-      loose:
-        "Les bouteilles de gel douche en plastique peuvent être recyclées pour fabriquer de nouveaux produits.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
+    new Detritus(
+      "Bouteille plastique",
+      1,
+      0.02,
+      "assets/plastique/bouteille soda plastique.svg",
+      "Les bouteilles en plastique mettent jusqu'à 450 ans à se décomposer.",
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Sac plastique",
+      1,
+      0.01,
+      "assets/plastique/sac plastique.svg",
+      "Les sacs plastiques sont une des principales causes de pollution marine.",
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Dentifrice",
+      0,
+      0.05,
+      "assets/plastique/DENTIFRICE.svg",
+      "Les tubes de dentifrice sont souvent composés de plusieurs matériaux, rendant leur recyclage difficile.",
+      0
+    ),
+    new Detritus(
+      "Sac plastique 2",
+      1,
+      0.01,
+      "assets/plastique/Sac plastique 2.svg",
+      "Les sacs plastiques sont une des principales causes de pollution marine.",
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Gel Douche",
+      1,
+      0.25,
+      "assets/plastique/gel douche.svg",
+      "Les bouteilles de gel douche en plastique peuvent être recyclées pour fabriquer de nouveaux produits.",
+      Math.random() < 0.5 ? 0 : 1
+    ),
   ],
   verre: [
-    {
-      nom: "Bouteille de bière",
-      interaction: 1,
-      weight: 0.5,
-      img: "assets/Verre/Biere.svg",
-      loose: "Le verre est 100% recyclable et peut être recyclé à l'infini.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Bouteille de vin",
-      interaction: 1,
-      weight: 0.75,
-      img: "assets/Verre/Vin.svg",
-      loose:
-        "Les bouteilles en verre sont recyclables et peuvent être réutilisées.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
+    new Detritus(
+      "Bouteille de bière",
+      1,
+      0.5,
+      "assets/Verre/Biere.svg",
+      "Le verre est 100% recyclable et peut être recyclé à l'infini.",
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Bouteille de vin",
+      1,
+      0.75,
+      "assets/Verre/Vin.svg",
+      "Les bouteilles en verre sont recyclables et peuvent être réutilisées.",
+      Math.random() < 0.5 ? 0 : 1
+    ),
   ],
   papier: [
-    {
-      nom: "Journal",
-      interaction: 1,
-      weight: 0.1,
-      img: "assets/papier/Journal.svg",
-      loose:
-        "Le papier peut être recyclé jusqu'à 5 à 7 fois avant que les fibres ne soient trop courtes.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Affiche",
-      interaction: 1,
-      weight: 0.05,
-      img: "assets/papier/affiche.svg",
-      loose:
-        "Le recyclage du papier permet de réduire la consommation d'eau et d'énergie.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Carton d'emballage",
-      interaction: 2,
-      weight: 0.3,
-      img: "assets/papier/carton/Carton 1.svg",
-      loose: "Le carton est recyclable et biodégradable.",
-      orientation: 0,
-      images: [
+    new Detritus(
+      "Journal",
+      1,
+      0.1,
+      "assets/papier/Journal.svg",
+      "Le papier peut être recyclé jusqu'à 5 à 7 fois avant que les fibres ne soient trop courtes.",
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Affiche",
+      1,
+      0.05,
+      "assets/papier/affiche.svg",
+      "Le recyclage du papier permet de réduire la consommation d'eau et d'énergie.",
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Carton d'emballage",
+      2,
+      0.3,
+      "assets/papier/carton/Carton 1.svg",
+      "Le carton est recyclable et biodégradable.",
+      0,
+      [
         "assets/papier/carton/Carton 1.svg",
         "assets/papier/carton/Carton 2.svg",
         "assets/papier/carton/Carton 3.svg",
-      ],
-    },
+      ]
+    ),
   ],
   organique: [
-    {
-      nom: "Noix",
-      interaction: 0,
-      weight: 0.02,
-      img: "assets/organique/Noix.svg",
-      loose:
-        "Les déchets organiques peuvent être compostés pour enrichir les sols.",
-      orientation: 0,
-    },
-    {
-      nom: "Pain",
-      interaction: 0,
-      weight: 0.05,
-      img: "assets/organique/Pain.svg",
-      loose:
-        "Le pain rassis peut être utilisé pour nourrir les animaux ou composté.",
-      orientation: 0,
-    },
-    {
-      nom: "Pomme",
-      interaction: 1,
-      weight: 0.15,
-      img: "assets/organique/Pomme.svg",
-      loose:
-        "Les épluchures de pomme peuvent être compostées pour réduire les déchets.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Sachet de thé",
-      interaction: 1,
-      weight: 0.01,
-      img: "assets/organique/sachet de thé.svg",
-      loose:
-        "Les sachets de thé peuvent être compostés, mais attention aux agrafes et aux matériaux synthétiques.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
+    new Detritus(
+      "Noix",
+      0,
+      0.02,
+      "assets/organique/Noix.svg",
+      "Les déchets organiques peuvent être compostés pour enrichir les sols.",
+      0
+    ),
+    new Detritus(
+      "Pain",
+      0,
+      0.05,
+      "assets/organique/Pain.svg",
+      "Le pain rassis peut être utilisé pour nourrir les animaux ou composté.",
+      0
+    ),
+    new Detritus(
+      "Pomme",
+      1,
+      0.15,
+      "assets/organique/Pomme.svg",
+      "Les épluchures de pomme peuvent être compostées pour réduire les déchets.",
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Sachet de thé",
+      1,
+      0.01,
+      "assets/organique/sachet de thé.svg",
+      "Les sachets de thé peuvent être compostés",
+      Math.random() < 0.5 ? 0 : 1
+    ),
   ],
   métal: [
-    {
-      nom: "Boite de conserve",
-      interaction: 1,
-      weight: 0.2,
-      img: "assets/Métal/boite de conserve.svg",
-      loose:
-        "Les boîtes de conserve sont recyclables et peuvent être transformées en nouveaux produits métalliques.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Canette",
-      interaction: 2,
-      weight: 0.05,
-      img: "assets/métal/canette/Canette 1.svg",
-      loose: "Les canettes en aluminium sont recyclables à l'infini.",
-      orientation: 0,
-      images: [
+    new Detritus(
+      "Boite de conserve",
+      1,
+      0.2,
+      "assets/Métal/boite de conserve.svg",
+      "Les boîtes de conserve sont recyclables et peuvent être transformées en nouveaux produits métalliques.",
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Canette",
+      2,
+      0.05,
+      "assets/métal/canette/Canette 1.svg",
+      "Les canettes en aluminium sont recyclables à l'infini.",
+      0,
+      [
         "assets/métal/canette/Canette 1.svg",
         "assets/métal/canette/Canette 2.svg",
         "assets/métal/canette/Canette 3.svg",
-      ],
-    },
+      ]
+    ),
   ],
   inerte: [
-    {
-      nom: "Chips",
-      interaction: 1,
-      weight: 0.03,
-      img: "assets/inerte/Chips.svg",
-      loose:
-        "Les emballages de chips sont souvent composés de plusieurs matériaux, rendant leur recyclage difficile.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "Mouchoir",
-      interaction: 1,
-      weight: 0.01,
-      img: "assets/inerte/Mouchoir.svg",
-      loose: "Les mouchoirs doivent être jetés dans les déchets inertes.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "orange",
-      interaction: 1,
-      weight: 0.2,
-      img: "assets/inerte/orange.svg",
-      loose: "Les oranges doivent être jetées dans les déchets inertes.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
-    },
-    {
-      nom: "OS",
-      interaction: 1,
-      weight: 0.1,
-      img: "assets/inerte/os.svg",
-      loose: "Les os doivent être jeté dans les déchets inertes.",
-      orientation: 0,
-    },
-    {
-      nom: "Pizza",
-      interaction: 1,
-      weight: 0.25,
-      img: "assets/inerte/Pizza.svg",
-      loose: "La pizza doit être jetée dans les déchets inertes.",
-      orientation: 0,
-    },
-    {
-      nom: "Steak",
-      interaction: 0,
-      weight: 0.3,
-      img: "assets/inerte/Steak.svg",
-      loose: "La viande doit être jetée dans les déchets inertes.",
-      orientation: 0,
-    },
+    new Detritus(
+      "Chips",
+      1,
+      0.03,
+      "assets/inerte/Chips.svg",
+      "Les emballages de chips sont souvent composés de plusieurs matériaux, rendant leur recyclage difficile.",
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "Mouchoir",
+      1,
+      0.01,
+      "assets/inerte/Mouchoir.svg",
+      "Les mouchoirs doivent être jetés dans les déchets inertes.",
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "orange",
+      1,
+      0.2,
+      "assets/inerte/orange.svg",
+      "Les oranges doivent être jetées dans les déchets inertes.",
+      Math.random() < 0.5 ? 0 : 1
+    ),
+    new Detritus(
+      "OS",
+      1,
+      0.1,
+      "assets/inerte/os.svg",
+      "Les os doivent être jeté dans les déchets inertes.",
+      0
+    ),
+    new Detritus(
+      "Pizza",
+      1,
+      0.25,
+      "assets/inerte/Pizza.svg",
+      "La pizza doit être jetée dans les déchets inertes.",
+      0
+    ),
+    new Detritus(
+      "Steak",
+      0,
+      0.3,
+      "assets/inerte/Steak.svg",
+      "La viande doit être jetée dans les déchets inertes.",
+      0
+    ),
   ],
 };
 
