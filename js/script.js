@@ -238,11 +238,11 @@ let assoDetritus = {
     },
     {
       nom: "Steak",
-      interaction: 1,
+      interaction: 0,
       weight: 0.3,
       img: "assets/inerte/Steak.svg",
       loose: "La viande doit être jetée dans les déchets inertes.",
-      orientation: Math.random() < 0.5 ? 0 : 1,
+      orientation: 0,
     },
   ],
 };
@@ -259,6 +259,7 @@ var poubelles = [
 
 /* 4) Variables globales et récupération d'éléments DOM */
 var items = document.querySelector(".item");
+items.style.display = "none"; // Masquer l'élément items au départ
 var game = document.getElementById("game");
 
 var startButton = document.createElement("button");
@@ -277,7 +278,7 @@ restartButton.style.display = "none"; // Masquer le bouton restart au départ
 var score = 0;
 var scoreDisplay = document.createElement("div");
 scoreDisplay.className = "score-display";
-scoreDisplay.innerText = "Score : " + score;
+scoreDisplay.innerText = "Score: " + score;
 document.querySelector(".score").appendChild(scoreDisplay);
 
 var positionY = 0;
