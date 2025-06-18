@@ -37,7 +37,7 @@ let assoDetritus = {
     new Detritus(
       "Bouteille plastique",
       1,
-      0.0055,
+      0.035, // 35g = 0.035kg
       "assets/plastique/bouteille soda plastique.svg",
       "Ce n'est pas la bonne poubelle. Les bouteilles en plastique se recyclent (souvent dans le poubelle jaune). Il est important de les trier correctement car, en 2025, plus d'un million d'oiseaux de mer sont morts à cause d'une overdose de plastique.",
       Math.random() < 0.5 ? 0 : 1
@@ -45,7 +45,7 @@ let assoDetritus = {
     new Detritus(
       "Sac plastique",
       1,
-      0.0055,
+      0.006, // 6g = 0.006kg
       "assets/plastique/sac plastique.svg",
       "Attention, il faut recycler les sacs plastiques ! En 2025, on estime qu'il y a 75 à 199 millions de tonnes de déchets plastiques dans nos océans. Retiens bien, le sac plastique se jette dans la poubelle de recyclage (souvent la poubelle jaune).",
       Math.random() < 0.5 ? 0 : 1
@@ -53,7 +53,7 @@ let assoDetritus = {
     new Detritus(
       "Dentifrice",
       0,
-      0.015,
+      0.025, // 25g = 0.025kg
       "assets/plastique/DENTIFRICE.svg",
       "Oups, mauvaise poubelle. Tu peux recycler (souvent dans la poubelle jaune) ce tube de dentifrice vide. Les déchets plastiques mettent des centaines d'années à se décomposer, mais ça ne te prends que quelques secondes de bien trier. N'oublie pas de recycler tes déchets plastiques !",
       0
@@ -61,7 +61,7 @@ let assoDetritus = {
     new Detritus(
       "Sac plastique 2",
       1,
-      0.0055,
+      0.006, // 6g = 0.006kg
       "assets/plastique/Sac plastique 2.svg",
       "Attention, il faut recycler les sacs plastiques ! En 2025, on estime qu'il y a 75 à 199 millions de tonnes de déchets plastiques dans nos océans. Retiens bien, le sac plastique se jette dans la poubelle de recyclage (souvent la poubelle jaune).",
       Math.random() < 0.5 ? 0 : 1
@@ -69,7 +69,7 @@ let assoDetritus = {
     new Detritus(
       "Gel Douche",
       1,
-      0.0,
+      0.030, // 30g = 0.030kg
       "assets/plastique/gel douche.svg",
       "Ne te trompe pas, le plastique se recycle (souvent dans la poubelle jaune). C'est une très grande source de pollution des écosystèmes, notamment marins.",
       Math.random() < 0.5 ? 0 : 1
@@ -79,7 +79,7 @@ let assoDetritus = {
     new Detritus(
       "Bouteille de bière",
       1,
-      0.25,
+      0.350, // 350g = 0.350kg
       "assets/Verre/Biere.svg",
       "Attention, une bouteille en verre doit aller dans le bac de recyclage du verre. D'ailleurs, le verre est recyclable à 100% et peut être refondu à l'infini sans perdre en qualité.",
       Math.random() < 0.5 ? 0 : 1
@@ -87,7 +87,7 @@ let assoDetritus = {
     new Detritus(
       "Bouteille de vin",
       1,
-      0.5,
+      0.500, // 500g = 0.500kg
       "assets/Verre/Vin.svg",
       "Attention, une bouteille en verre doit aller dans le bac de recyclage du verre. D'ailleurs, le verre est recyclable à 100% et peut être refondu à l'infini sans perdre en qualité.",
       Math.random() < 0.5 ? 0 : 1
@@ -97,7 +97,7 @@ let assoDetritus = {
     new Detritus(
       "Journal",
       1,
-      0.2,
+      0.080, // 80g = 0.080kg
       "assets/papier/Journal.svg",
       "Raté ! Le journal se jette dans la poubelle de recyclage du papier et du carton. Le papier recyclé permet de réduire la déforestation et d'économiser de l'énergie.",
       Math.random() < 0.5 ? 0 : 1
@@ -105,7 +105,7 @@ let assoDetritus = {
     new Detritus(
       "Affiche",
       1,
-      0.05,
+      0.015, // 15g = 0.015kg
       "assets/papier/affiche.svg",
       "Le recyclage du papier permet de réduire la consommation d'eau et d'énergie.",
       Math.random() < 0.5 ? 0 : 1
@@ -113,7 +113,7 @@ let assoDetritus = {
     new Detritus(
       "Carton d'emballage",
       2,
-      0.5,
+      0.250, // 250g = 0.250kg
       "assets/papier/carton/Carton 1.svg",
       "Non, ce carton ne va pas ici. Il doit se jeter dans la poubelle de recyclage du papier et du carton : cela permet d'économiser des ressources naturelles et de l'énergie ! Un geste important pour la planète.",
       0,
@@ -128,7 +128,7 @@ let assoDetritus = {
     new Detritus(
       "Noix",
       0,
-      0.008,
+      0.005, // 5g = 0.005kg
       "assets/organique/Noix.svg",
       "Mauvaise poubelle ! En petite quantité, la coquille de noix se met au compost. En compostant, on réduit la quantité de déchets organiques envoyés aux ordures ménagères : donc moins de pollution !",
       0
@@ -136,7 +136,7 @@ let assoDetritus = {
     new Detritus(
       "Pain",
       0,
-      0.05,
+      0.030, // 30g = 0.030kg
       "assets/organique/Pain.svg",
       "Pas dans cette poubelle ! En petites quantités, les restes de pain se mettent au compost. C'est rapide, et ça ne mange pas de pain !",
       0
@@ -144,7 +144,7 @@ let assoDetritus = {
     new Detritus(
       "Pomme",
       1,
-      0.02,
+      0.150, // 150g = 0.150kg
       "assets/organique/Pomme.svg",
       "Non, erreur de tri ! Le trognon de pomme est un déchet organique : il peut aller au compost au lieu de finir à la poubelle.",
       Math.random() < 0.5 ? 0 : 1
@@ -152,7 +152,7 @@ let assoDetritus = {
     new Detritus(
       "Sachet de thé",
       1,
-      0.003,
+      0.003, // 3g = 0.003kg
       "assets/organique/sachet de thé.svg",
       "Tu t'es trompé.e. Le sachet de thé, lorsqu'il est conçu en papier biodégradable, peut aller au compost. Grâce au compost, tu peux avoir un engrais naturel pour ton jardin !",
       Math.random() < 0.5 ? 0 : 1
@@ -162,7 +162,7 @@ let assoDetritus = {
     new Detritus(
       "Boite de conserve",
       1,
-      0.2,
+      0.060, // 60g = 0.060kg
       "assets/Métal/boite de conserve.svg",
       "Mauvaise poubelle. La boîte de conserve se place dans le bac de recyclage des métaux. L'aluminium est recyclable à 100% et à l'infini, fais donc ce geste pour la planète !",
       Math.random() < 0.5 ? 0 : 1
@@ -170,7 +170,7 @@ let assoDetritus = {
     new Detritus(
       "Canette",
       2,
-      0.015,
+      0.015, // 15g = 0.015kg
       "assets/métal/canette/Canette 3.svg",
       "Mauvaise poubelle. La canette se place dans le bac de recyclage des métaux. L'aluminium est recyclable à 100% et à l'infini, fais donc ce geste pour la planète !",
       0,
@@ -185,7 +185,7 @@ let assoDetritus = {
     new Detritus(
       "Chips",
       1,
-      0.08,
+      0.025, // 25g = 0.025kg
       "assets/inerte/Chips.svg",
       "Ah non ! Même s’il brille comme de l’alu, ton paquet de chips contient aussi du plastique. Résultat ? Il n’est pas recyclable et doit finir dans la poubelle des déchets non recyclables.",
       Math.random() < 0.5 ? 0 : 1
@@ -193,7 +193,7 @@ let assoDetritus = {
     new Detritus(
       "Mouchoir",
       1,
-      0.004,
+      0.005, // 5g = 0.005kg
       "assets/inerte/Mouchoir.svg",
       "Oups, ce mouchoir ne va pas là ! Il doit être jeté dans la poubelle des déchets ménagers (souvent la poubelle noire). Les mouchoirs prennent plusieurs années à se décomposer lorsqu'ils sont jetés dans la nature, il faut donc les jeter dans la bonne poubelle.",
       Math.random() < 0.5 ? 0 : 1
@@ -201,7 +201,7 @@ let assoDetritus = {
     new Detritus(
       "orange",
       1,
-      0.2,
+      0.180, // 180g = 0.180kg
       "assets/inerte/orange.svg",
       "Les oranges doivent être jetées dans les déchets inertes.",
       Math.random() < 0.5 ? 0 : 1
@@ -209,7 +209,7 @@ let assoDetritus = {
     new Detritus(
       "OS",
       1,
-      0.1,
+      0.020, // 20g = 0.020kg
       "assets/inerte/os.svg",
       "Les os doivent être jeté dans les déchets inertes.",
       0
@@ -217,7 +217,7 @@ let assoDetritus = {
     new Detritus(
       "Pizza",
       1,
-      0.15,
+      0.120, // 120g = 0.120kg
       "assets/inerte/Pizza.svg",
       "Non, la part de pizza se jette dans la poubelle des déchets ménagers (souvent la poubelle noire).",
       0
@@ -225,7 +225,7 @@ let assoDetritus = {
     new Detritus(
       "Steak",
       0,
-      0.18,
+      0.100, // 100g = 0.100kg
       "assets/inerte/Steak.svg",
       "Mauvaise poubelle ! Les déchets de viande doivent être jetés avec les ordures ménagères (souvent la poubelle noire). D’ailleurs, savais-tu que la viande en décomposition produit du méthane, un gaz 25 fois plus puissant que le CO₂ pour le réchauffement climatique ? Pense à réduire le gaspillage !",
       0
